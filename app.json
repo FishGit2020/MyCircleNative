@@ -50,6 +50,13 @@
         {
           "locationWhenInUsePermission": "MyCircle uses your location to show local weather."
         }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "MyCircle needs microphone access for AI assistant voice input.",
+          "speechRecognitionPermission": "MyCircle uses speech recognition for the AI assistant."
+        }
       ]
     ],
     "extra": {
