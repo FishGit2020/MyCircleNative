@@ -1,0 +1,65 @@
+{
+  "expo": {
+    "name": "MyCircle",
+    "slug": "MyCircleNative",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "mycircle",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3b82f6"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mycircle.native",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "MyCircle uses your location to show local weather and city search.",
+        "NSSpeechRecognitionUsageDescription": "MyCircle uses speech recognition for the AI assistant voice input.",
+        "NSMicrophoneUsageDescription": "MyCircle needs microphone access for voice input in AI assistant."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#3b82f6"
+      },
+      "package": "com.mycircle.native",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#3b82f6"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "MyCircle uses your location to show local weather."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      },
+      "graphqlEndpoint": "https://mycircle-graphql.onrender.com/graphql"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
