@@ -1,0 +1,19 @@
+appId: com.mycircle.native
+---
+# Stock search and watchlist display
+- launchApp
+- tapOn: "Stocks"
+- waitForAnimationToEnd
+- assertVisible: "Stock Tracker"
+- assertVisible: "Watchlist"
+- tapOn: "Search stocks..."
+- inputText: "AAPL"
+- waitForAnimationToEnd
+- tapOn: "Add to watchlist"
+- assertVisible: "Watchlist"
+- scrollUntilVisible:
+    element: "Crypto"
+    direction: DOWN
+- scroll:
+    direction: UP
+- assertVisible: "Stock Tracker"

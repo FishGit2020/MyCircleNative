@@ -1,0 +1,85 @@
+appId: com.mycircle.native
+---
+# Tab navigation between all screens
+- launchApp
+
+# Dashboard tab (default)
+- assertVisible: "Dashboard"
+
+# Weather tab
+- tapOn: "Weather"
+- waitForAnimationToEnd
+- assertVisible: "Hourly Forecast"
+
+# Stocks tab
+- tapOn: "Stocks"
+- waitForAnimationToEnd
+- assertVisible: "Stock Tracker"
+
+# Podcasts tab
+- tapOn: "Podcasts"
+- waitForAnimationToEnd
+- assertVisible: "Podcasts"
+
+# Bible tab
+- tapOn: "Bible"
+- waitForAnimationToEnd
+- assertVisible: "Verse of the Day"
+- assertVisible: "Read Scripture"
+
+# More tab
+- tapOn: "More"
+- waitForAnimationToEnd
+- assertVisible: "More"
+
+# Navigate to AI Assistant from More menu
+- tapOn: "AI Assistant"
+- waitForAnimationToEnd
+- assertVisible: "AI Assistant"
+- back
+
+# Navigate to Worship Songs from More menu
+- tapOn: "Worship Songs"
+- waitForAnimationToEnd
+- assertVisible: "Worship Songs"
+- back
+
+# Navigate to Notebook from More menu
+- tapOn: "My Notebook"
+- waitForAnimationToEnd
+- back
+
+# Navigate to Baby Tracker from More menu
+- tapOn: "Baby Tracker"
+- waitForAnimationToEnd
+- assertVisible: "Baby Growth Tracker"
+- back
+
+# Navigate to Child Development from More menu
+- tapOn: "Child Development"
+- waitForAnimationToEnd
+- assertVisible: "Child Development Guide"
+- back
+
+# Navigate to Flash Cards from More menu
+- tapOn: "Flash Cards"
+- waitForAnimationToEnd
+- assertVisible: "Flash Cards"
+- back
+
+# Navigate to Work Log from More menu
+- tapOn: "Work Log"
+- waitForAnimationToEnd
+- assertVisible: "Work Log"
+- back
+
+# Navigate to Settings from More menu
+- tapOn: "Dashboard settings"
+- waitForAnimationToEnd
+- assertVisible: "Settings"
+- back
+
+# Return to Dashboard
+- tapOn: "Dashboard"
+- waitForAnimationToEnd
+- assertVisible: "Dashboard"

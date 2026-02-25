@@ -1,0 +1,27 @@
+appId: com.mycircle.native
+---
+# Create note flow
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "My Notebook"
+- waitForAnimationToEnd
+- assertVisible: "My Notebook"
+- assertVisible: "My Notes"
+- assertVisible: "Public Notes"
+# Create a new note
+- tapOn: "New Note"
+- waitForAnimationToEnd
+- tapOn: "Title"
+- inputText: "Test Note"
+- tapOn: "Content"
+- inputText: "This is a test note created by Maestro E2E test."
+- tapOn: "Save"
+- waitForAnimationToEnd
+# Verify we are back on the list
+- assertVisible: "My Notebook"
+# Switch to public notes tab
+- tapOn: "Public Notes"
+- waitForAnimationToEnd
+- tapOn: "My Notes"
+- waitForAnimationToEnd

@@ -1,0 +1,10 @@
+appId: com.mycircle.native
+---
+- launchApp
+- assertVisible: "Dashboard"
+- scrollUntilVisible:
+    element: "Weather"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Stocks"
+    direction: DOWN

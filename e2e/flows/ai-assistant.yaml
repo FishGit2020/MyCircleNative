@@ -1,0 +1,23 @@
+appId: com.mycircle.native
+---
+# Send message flow
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "AI Assistant"
+- waitForAnimationToEnd
+- assertVisible: "AI Assistant"
+- assertVisible: "Ask about weather, stocks, or navigate the app"
+# Verify suggested prompts are visible
+- assertVisible: "What's the weather in New York?"
+# Tap a suggested prompt to send a message
+- tapOn: "What's the weather in New York?"
+- waitForAnimationToEnd
+# Verify thinking indicator or response appears
+- assertVisible: "Chat messages"
+# Test direct text input
+- tapOn: "Ask me about weather, stocks, or anything..."
+- inputText: "How is AAPL doing today?"
+- tapOn:
+    id: "Send message"
+- waitForAnimationToEnd
