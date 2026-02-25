@@ -100,7 +100,7 @@ export default function ToolCallDisplay({
           <View key={i} accessibilityRole="none">
             <Pressable
               onPress={() => toggle(i)}
-              accessibilityLabel={t(TOOL_LABEL_KEYS[tc.name] || 'ai.toolGeneric')}
+              accessibilityLabel={t((TOOL_LABEL_KEYS[tc.name] || 'ai.toolGeneric') as any)}
               accessibilityRole="button"
               accessibilityState={{ expanded: isExpanded }}
               className="flex-row items-center gap-1 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/30 self-start"
@@ -108,7 +108,7 @@ export default function ToolCallDisplay({
             >
               <Text className="text-xs">{TOOL_ICONS[tc.name] || '\uD83D\uDD27'}</Text>
               <Text className="text-xs font-medium text-blue-700 dark:text-blue-300">
-                {t(TOOL_LABEL_KEYS[tc.name] || 'ai.toolGeneric')}
+                {t((TOOL_LABEL_KEYS[tc.name] || 'ai.toolGeneric') as any)}
               </Text>
               {tc.args && Object.keys(tc.args).length > 0 && (
                 <Text className="text-xs text-blue-500 dark:text-blue-400">
