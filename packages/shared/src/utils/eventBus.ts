@@ -40,6 +40,8 @@ export const AppEvents = {
   FLASHCARD_PROGRESS_CHANGED: 'flashcard-progress-changed',
   WORK_TRACKER_CHANGED: 'work-tracker-changed',
   WORSHIP_FAVORITES_CHANGED: 'worship-favorites-changed',
+  BOTTOM_NAV_ORDER_CHANGED: 'bottom-nav-order-changed',
+  AI_CHAT_UPDATED: 'ai-chat-updated',
 } as const;
 
 // Keep WindowEvents alias for easier porting from web code
@@ -85,6 +87,8 @@ export const StorageKeys = {
   FLASHCARD_TYPE_FILTER: 'flashcard-type-filter',
   WORK_TRACKER_CACHE: 'work-tracker-cache',
   PODCAST_NOW_PLAYING: 'podcast-now-playing',
+  AI_CHAT_HISTORY: 'ai-chat-history',
+  AI_DEBUG_MODE: 'ai-debug-mode',
 } as const;
 
 export interface CitySelectedEvent {

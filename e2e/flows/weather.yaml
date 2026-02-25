@@ -1,0 +1,24 @@
+appId: com.mycircle.native
+---
+# Weather screen loads and shows forecast data
+- launchApp
+- tapOn: "Weather"
+- waitForAnimationToEnd
+- assertVisible: "Hourly Forecast"
+- scrollUntilVisible:
+    element: "7-Day Forecast"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Sun & Visibility"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "What to Wear"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Air Quality Index"
+    direction: DOWN
+- scroll:
+    direction: UP
+- assertVisible: "Feels like"
+- assertVisible: "Humidity"
+- assertVisible: "Wind"

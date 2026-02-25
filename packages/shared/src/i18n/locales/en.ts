@@ -803,6 +803,12 @@ const en = {
   'widgets.worshipSongCount': '{count} songs',
   'widgets.worshipFavCount': '{count} favorites',
   'widgets.noWorshipSongs': 'No songs yet \u2014 add your first worship song',
+  'widgets.stocksWatching': '{count} symbols in watchlist',
+  'widgets.noteCount': '{count} notes',
+  'widgets.babyWeek': 'Week {week} \u2014 size of a {fruit}',
+  'widgets.childAge': '{name} \u2014 {age}',
+  'widgets.editMode': 'Edit widgets',
+  'widgets.reorderHint': 'Tap arrows to reorder, toggle to show/hide',
 
   // What's New
   'whatsNew.title': "What's New",
@@ -1319,6 +1325,14 @@ const en = {
   'flashcards.edit': 'Edit',
   'flashcards.editCard': 'Edit Card',
   'flashcards.uncategorized': 'Uncategorized',
+  'flashcards.allCards': 'All Cards',
+  'flashcards.myCards': 'My Cards',
+  'flashcards.published': 'Published',
+  'flashcards.shared': 'Shared',
+  'flashcards.private': 'Private',
+  'flashcards.publish': 'Publish',
+  'flashcards.publishConfirm': 'Publish this card to the shared collection?',
+  'flashcards.loading': 'Loading...',
 
   // Work Tracker
   'nav.workTracker': 'Work Log',

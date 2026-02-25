@@ -1,0 +1,17 @@
+appId: com.mycircle.native
+---
+# Trending tab loads and search works
+- launchApp
+- tapOn: "Podcasts"
+- waitForAnimationToEnd
+- assertVisible: "Podcasts"
+- assertVisible: "Trending"
+- assertVisible: "My Subscriptions"
+- tapOn: "Search podcasts..."
+- inputText: "technology"
+- waitForAnimationToEnd
+- back
+- tapOn: "Trending"
+- waitForAnimationToEnd
+- tapOn: "My Subscriptions"
+- waitForAnimationToEnd

@@ -805,6 +805,12 @@ const zh: Record<TranslationKey, string> = {
   'widgets.worshipSongCount': '{count} \u9996\u8bd7\u6b4c',
   'widgets.worshipFavCount': '{count} \u4e2a\u6536\u85cf',
   'widgets.noWorshipSongs': '\u8fd8\u6ca1\u6709\u8bd7\u6b4c\u2014\u2014\u6dfb\u52a0\u4f60\u7684\u7b2c\u4e00\u9996\u656c\u62dc\u8bd7\u6b4c',
+  'widgets.stocksWatching': '\u81ea\u9009\u5217\u8868\u4e2d\u6709 {count} \u4e2a\u80a1\u7968',
+  'widgets.noteCount': '{count} \u7bc7\u7b14\u8bb0',
+  'widgets.babyWeek': '\u7b2c {week} \u5468 \u2014 \u5927\u5c0f\u5982\u4e00\u4e2a{fruit}',
+  'widgets.childAge': '{name} \u2014 {age}',
+  'widgets.editMode': '\u7f16\u8f91\u7ec4\u4ef6',
+  'widgets.reorderHint': '\u70b9\u51fb\u7bad\u5934\u91cd\u65b0\u6392\u5e8f\uff0c\u5207\u6362\u663e\u793a/\u9690\u85cf',
 
   // What's New
   'whatsNew.title': '\u6700\u65b0\u52a8\u6001',
@@ -1321,6 +1327,14 @@ const zh: Record<TranslationKey, string> = {
   'flashcards.edit': '\u7f16\u8f91',
   'flashcards.editCard': '\u7f16\u8f91\u5361\u7247',
   'flashcards.uncategorized': '\u672a\u5206\u7c7b',
+  'flashcards.allCards': '\u6240\u6709\u5361\u7247',
+  'flashcards.myCards': '\u6211\u7684\u5361\u7247',
+  'flashcards.published': '\u5df2\u53d1\u5e03',
+  'flashcards.shared': '\u5171\u4eab',
+  'flashcards.private': '\u79c1\u6709',
+  'flashcards.publish': '\u53d1\u5e03',
+  'flashcards.publishConfirm': '\u5c06\u6b64\u5361\u7247\u53d1\u5e03\u5230\u5171\u4eab\u96c6\u5408\uff1f',
+  'flashcards.loading': '\u52a0\u8f7d\u4e2d...',
 
   // Work Tracker
   'nav.workTracker': '\u5de5\u4f5c\u65e5\u5fd7',

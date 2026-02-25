@@ -1,0 +1,46 @@
+/** @type {import('jest').Config} */
+module.exports = {
+  preset: 'jest-expo',
+  setupFiles: ['./jest.setup.js'],
+  moduleNameMapper: {
+    '^@mycircle/shared$': '<rootDir>/packages/shared/src',
+    '^@mycircle/weather$': '<rootDir>/packages/weather/src',
+    '^@mycircle/stocks$': '<rootDir>/packages/stocks/src',
+    '^@mycircle/podcasts$': '<rootDir>/packages/podcasts/src',
+    '^@mycircle/ai-assistant$': '<rootDir>/packages/ai-assistant/src',
+    '^@mycircle/bible-reader$': '<rootDir>/packages/bible-reader/src',
+    '^@mycircle/worship-songs$': '<rootDir>/packages/worship-songs/src',
+    '^@mycircle/notebook$': '<rootDir>/packages/notebook/src',
+    '^@mycircle/baby-tracker$': '<rootDir>/packages/baby-tracker/src',
+    '^@mycircle/child-development$': '<rootDir>/packages/child-development/src',
+    '^@mycircle/flashcards$': '<rootDir>/packages/flashcards/src',
+    '^@mycircle/work-tracker$': '<rootDir>/packages/work-tracker/src',
+    '^@mycircle/city-search$': '<rootDir>/packages/city-search/src',
+    '^@react-native-firebase/app$': '<rootDir>/__mocks__/@react-native-firebase/app.js',
+    '^@react-native-firebase/auth$': '<rootDir>/__mocks__/@react-native-firebase/auth.js',
+    '^@react-native-firebase/firestore$': '<rootDir>/__mocks__/@react-native-firebase/firestore.js',
+    '^@react-native-firebase/messaging$': '<rootDir>/__mocks__/@react-native-firebase/messaging.js',
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|nativewind|react-native-reanimated|react-native-gesture-handler|react-native-screens|react-native-safe-area-context|@shopify/react-native-skia|react-native-gifted-charts)',
+  ],
+  collectCoverageFrom: [
+    'packages/*/src/**/*.{ts,tsx}',
+    'src/**/*.{ts,tsx}',
+    'app/**/*.{ts,tsx}',
+    '!**/*.d.ts',
+    '!**/index.ts',
+    '!**/types.ts',
+    '!**/node_modules/**',
+  ],
+  coverageThreshold: {
+    global: {
+      statements: 70,
+      branches: 60,
+      functions: 70,
+      lines: 70,
+    },
+  },
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
+};

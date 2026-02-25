@@ -1,0 +1,40 @@
+appId: com.mycircle.native
+---
+# Practice cards and quiz
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Flash Cards"
+- waitForAnimationToEnd
+- assertVisible: "Flash Cards"
+- assertVisible: "Practice and memorize with flash cards"
+# Verify stats are visible
+- assertVisible: "cards"
+- assertVisible: "mastered"
+# Practice all cards
+- tapOn: "Practice All"
+- waitForAnimationToEnd
+# Flip a card and navigate
+- tapOn: "Tap to flip"
+- waitForAnimationToEnd
+- tapOn: "Next"
+- waitForAnimationToEnd
+- tapOn: "Previous"
+- waitForAnimationToEnd
+# Close practice view
+- back
+- waitForAnimationToEnd
+# Open quiz (if English cards exist)
+- tapOn: "Quiz"
+- waitForAnimationToEnd
+- back
+- waitForAnimationToEnd
+# Add a custom card
+- tapOn: "Add Custom Card"
+- waitForAnimationToEnd
+- tapOn: "Front"
+- inputText: "Test Question"
+- tapOn: "Back"
+- inputText: "Test Answer"
+- tapOn: "Save"
+- waitForAnimationToEnd
