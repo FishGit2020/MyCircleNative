@@ -1,0 +1,56 @@
+appId: com.mycircle.native
+---
+# Language switch, theme toggle, and unit toggles
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Dashboard settings"
+- waitForAnimationToEnd
+- assertVisible: "Settings"
+# Language section
+- assertVisible: "Language"
+- assertVisible: "English"
+# Switch to Spanish
+- tapOn:
+    id: "Espa\u00f1ol"
+- waitForAnimationToEnd
+# Switch back to English
+- tapOn:
+    id: "English"
+- waitForAnimationToEnd
+# Theme section
+- assertVisible: "Theme"
+- tapOn:
+    id: "Dark Mode"
+- waitForAnimationToEnd
+- tapOn:
+    id: "Light Mode"
+- waitForAnimationToEnd
+- tapOn:
+    id: "System"
+- waitForAnimationToEnd
+# Temperature unit toggle
+- assertVisible: "Temperature"
+- scrollUntilVisible:
+    element: "\u00b0F"
+    direction: DOWN
+- tapOn:
+    id: "\u00b0F"
+- waitForAnimationToEnd
+- tapOn:
+    id: "\u00b0C"
+- waitForAnimationToEnd
+# Speed unit toggle
+- assertVisible: "Speed unit"
+- tapOn:
+    id: "mph"
+- waitForAnimationToEnd
+- tapOn:
+    id: "m/s"
+- waitForAnimationToEnd
+# Notification preferences
+- scrollUntilVisible:
+    element: "Notification Preferences"
+    direction: DOWN
+- assertVisible: "Weather Alerts"
+- assertVisible: "Announcements"

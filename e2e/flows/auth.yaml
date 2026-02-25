@@ -1,0 +1,9 @@
+appId: com.mycircle.native
+---
+- launchApp
+- assertVisible: "Sign In"
+- tapOn: "Email"
+- inputText: "test@example.com"
+- tapOn: "Password"
+- inputText: "password123"
+- tapOn: "Sign In"

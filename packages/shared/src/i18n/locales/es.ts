@@ -805,6 +805,12 @@ const es: Record<TranslationKey, string> = {
   'widgets.worshipSongCount': '{count} canciones',
   'widgets.worshipFavCount': '{count} favoritos',
   'widgets.noWorshipSongs': 'Sin canciones a\u00fan \u2014 agrega tu primera canci\u00f3n',
+  'widgets.stocksWatching': '{count} s\u00edmbolos en lista de seguimiento',
+  'widgets.noteCount': '{count} notas',
+  'widgets.babyWeek': 'Semana {week} \u2014 tama\u00f1o de un(a) {fruit}',
+  'widgets.childAge': '{name} \u2014 {age}',
+  'widgets.editMode': 'Editar widgets',
+  'widgets.reorderHint': 'Toca las flechas para reordenar, alterna para mostrar/ocultar',
 
   // What's New
   'whatsNew.title': 'Novedades',
@@ -1321,6 +1327,14 @@ const es: Record<TranslationKey, string> = {
   'flashcards.edit': 'Editar',
   'flashcards.editCard': 'Editar Tarjeta',
   'flashcards.uncategorized': 'Sin Categor\u00eda',
+  'flashcards.allCards': 'Todas las Tarjetas',
+  'flashcards.myCards': 'Mis Tarjetas',
+  'flashcards.published': 'Publicadas',
+  'flashcards.shared': 'Compartida',
+  'flashcards.private': 'Privada',
+  'flashcards.publish': 'Publicar',
+  'flashcards.publishConfirm': '\u00bfPublicar esta tarjeta en la colecci\u00f3n compartida?',
+  'flashcards.loading': 'Cargando...',
 
   // Work Tracker
   'nav.workTracker': 'Registro de Trabajo',

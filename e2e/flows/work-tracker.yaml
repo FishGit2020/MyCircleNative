@@ -1,0 +1,30 @@
+appId: com.mycircle.native
+---
+# Add entry and view timeline
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Work Log"
+- waitForAnimationToEnd
+- assertVisible: "Work Log"
+- assertVisible: "Track your daily work activities"
+# Add a new work entry
+- tapOn: "What did you work on?"
+- inputText: "Completed Maestro E2E test setup for the project"
+- tapOn: "Save"
+- waitForAnimationToEnd
+# Verify timeline filter chips
+- assertVisible: "Today"
+- assertVisible: "This Month"
+- assertVisible: "All"
+# Filter by Today
+- tapOn: "Today"
+- waitForAnimationToEnd
+# Filter by This Month
+- tapOn: "This Month"
+- waitForAnimationToEnd
+# Show all entries
+- tapOn: "All"
+- waitForAnimationToEnd
+# Verify entry count is shown
+- assertVisible: "entries"

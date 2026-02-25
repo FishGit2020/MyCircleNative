@@ -1,0 +1,33 @@
+appId: com.mycircle.native
+---
+# Set due date and view pregnancy progress
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Baby Tracker"
+- waitForAnimationToEnd
+- assertVisible: "Baby Growth Tracker"
+- assertVisible: "Track your baby's weekly development"
+# Verify due date section is shown
+- assertVisible: "Due Date"
+- assertVisible: "Select your due date"
+# Tap date picker to set due date
+- tapOn:
+    id: "Select your due date"
+- waitForAnimationToEnd
+# After setting a due date, verify progress elements
+- scrollUntilVisible:
+    element: "Pregnancy Progress"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Development Timeline"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Reliable Sources"
+    direction: DOWN
+# Verify the verse section and shuffle
+- scroll:
+    direction: UP
+- tapOn:
+    id: "New verse"
+- waitForAnimationToEnd

@@ -1,0 +1,21 @@
+appId: com.mycircle.native
+---
+# Song list loads and view a song
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Worship Songs"
+- waitForAnimationToEnd
+- assertVisible: "Worship Songs"
+# Search for songs
+- tapOn: "Search songs..."
+- inputText: "Amazing"
+- waitForAnimationToEnd
+- back
+# Try adding a new song (requires auth)
+- tapOn: "Add Song"
+- waitForAnimationToEnd
+- assertVisible: "Song Title"
+- assertVisible: "Lyrics & Chords"
+- tapOn: "Cancel"
+- waitForAnimationToEnd

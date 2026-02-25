@@ -1,0 +1,41 @@
+appId: com.mycircle.native
+---
+# Set birth date and view milestones
+- launchApp
+- tapOn: "More"
+- waitForAnimationToEnd
+- tapOn: "Child Development"
+- waitForAnimationToEnd
+- assertVisible: "Child Development Guide"
+- assertVisible: "Developmental milestones from birth through age 5"
+# Fill in child info form
+- tapOn:
+    id: "Child's Name"
+- inputText: "Test Child"
+- tapOn:
+    id: "Birth Date"
+- waitForAnimationToEnd
+# After date picker, save the child info
+- tapOn: "Get Started"
+- waitForAnimationToEnd
+# Verify timeline view with milestones loads
+- assertVisible: "Test Child"
+# Verify milestone domains are visible
+- scrollUntilVisible:
+    element: "Physical & Motor"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Speech & Language"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Cognitive"
+    direction: DOWN
+- scrollUntilVisible:
+    element: "Social-Emotional"
+    direction: DOWN
+# Test edit button
+- scroll:
+    direction: UP
+- tapOn: "Edit"
+- waitForAnimationToEnd
+- assertVisible: "Save"

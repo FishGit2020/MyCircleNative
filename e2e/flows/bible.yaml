@@ -1,0 +1,22 @@
+appId: com.mycircle.native
+---
+# Book selection and chapter navigation
+- launchApp
+- tapOn: "Bible"
+- waitForAnimationToEnd
+- assertVisible: "Verse of the Day"
+- assertVisible: "Read Scripture"
+- scrollUntilVisible:
+    element: "Old Testament"
+    direction: DOWN
+- tapOn: "Genesis"
+- waitForAnimationToEnd
+- assertVisible: "Chapter"
+- tapOn: "1"
+- waitForAnimationToEnd
+- assertVisible: "Next chapter"
+- tapOn: "Next chapter"
+- waitForAnimationToEnd
+- assertVisible: "Previous chapter"
+- tapOn: "Previous chapter"
+- waitForAnimationToEnd
