@@ -42,6 +42,8 @@ export const AppEvents = {
   WORSHIP_FAVORITES_CHANGED: 'worship-favorites-changed',
   BOTTOM_NAV_ORDER_CHANGED: 'bottom-nav-order-changed',
   AI_CHAT_UPDATED: 'ai-chat-updated',
+  CLOUD_FILES_CHANGED: 'cloud-files-changed',
+  IMMIGRATION_CASES_CHANGED: 'immigration-cases-changed',
 } as const;
 
 // Keep WindowEvents alias for easier porting from web code
@@ -89,6 +91,9 @@ export const StorageKeys = {
   PODCAST_NOW_PLAYING: 'podcast-now-playing',
   AI_CHAT_HISTORY: 'ai-chat-history',
   AI_DEBUG_MODE: 'ai-debug-mode',
+  CLOUD_FILES_CACHE: 'cloud-files-cache',
+  IMMIGRATION_CASES_CACHE: 'immigration-cases-cache',
+  BENCHMARK_HISTORY_CACHE: 'benchmark-history-cache',
 } as const;
 
 export interface CitySelectedEvent {

@@ -1,0 +1,16 @@
+appId: com.mycircle.native
+---
+- launchApp
+- tapOn: "More"
+- scrollUntilVisible:
+    element: "Immigration Tracker"
+    direction: DOWN
+- tapOn: "Immigration Tracker"
+- assertVisible: "Immigration Tracker"
+- tapOn:
+    id: "immigration.addCase"
+- assertVisible: "Receipt Number"
+- inputText:
+    id: "immigration.receiptNumber"
+    text: "IOE0123456789"
+- tapOn: "Save"
