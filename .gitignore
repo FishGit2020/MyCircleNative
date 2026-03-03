@@ -1,6 +1,9 @@
 # dependencies
 node_modules/
 
+# IDE
+.idea/
+
 # Expo
 .expo/
 dist/
@@ -42,6 +45,9 @@ yarn-error.*
 # Firebase config (contains sensitive data)
 GoogleService-Info.plist
 google-services.json
+
+# Google Play service account key
+play-store-key.json
 
 # EAS
 .easignore

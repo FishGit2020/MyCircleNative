@@ -143,8 +143,8 @@ MyCircleNative/
 ### Prerequisites
 - Node.js 20+
 - npm 10+
-- Expo CLI (`npm install -g expo-cli`)
 - EAS CLI (`npm install -g eas-cli`)
+- Android Studio (for local Android development)
 - Apple Developer account (for TestFlight/App Store)
 
 ### Setup
@@ -160,6 +160,67 @@ npm install
 npx expo start
 ```
 
+### Android Development (Local)
+
+#### First-Time Setup
+1. **Install Android Studio** from https://developer.android.com/studio
+2. Open Android Studio > SDK Manager > install Android SDK 36, NDK 27.x, Build-Tools 36
+3. Create an emulator: Device Manager > Create Virtual Device > select a phone image
+4. Set `ANDROID_HOME` environment variable to your SDK path (Windows default: `%LOCALAPPDATA%\Android\Sdk`)
+5. Add `%ANDROID_HOME%\platform-tools` to your system PATH for `adb`
+
+#### Common Commands
+```bash
+# Start the Android emulator
+npm run android:emulator
+
+# Generate native android/ directory (run after adding native deps)
+npm run android:prebuild
+
+# Clean rebuild (delete android/ and re-prebuild)
+npm run android:clean
+
+# Build and launch on emulator/device
+npm run android
+
+# Start Metro dev server only (for hot reload after initial build)
+npm run start
+
+# Check connected devices
+adb devices
+
+# View app logs
+adb logcat -s ReactNativeJS
+
+# Install a built APK manually
+adb install android/app/build/outputs/apk/debug/app-debug.apk
+
+# Reverse port for Metro on physical device (USB)
+adb reverse tcp:8081 tcp:8081
+```
+
+#### Troubleshooting
+- **"System UI isn't responding"** on emulator boot — tap "Wait", it resolves after full boot
+- **Black screen after install** — Metro dev server may not be running. Run `npm run start` in a separate terminal
+- **Port 8081 in use** — kill stale Metro: `npx kill-port 8081` or find the process with `netstat -ano | findstr :8081`
+- **Gradle build fails after adding a native package** — run `npm run android:clean` to regenerate the native project
+- **"Device or resource busy" when deleting android/** — stop Gradle daemons first: `cd android && gradlew --stop` (or kill java.exe processes)
+
+### EAS Cloud Builds
+```bash
+# Development build (APK for local testing)
+npm run build:dev
+
+# Preview build (APK for internal testers)
+npm run build:preview
+
+# Production build (AAB for Google Play)
+npm run build:prod
+
+# Submit latest build to Google Play (internal track)
+npm run submit:android
+```
+
 ### iOS Development Build
 ```bash
 # Create a development build (requires EAS)
@@ -173,9 +234,18 @@ eas build --profile production --platform ios
 ```
 
 ### Firebase Setup
-1. Add an iOS app in Firebase Console with bundle ID `com.mycircle.native`
-2. Download `GoogleService-Info.plist` and place in project root
-3. EAS Build will pick it up automatically via config plugins
+1. Add an Android app in Firebase Console with package name `com.mycircle.app`
+2. Download `google-services.json` and place in project root
+3. Add an iOS app with bundle ID `com.mycircle.app`
+4. Download `GoogleService-Info.plist` and place in project root
+5. EAS Build picks these up automatically via config plugins
+
+### CI/CD (GitHub Actions)
+- **`ci.yml`** — runs unit tests + typecheck on every push/PR
+- **`build.yml`** — builds Android via EAS on push to `main`, submits to Google Play on `v*` tags
+- **`preview.yml`** — builds preview APK for PRs and posts download link as a comment
+
+Required GitHub secret: `EXPO_TOKEN` (generate at expo.dev > Account Settings > Access Tokens)
 
 ## Same Backend
 
