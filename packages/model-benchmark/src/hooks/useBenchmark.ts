@@ -20,7 +20,7 @@ export function useBenchmark() {
   const [results, setResults] = useState<BenchmarkResult[]>([]);
   const [running, setRunning] = useState(false);
   const [history, setHistory] = useState<BenchmarkRun[]>(() => {
-    return safeGetJSON<BenchmarkRun[]>(StorageKeys.BENCHMARK_HISTORY_CACHE) ?? [];
+    return safeGetJSON<BenchmarkRun[]>(StorageKeys.BENCHMARK_HISTORY_CACHE, []);
   });
 
   const toggleEndpoint = useCallback((id: string) => {

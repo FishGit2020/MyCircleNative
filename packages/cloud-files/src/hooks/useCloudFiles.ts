@@ -22,7 +22,7 @@ function getFileType(mimeType: string): FileType {
 
 export function useCloudFiles() {
   const [files, setFiles] = useState<CloudFile[]>(() => {
-    return safeGetJSON<CloudFile[]>(StorageKeys.CLOUD_FILES_CACHE) ?? [];
+    return safeGetJSON<CloudFile[]>(StorageKeys.CLOUD_FILES_CACHE, []);
   });
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export function useCloudFiles() {
 
   useEffect(() => {
     return eventBus.subscribe(AppEvents.CLOUD_FILES_CHANGED, () => {
-      const fresh = safeGetJSON<CloudFile[]>(StorageKeys.CLOUD_FILES_CACHE) ?? [];
+      const fresh = safeGetJSON<CloudFile[]>(StorageKeys.CLOUD_FILES_CACHE, []);
       setFiles(fresh);
     });
   }, []);

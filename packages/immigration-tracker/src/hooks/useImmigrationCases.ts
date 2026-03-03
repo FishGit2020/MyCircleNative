@@ -12,7 +12,7 @@ import type { ImmigrationCase, FormType, CaseStatus } from '@mycircle/shared';
 
 export function useImmigrationCases() {
   const [cases, setCases] = useState<ImmigrationCase[]>(() => {
-    return safeGetJSON<ImmigrationCase[]>(StorageKeys.IMMIGRATION_CASES_CACHE) ?? [];
+    return safeGetJSON<ImmigrationCase[]>(StorageKeys.IMMIGRATION_CASES_CACHE, []);
   });
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +24,7 @@ export function useImmigrationCases() {
   // Listen for external changes
   useEffect(() => {
     return eventBus.subscribe(AppEvents.IMMIGRATION_CASES_CHANGED, () => {
-      const fresh = safeGetJSON<ImmigrationCase[]>(StorageKeys.IMMIGRATION_CASES_CACHE) ?? [];
+      const fresh = safeGetJSON<ImmigrationCase[]>(StorageKeys.IMMIGRATION_CASES_CACHE, []);
       setCases(fresh);
     });
   }, []);

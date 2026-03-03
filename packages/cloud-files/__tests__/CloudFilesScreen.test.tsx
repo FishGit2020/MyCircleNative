@@ -6,7 +6,7 @@ jest.mock('@mycircle/shared', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
-  safeGetJSON: jest.fn(() => null),
+  safeGetJSON: jest.fn((_key: string, fallback: any) => fallback ?? null),
   safeSetItem: jest.fn(),
   safeGetItem: jest.fn(() => null),
   StorageKeys: {

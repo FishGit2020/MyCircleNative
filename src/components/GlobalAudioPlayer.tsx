@@ -45,7 +45,7 @@ export default function GlobalAudioPlayer() {
         const podcast = data.podcast;
 
         // Check for saved progress
-        const savedProgress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS) ?? {};
+        const savedProgress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS, {});
         const savedPosition = savedProgress[String(ep.id)] ?? 0;
 
         setState({
@@ -88,7 +88,7 @@ export default function GlobalAudioPlayer() {
     );
 
     // Load saved speed
-    const savedSpeed = safeGetJSON<number>(StorageKeys.PODCAST_SPEED);
+    const savedSpeed = safeGetJSON<number | null>(StorageKeys.PODCAST_SPEED, null);
     if (savedSpeed) setSpeed(savedSpeed);
 
     return () => {
@@ -127,7 +127,7 @@ export default function GlobalAudioPlayer() {
     if (!state || !isPlaying) return;
     const saveInterval = setInterval(() => {
       if (state) {
-        const progress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS) ?? {};
+        const progress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS, {});
         progress[state.episodeId] = state.position;
         safeSetItem(StorageKeys.PODCAST_PROGRESS, JSON.stringify(progress));
       }
@@ -168,7 +168,7 @@ export default function GlobalAudioPlayer() {
   const handleClose = useCallback(() => {
     // Save final progress
     if (state) {
-      const progress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS) ?? {};
+      const progress = safeGetJSON<Record<string, number>>(StorageKeys.PODCAST_PROGRESS, {});
       progress[state.episodeId] = state.position;
       safeSetItem(StorageKeys.PODCAST_PROGRESS, JSON.stringify(progress));
     }
