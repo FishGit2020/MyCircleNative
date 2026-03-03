@@ -43,5 +43,8 @@ yarn-error.*
 GoogleService-Info.plist
 google-services.json
 
+# Google Play service account key
+play-store-key.json
+
 # EAS
 .easignore
