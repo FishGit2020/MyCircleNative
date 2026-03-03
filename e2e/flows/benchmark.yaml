@@ -1,0 +1,12 @@
+appId: com.mycircle.native
+---
+- launchApp
+- tapOn: "More"
+- scrollUntilVisible:
+    element: "Model Benchmark"
+    direction: DOWN
+- tapOn: "Model Benchmark"
+- assertVisible: "Model Benchmark"
+- assertVisible: "Select Endpoints"
+- tapOn: "History"
+- assertVisible: "No benchmark history yet"

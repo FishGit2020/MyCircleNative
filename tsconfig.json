@@ -17,7 +17,10 @@
       "@mycircle/child-development": ["./packages/child-development/src"],
       "@mycircle/flashcards": ["./packages/flashcards/src"],
       "@mycircle/work-tracker": ["./packages/work-tracker/src"],
-      "@mycircle/city-search": ["./packages/city-search/src"]
+      "@mycircle/city-search": ["./packages/city-search/src"],
+      "@mycircle/cloud-files": ["./packages/cloud-files/src"],
+      "@mycircle/immigration-tracker": ["./packages/immigration-tracker/src"],
+      "@mycircle/model-benchmark": ["./packages/model-benchmark/src"]
     }
   },
   "include": [

@@ -3,6 +3,7 @@ import {
   View,
   Text,
   FlatList,
+  ScrollView,
   Pressable,
   KeyboardAvoidingView,
   Platform,
@@ -16,6 +17,7 @@ import {
 } from '@mycircle/shared';
 import { useAiChat } from './hooks/useAiChat';
 import { ChatMessage, ChatInput, SuggestedPrompts } from './components';
+import AiMonitor from './components/AiMonitor';
 
 /* ── Component ────────────────────────────────────────────── */
 
@@ -24,6 +26,7 @@ export default function AiAssistantScreen() {
   const { messages, loading, error, canRetry, sendMessage, clearChat, retry } =
     useAiChat();
 
+  const [showMonitor, setShowMonitor] = useState(false);
   const [debugMode, setDebugMode] = useState(() => {
     return safeGetItem(StorageKeys.AI_DEBUG_MODE) === 'true';
   });
@@ -73,6 +76,28 @@ export default function AiAssistantScreen() {
             </Text>
           </View>
           <View className="flex-row items-center gap-2">
+            {/* Monitor toggle */}
+            <Pressable
+              onPress={() => setShowMonitor(!showMonitor)}
+              accessibilityLabel={t('monitor.title')}
+              accessibilityRole="button"
+              className={`px-2 py-1 rounded ${
+                showMonitor
+                  ? 'bg-blue-100 dark:bg-blue-900/30'
+                  : 'bg-transparent'
+              }`}
+              style={{ minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Text
+                className={`text-xs ${
+                  showMonitor
+                    ? 'text-blue-700 dark:text-blue-300'
+                    : 'text-gray-400 dark:text-gray-500'
+                }`}
+              >
+                {'\u{1F4CA}'}
+              </Text>
+            </Pressable>
             {/* Debug toggle */}
             <Pressable
               onPress={toggleDebug}
@@ -111,8 +136,12 @@ export default function AiAssistantScreen() {
           </View>
         </View>
 
-        {/* Messages area */}
-        {messages.length === 0 && !loading ? (
+        {/* Monitor view */}
+        {showMonitor ? (
+          <ScrollView className="flex-1 px-4 py-4">
+            <AiMonitor />
+          </ScrollView>
+        ) : messages.length === 0 && !loading ? (
           <SuggestedPrompts onSelect={handleSuggestedPrompt} />
         ) : (
           <FlatList

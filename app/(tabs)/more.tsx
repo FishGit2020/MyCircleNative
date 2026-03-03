@@ -57,6 +57,24 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'briefcase-outline',
   },
   {
+    route: '/cloud-files',
+    titleKey: 'cloudFiles.title',
+    descriptionKey: 'home.quickCloudFilesDesc',
+    icon: 'cloud-outline',
+  },
+  {
+    route: '/immigration',
+    titleKey: 'immigration.title',
+    descriptionKey: 'home.quickImmigrationDesc',
+    icon: 'globe-outline',
+  },
+  {
+    route: '/benchmark',
+    titleKey: 'benchmark.title',
+    descriptionKey: 'home.quickBenchmarkDesc',
+    icon: 'speedometer-outline',
+  },
+  {
     route: '/settings',
     titleKey: 'dashboard.settings',
     descriptionKey: 'dashboard.customizeWidgets',

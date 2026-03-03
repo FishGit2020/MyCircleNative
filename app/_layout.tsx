@@ -11,6 +11,7 @@ import { I18nProvider } from '@mycircle/shared';
 import { getApolloClient } from '@mycircle/shared';
 import { subscribeToAuthChanges } from '../src/firebase/auth';
 import type { FirebaseAuthTypes } from '../src/firebase/config';
+import GlobalAudioPlayer from '../src/components/GlobalAudioPlayer';
 
 // Prevent the splash screen from auto-hiding until we finish loading
 SplashScreen.preventAutoHideAsync();
@@ -98,6 +99,7 @@ export default function RootLayout() {
               },
             }}
           />
+          <GlobalAudioPlayer />
         </ApolloProvider>
       </I18nProvider>
     </SafeAreaProvider>

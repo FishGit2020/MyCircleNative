@@ -27,6 +27,10 @@ import {
   AirQuality,
   SunVisibility,
   WhatToWear,
+  WeatherAlerts,
+  ActivitySuggestions,
+  HistoricalWeather,
+  HourlyChart,
 } from './components';
 
 interface WeatherResponse {
@@ -182,6 +186,9 @@ export default function WeatherScreen() {
           {city.name}
         </Text>
 
+        {/* Weather Alerts */}
+        {current && <WeatherAlerts current={current} />}
+
         {/* Current Weather */}
         {current && <CurrentWeatherCard data={current} />}
 
@@ -190,6 +197,12 @@ export default function WeatherScreen() {
 
         {/* What to Wear */}
         {current && <WhatToWear data={current} />}
+
+        {/* Activity Suggestions */}
+        {current && <ActivitySuggestions current={current} />}
+
+        {/* Hourly Chart */}
+        {hourly && hourly.length > 0 && <HourlyChart hourly={hourly} />}
 
         {/* Hourly Forecast */}
         {hourly && hourly.length > 0 && (
@@ -213,6 +226,15 @@ export default function WeatherScreen() {
 
         {/* Air Quality */}
         {airQuality && <AirQuality data={airQuality} />}
+
+        {/* Historical Weather */}
+        {current && (
+          <HistoricalWeather
+            lat={city.lat}
+            lon={city.lon}
+            currentTemp={current.temp}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

@@ -6,3 +6,6 @@ export * from './worship';
 export * from './notebook';
 export * from './workTracker';
 export * from './flashcard';
+export * from './cloudFiles';
+export * from './immigration';
+export * from './benchmark';
