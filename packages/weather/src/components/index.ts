@@ -4,3 +4,7 @@ export { default as HourlyForecast } from './HourlyForecast';
 export { default as AirQuality } from './AirQuality';
 export { default as SunVisibility } from './SunVisibility';
 export { default as WhatToWear } from './WhatToWear';
+export { default as WeatherAlerts } from './WeatherAlerts';
+export { default as ActivitySuggestions } from './ActivitySuggestions';
+export { default as HistoricalWeather } from './HistoricalWeather';
+export { default as HourlyChart } from './HourlyChart';

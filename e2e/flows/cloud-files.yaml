@@ -1,0 +1,13 @@
+appId: com.mycircle.native
+---
+- launchApp
+- tapOn: "More"
+- scrollUntilVisible:
+    element: "Cloud Files"
+    direction: DOWN
+- tapOn: "Cloud Files"
+- assertVisible: "Cloud Files"
+- assertVisible: "My Files"
+- assertVisible: "Shared Files"
+- tapOn: "Shared Files"
+- tapOn: "My Files"

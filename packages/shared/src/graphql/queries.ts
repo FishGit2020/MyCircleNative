@@ -434,3 +434,124 @@ export const WEATHER_UPDATES = gql`
     }
   }
 `;
+
+// ─── Immigration Queries ────────────────────────────────────
+
+export const CHECK_USCIS_STATUS = gql`
+  query CheckUscisStatus($receiptNumber: String!) {
+    checkUscisStatus(receiptNumber: $receiptNumber) {
+      receiptNumber
+      status
+      formType
+      lastUpdated
+      description
+    }
+  }
+`;
+
+// ─── AI Monitor Queries ─────────────────────────────────────
+
+export const GET_AI_USAGE_SUMMARY = gql`
+  query GetAiUsageSummary {
+    aiUsageSummary {
+      totalRequests
+      totalTokens
+      averageResponseTime
+      requestsByModel {
+        model
+        count
+        tokens
+      }
+      dailyUsage {
+        date
+        requests
+        tokens
+      }
+    }
+  }
+`;
+
+export const GET_AI_RECENT_LOGS = gql`
+  query GetAiRecentLogs($limit: Int) {
+    aiRecentLogs(limit: $limit) {
+      id
+      timestamp
+      model
+      prompt
+      response
+      tokens
+      responseTime
+      success
+      error
+    }
+  }
+`;
+
+export const GET_OLLAMA_STATUS = gql`
+  query GetOllamaStatus {
+    ollamaStatus {
+      running
+      version
+      models {
+        name
+        size
+        modified
+      }
+    }
+  }
+`;
+
+// ─── Benchmark Queries ──────────────────────────────────────
+
+export const RUN_BENCHMARK = gql`
+  mutation RunBenchmark($endpointId: String!, $prompt: String!) {
+    runBenchmark(endpointId: $endpointId, prompt: $prompt) {
+      endpointId
+      endpointName
+      model
+      prompt
+      response
+      tokensUsed
+      timeToFirstToken
+      totalTime
+      tokensPerSecond
+      success
+      error
+    }
+  }
+`;
+
+export const SAVE_BENCHMARK_RUN = gql`
+  mutation SaveBenchmarkRun($input: BenchmarkRunInput!) {
+    saveBenchmarkRun(input: $input) {
+      id
+      timestamp
+      prompt
+      totalEndpoints
+      completedEndpoints
+    }
+  }
+`;
+
+export const GET_BENCHMARK_HISTORY = gql`
+  query GetBenchmarkHistory($limit: Int) {
+    benchmarkHistory(limit: $limit) {
+      id
+      timestamp
+      prompt
+      results {
+        endpointId
+        endpointName
+        model
+        tokensUsed
+        timeToFirstToken
+        totalTime
+        tokensPerSecond
+        success
+        error
+      }
+      totalEndpoints
+      completedEndpoints
+    }
+  }
+`;

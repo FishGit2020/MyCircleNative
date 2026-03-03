@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@apollo/client';
-import { useTranslation, GET_STOCK_QUOTE } from '@mycircle/shared';
+import { useTranslation, GET_STOCK_QUOTE, GET_STOCK_CANDLES } from '@mycircle/shared';
+import StockChart from './StockChart';
 
 /* ── Types ───────────────────────────────────────────────── */
 
@@ -25,6 +26,25 @@ interface StockCardProps {
   symbol: string;
   companyName: string;
   onRemove?: (symbol: string) => void;
+}
+
+/* ── Chart sub-component ─────────────────────────────────── */
+
+function StockChartSection({ symbol, currentPrice, previousClose }: { symbol: string; currentPrice: number; previousClose: number }) {
+  const now = Math.floor(Date.now() / 1000);
+  const oneMonthAgo = now - 30 * 24 * 60 * 60;
+  const { data } = useQuery(GET_STOCK_CANDLES, {
+    variables: { symbol, resolution: 'D', from: oneMonthAgo, to: now },
+    fetchPolicy: 'cache-first',
+  });
+  return (
+    <StockChart
+      data={data?.stockCandles ?? null}
+      symbol={symbol}
+      currentPrice={currentPrice}
+      previousClose={previousClose}
+    />
+  );
 }
 
 /* ── Component ───────────────────────────────────────────── */
@@ -173,13 +193,8 @@ function StockCard({ symbol, companyName, onRemove }: StockCardProps) {
             </View>
           </View>
 
-          {/* Chart placeholder */}
-          <View className="mt-2 h-24 bg-gray-100 dark:bg-gray-700 rounded-xl items-center justify-center">
-            <Ionicons name="bar-chart-outline" size={24} color="#9ca3af" />
-            <Text className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-              {t('stocks.sparkline7d')}
-            </Text>
-          </View>
+          {/* Stock Chart */}
+          <StockChartSection symbol={symbol} currentPrice={quote.c} previousClose={quote.pc} />
         </View>
       )}
     </Pressable>
