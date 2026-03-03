@@ -15,7 +15,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mycircle.native",
+      "bundleIdentifier": "com.mycircle.app",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "MyCircle uses your location to show local weather and city search.",
         "NSSpeechRecognitionUsageDescription": "MyCircle uses speech recognition for the AI assistant voice input.",
@@ -27,14 +28,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3b82f6"
       },
-      "package": "com.mycircle.native",
-      "edgeToEdgeEnabled": true
+      "package": "com.mycircle.app",
+      "edgeToEdgeEnabled": true,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
       "expo-router",
       "expo-localization",
       "expo-secure-store",
@@ -57,7 +61,13 @@
           "microphonePermission": "MyCircle needs microphone access for AI assistant voice input.",
           "speechRecognitionPermission": "MyCircle uses speech recognition for the AI assistant."
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-font",
+      "expo-web-browser",
+      "@react-native-google-signin/google-signin",
+      "@react-native-firebase/messaging",
+      "./plugins/withFirebaseMessagingManifestFix"
     ],
     "extra": {
       "eas": {
