@@ -6,6 +6,9 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { auth, FirebaseAuthTypes } from './config';
 
+// Configure Google Sign-In — on iOS the clientId is auto-read from GoogleService-Info.plist
+GoogleSignin.configure();
+
 /**
  * Sign in with Google via native Google Sign-In flow.
  * Returns the Firebase user on success, or null if cancelled.

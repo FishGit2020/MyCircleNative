@@ -25,12 +25,13 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@apollo/client": "^4.1.6",
+    "@apollo/client": "^3.12.11",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-community/datetimepicker": "8.4.4",
     "@react-native-community/slider": "5.0.1",
     "@react-native-firebase/analytics": "^23.8.6",
+    "@react-native-firebase/app-check": "^23.8.6",
     "@react-native-firebase/messaging": "^23.8.6",
     "@react-native-google-signin/google-signin": "^16.1.2",
     "@sentry/react-native": "~7.2.0",

@@ -14,6 +14,7 @@ import type { FirebaseAuthTypes } from '../src/firebase/config';
 import GlobalAudioPlayer from '../src/components/GlobalAudioPlayer';
 import { initSentry } from '../src/sentry';
 import { ErrorBoundary } from '../src/components/common/ErrorBoundary';
+import { ThemeProvider } from '../src/contexts/ThemeContext';
 
 initSentry();
 
@@ -96,15 +97,17 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <I18nProvider>
           <ApolloProvider client={apolloClient}>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: {
-                  backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
-                },
-              }}
-            />
-            <GlobalAudioPlayer />
+            <ThemeProvider>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: {
+                    backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
+                  },
+                }}
+              />
+              <GlobalAudioPlayer />
+            </ThemeProvider>
           </ApolloProvider>
         </I18nProvider>
       </SafeAreaProvider>
