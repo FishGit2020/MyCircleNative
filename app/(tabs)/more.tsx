@@ -75,6 +75,48 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'speedometer-outline',
   },
   {
+    route: '/radio',
+    titleKey: 'radio.title',
+    descriptionKey: 'radio.subtitle',
+    icon: 'radio-outline',
+  },
+  {
+    route: '/polls',
+    titleKey: 'poll.title',
+    descriptionKey: 'poll.subtitle',
+    icon: 'bar-chart-outline',
+  },
+  {
+    route: '/trip-planner',
+    titleKey: 'trip.title',
+    descriptionKey: 'trip.subtitle',
+    icon: 'airplane-outline',
+  },
+  {
+    route: '/digital-library',
+    titleKey: 'library.title',
+    descriptionKey: 'library.subtitle',
+    icon: 'book-outline',
+  },
+  {
+    route: '/family-games',
+    titleKey: 'games.title',
+    descriptionKey: 'games.subtitle',
+    icon: 'game-controller-outline',
+  },
+  {
+    route: '/doc-scanner',
+    titleKey: 'scanner.title',
+    descriptionKey: 'scanner.subtitle',
+    icon: 'scan-outline',
+  },
+  {
+    route: '/hiking-map',
+    titleKey: 'hiking.title',
+    descriptionKey: 'hiking.subtitle',
+    icon: 'trail-sign-outline',
+  },
+  {
     route: '/settings',
     titleKey: 'dashboard.settings',
     descriptionKey: 'dashboard.customizeWidgets',
