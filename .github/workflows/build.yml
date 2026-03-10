@@ -79,6 +79,38 @@ jobs:
           --non-interactive
           --no-wait
 
+  build-ios:
+    name: Build iOS
+    needs: test
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.platform != 'android')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build iOS
+        run: >-
+          eas build
+          --platform ios
+          --profile ${{ github.event.inputs.profile || 'production' }}
+          --non-interactive
+          --no-wait
+
   submit-android:
     name: Submit to Google Play
     needs: build-android
@@ -103,3 +135,28 @@ jobs:
 
       - name: Submit to Google Play
         run: eas submit --platform android --latest --non-interactive
+
+  submit-ios:
+    name: Submit to App Store
+    needs: build-ios
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Submit to App Store
+        run: eas submit --platform ios --latest --non-interactive
