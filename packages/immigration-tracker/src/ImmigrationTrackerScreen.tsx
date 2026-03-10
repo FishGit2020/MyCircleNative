@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { View, Text, ScrollView, Pressable, RefreshControl, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, Pressable, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
 import { useImmigrationCases } from './hooks/useImmigrationCases';
