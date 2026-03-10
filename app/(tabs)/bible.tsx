@@ -1,5 +1,5 @@
-import { BibleReaderScreen } from '@mycircle/bible-reader';
+import { BibleScreen } from '@mycircle/bible-reader';
 
 export default function BibleRoute() {
-  return <BibleReaderScreen />;
+  return <BibleScreen />;
 }
