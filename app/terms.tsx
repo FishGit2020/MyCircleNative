@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
@@ -16,9 +17,10 @@ const SECTIONS = [
 export default function TermsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900" style={{ paddingTop: insets.top }}>
       <ScrollView className="flex-1" contentContainerClassName="pb-20">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">

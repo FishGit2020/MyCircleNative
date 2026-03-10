@@ -1,13 +1,13 @@
-// Re-export types and English (synchronous fallback) from split locale files.
-// Spanish and Chinese are lazy-loaded via I18nContext when the locale changes.
+// Re-export types and all locale files synchronously.
+// Files are ~2600 lines each — small enough that lazy-loading adds complexity
+// (async errors, flash-of-English) without meaningful bundle savings.
 export type { TranslationKey } from './locales/en';
 export type Locale = 'en' | 'es' | 'zh';
 
 import en from './locales/en';
+import es from './locales/es';
+import zh from './locales/zh';
+
 export { en };
 
-// Lazy loaders for non-English locales (used by I18nContext)
-export const localeLoaders: Record<string, () => Promise<{ default: Record<string, string> }>> = {
-  es: () => import('./locales/es'),
-  zh: () => import('./locales/zh'),
-};
+export const allLocales: Record<Locale, Record<string, string>> = { en, es, zh };

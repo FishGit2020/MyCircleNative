@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
@@ -57,6 +58,7 @@ export default function TrashScreen() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [items, setItems] = useState<Record<TrashType, TrashItem[]>>({
     note: [], flashcard: [], file: [], trip: [], route: [], child: [],
     book: [], poll: [], worship: [],
@@ -150,7 +152,7 @@ export default function TrashScreen() {
   const totalItems = ALL_TYPES.reduce((sum, type) => sum + items[type].length, 0);
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900" style={{ paddingTop: insets.top }}>
       <ScrollView className="flex-1" contentContainerClassName="pb-20">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
