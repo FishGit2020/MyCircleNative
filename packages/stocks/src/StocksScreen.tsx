@@ -4,7 +4,7 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  SafeAreaView,
+
 } from 'react-native';
 import { useTranslation } from '@mycircle/shared';
 import { StockSearch, Watchlist, CryptoSection, CompanyNews, StockDetailView } from './components';
@@ -73,7 +73,7 @@ export default function StocksScreen() {
     );
 
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <StockDetailView
           symbol={selectedStock.symbol}
           companyName={selectedStock.companyName}
@@ -81,14 +81,14 @@ export default function StocksScreen() {
           onBack={handleBack}
           onToggleWatchlist={handleToggleWatchlist}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 
   /* ── List view ───────────────────────────────────────────── */
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         key={refreshKey}
         className="flex-1"
@@ -139,6 +139,6 @@ export default function StocksScreen() {
           <CryptoSection />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

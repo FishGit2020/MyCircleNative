@@ -6,7 +6,7 @@ import {
   Modal,
   FlatList,
   ActivityIndicator,
-  SafeAreaView,
+
 } from 'react-native';
 import { useQuery } from '@apollo/client';
 import {
@@ -102,7 +102,7 @@ export default function TranslationPicker({
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
           <Text className="text-lg font-bold text-gray-800 dark:text-white">
@@ -143,7 +143,7 @@ export default function TranslationPicker({
             showsVerticalScrollIndicator={false}
           />
         )}
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }

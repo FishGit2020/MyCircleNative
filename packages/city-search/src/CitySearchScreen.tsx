@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   Keyboard,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTranslation } from '@mycircle/shared';
 import type { City } from '@mycircle/shared';
@@ -284,7 +283,7 @@ export default function CitySearchScreen({
   // ── Main render ───────────────────────────────────────────────
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900" edges={['top']}>
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900" edges={['top']}>
       {/* Header */}
       <View className="flex-row items-center px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <TouchableOpacity
@@ -348,6 +347,6 @@ export default function CitySearchScreen({
         showsVerticalScrollIndicator={false}
         className="flex-1"
       />
-    </SafeAreaView>
+    </View>
   );
 }

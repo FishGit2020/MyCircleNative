@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { View, Text, ScrollView, Pressable, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import {
   useTranslation,
@@ -62,7 +61,7 @@ export default function ModelBenchmarkScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-4 pt-4 pb-20"
@@ -195,6 +194,6 @@ export default function ModelBenchmarkScreen() {
           <BenchmarkHistory history={history} onDelete={deleteRun} />
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

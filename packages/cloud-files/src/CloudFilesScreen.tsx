@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
@@ -65,18 +64,18 @@ export default function CloudFilesScreen() {
   // Loading auth state
   if (!authChecked) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#3b82f6" />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // Auth wall — show sign-in message if not authenticated
   if (!isAuthenticated) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="px-4 pt-4 flex-1">
           <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {t('cloudFiles.title')}
@@ -88,12 +87,12 @@ export default function CloudFilesScreen() {
             </Text>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-4 pt-4 pb-20"
@@ -167,6 +166,6 @@ export default function CloudFilesScreen() {
           }
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

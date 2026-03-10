@@ -1,5 +1,4 @@
 import { View, Text, ScrollView, Pressable } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
@@ -63,7 +62,7 @@ export default function WhatsNewScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <ScrollView className="flex-1" contentContainerClassName="pb-20">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -116,6 +115,6 @@ export default function WhatsNewScreen() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

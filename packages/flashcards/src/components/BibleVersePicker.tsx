@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, Modal, ScrollView, ActivityIndicator, Switch } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLazyQuery } from '@apollo/client';
 import { useTranslation, GET_BIBLE_PASSAGE } from '@mycircle/shared';
 import type { FlashCard } from '../types';
@@ -175,7 +174,7 @@ export default function BibleVersePicker({ onAddCards, onClose }: BibleVersePick
 
   return (
     <Modal visible animationType="slide" onRequestClose={onClose}>
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-800">
+      <View className="flex-1 bg-white dark:bg-gray-800">
         {/* Header */}
         <View className="px-4 pt-4 pb-3 flex-row items-center justify-between border-b border-gray-200 dark:border-gray-700">
           <Text className="text-lg font-semibold text-gray-800 dark:text-white">
@@ -377,7 +376,7 @@ export default function BibleVersePicker({ onAddCards, onClose }: BibleVersePick
             </View>
           )}
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }
