@@ -7,6 +7,7 @@ import {
   Pressable,
   Switch,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -516,24 +517,38 @@ export default function DashboardScreen() {
               {t('home.subtitle')}
             </Text>
           </View>
-          <Pressable
-            onPress={() => {
-              if (editMode) {
-                setEditMode(false);
-              } else {
-                setEditMode(true);
+          <View className="flex-row items-center gap-2">
+            <Pressable
+              onPress={() => router.push('/search')}
+              accessibilityLabel={t('globalSearch.title' as any)}
+              accessibilityRole="button"
+              className="mt-1 rounded-full bg-gray-100 dark:bg-gray-800 w-11 h-11 items-center justify-center"
+            >
+              <Ionicons
+                name="search-outline"
+                size={20}
+                color={isDark ? '#d1d5db' : '#374151'}
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (editMode) {
+                  setEditMode(false);
+                } else {
+                  setEditMode(true);
+                }
+              }}
+              accessibilityLabel={
+                editMode ? t('widgets.done') : t('widgets.customize')
               }
-            }}
-            accessibilityLabel={
-              editMode ? t('widgets.done') : t('widgets.customize')
-            }
-            accessibilityRole="button"
-            className="ml-3 mt-1 rounded-full bg-blue-100 dark:bg-blue-900 px-4 py-2 min-h-[44px] min-w-[44px] items-center justify-center"
-          >
-            <Text className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-              {editMode ? t('widgets.done') : t('widgets.customize')}
-            </Text>
-          </Pressable>
+              accessibilityRole="button"
+              className="mt-1 rounded-full bg-blue-100 dark:bg-blue-900 px-4 py-2 min-h-[44px] min-w-[44px] items-center justify-center"
+            >
+              <Text className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                {editMode ? t('widgets.done') : t('widgets.customize')}
+              </Text>
+            </Pressable>
+          </View>
         </View>
 
         {/* Edit mode hint & reset */}
@@ -612,17 +627,24 @@ export default function DashboardScreen() {
                         </Text>
                       </View>
 
-                      {/* Toggle */}
-                      <Switch
-                        value={widget.visible}
-                        onValueChange={() => toggleVisibility(widget.id)}
-                        accessibilityLabel={t('widgets.toggleVisibility')}
-                        trackColor={{
-                          false: '#d1d5db',
-                          true: '#3b82f6',
-                        }}
-                        thumbColor={widget.visible ? '#ffffff' : '#f3f4f6'}
-                      />
+                      {/* Toggle with pin/unpin label */}
+                      <View className="flex-row items-center gap-2">
+                        <Text className="text-xs text-gray-600 dark:text-gray-400">
+                          {widget.visible
+                            ? t('home.unpinWidget')
+                            : t('home.pinWidget')}
+                        </Text>
+                        <Switch
+                          value={widget.visible}
+                          onValueChange={() => toggleVisibility(widget.id)}
+                          accessibilityLabel={t('widgets.toggleVisibility')}
+                          trackColor={{
+                            false: '#d1d5db',
+                            true: '#3b82f6',
+                          }}
+                          thumbColor={widget.visible ? '#ffffff' : '#f3f4f6'}
+                        />
+                      </View>
                     </View>
                   </View>
                 ) : (

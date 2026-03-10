@@ -2583,6 +2583,13 @@ const es: Record<TranslationKey, string> = {
   'profile.speedUnit': 'Velocidad',
   'profile.distanceUnit': 'Distancia',
   'profile.dataManagement': 'Gesti\u00f3n de datos',
+
+  // Global Search
+  'globalSearch.title': 'Buscar',
+  'globalSearch.placeholder': 'Buscar funciones...',
+  'globalSearch.noResults': 'No se encontraron resultados',
+  'globalSearch.recentSearches': 'B\u00fasquedas recientes',
+  'globalSearch.clear': 'Borrar b\u00fasqueda',
 };
 
 export default es;

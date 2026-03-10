@@ -2583,6 +2583,13 @@ const zh: Record<TranslationKey, string> = {
   'profile.speedUnit': '\u901f\u5ea6',
   'profile.distanceUnit': '\u8ddd\u79bb',
   'profile.dataManagement': '\u6570\u636e\u7ba1\u7406',
+
+  // Global Search
+  'globalSearch.title': '\u641c\u7d22',
+  'globalSearch.placeholder': '\u641c\u7d22\u529f\u80fd...',
+  'globalSearch.noResults': '\u672a\u627e\u5230\u7ed3\u679c',
+  'globalSearch.recentSearches': '\u6700\u8fd1\u641c\u7d22',
+  'globalSearch.clear': '\u6e05\u9664\u641c\u7d22',
 };
 
 export default zh;
