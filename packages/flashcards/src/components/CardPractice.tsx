@@ -109,7 +109,7 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
   if (showWritingPractice && chineseCharForCanvas) {
     return (
       <Modal visible animationType="slide" onRequestClose={() => setShowWritingPractice(false)}>
-        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top', 'bottom', 'left', 'right']}>
           <PracticeCanvas
             character={chineseCharForCanvas}
             onBack={() => setShowWritingPractice(false)}
@@ -121,7 +121,7 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
 
   return (
     <Modal visible animationType="slide" onRequestClose={onClose}>
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top', 'bottom', 'left', 'right']}>
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <TouchableOpacity
