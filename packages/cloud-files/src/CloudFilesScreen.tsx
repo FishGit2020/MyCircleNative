@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import { useTranslation } from '@mycircle/shared';
 import { useCloudFiles } from './hooks/useCloudFiles';
 import FileList from './components/FileList';
@@ -13,9 +15,23 @@ export default function CloudFilesScreen() {
 
   const handleUpload = useCallback(async () => {
     try {
-      // In production, use expo-document-picker here
-      // For now, create a demo file
-      await uploadFile('Demo Document.pdf', 'application/pdf', 1024 * 512, 'file://demo');
+      const result = await DocumentPicker.getDocumentAsync({
+        type: '*/*',
+        copyToCacheDirectory: true,
+      });
+
+      if (result.canceled || !result.assets?.length) return;
+
+      const asset = result.assets[0];
+      const fileInfo = await FileSystem.getInfoAsync(asset.uri);
+      const fileSize = fileInfo.exists ? (fileInfo as { size?: number }).size || 0 : 0;
+
+      await uploadFile(
+        asset.name,
+        asset.mimeType || 'application/octet-stream',
+        fileSize,
+        asset.uri,
+      );
     } catch {
       Alert.alert(t('cloudFiles.uploadError'));
     }

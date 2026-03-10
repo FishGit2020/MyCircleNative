@@ -102,12 +102,43 @@ export default function RootLayout() {
               <AuthProvider>
                 <Stack
                   screenOptions={{
-                    headerShown: false,
+                    headerShown: true,
+                    headerStyle: {
+                      backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
+                    },
+                    headerTintColor: colorScheme === 'dark' ? '#ffffff' : '#111827',
+                    headerTitleStyle: { fontWeight: '600' },
+                    headerShadowVisible: false,
                     contentStyle: {
                       backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
                     },
                   }}
-                />
+                >
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                  <Stack.Screen name="ai-assistant" options={{ title: 'AI Assistant' }} />
+                  <Stack.Screen name="baby-tracker" options={{ title: 'Baby Tracker' }} />
+                  <Stack.Screen name="benchmark" options={{ title: 'Model Benchmark' }} />
+                  <Stack.Screen name="child-development" options={{ title: 'Child Development' }} />
+                  <Stack.Screen name="cloud-files" options={{ title: 'Cloud Files' }} />
+                  <Stack.Screen name="daily-log" options={{ title: 'Daily Log' }} />
+                  <Stack.Screen name="digital-library" options={{ title: 'Digital Library' }} />
+                  <Stack.Screen name="doc-scanner" options={{ title: 'Doc Scanner' }} />
+                  <Stack.Screen name="family-games" options={{ title: 'Family Games' }} />
+                  <Stack.Screen name="flashcards" options={{ title: 'Flashcards' }} />
+                  <Stack.Screen name="hiking-map" options={{ title: 'Hiking Map' }} />
+                  <Stack.Screen name="immigration" options={{ title: 'Immigration' }} />
+                  <Stack.Screen name="notebook" options={{ title: 'Notebook' }} />
+                  <Stack.Screen name="polls" options={{ title: 'Polls' }} />
+                  <Stack.Screen name="privacy" options={{ title: 'Privacy Policy' }} />
+                  <Stack.Screen name="radio" options={{ title: 'Radio Station' }} />
+                  <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+                  <Stack.Screen name="terms" options={{ title: 'Terms of Service' }} />
+                  <Stack.Screen name="trash" options={{ title: 'Recycle Bin' }} />
+                  <Stack.Screen name="trip-planner" options={{ title: 'Trip Planner' }} />
+                  <Stack.Screen name="whats-new" options={{ title: "What's New" }} />
+                  <Stack.Screen name="worship" options={{ title: 'Worship Songs' }} />
+                </Stack>
                 <GlobalAudioPlayer />
               </AuthProvider>
             </ThemeProvider>
