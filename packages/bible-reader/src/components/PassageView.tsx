@@ -85,6 +85,7 @@ export default function PassageView({
   });
 
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
   const [showTranslationPicker, setShowTranslationPicker] = useState(false);
 
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() =>
@@ -143,6 +144,21 @@ export default function PassageView({
       await Clipboard.setStringAsync(`${text}\n\n\u2014 ${passage.reference}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  }, [passage]);
+
+  const handleShare = useCallback(async () => {
+    if (!passage) return;
+    try {
+      const text =
+        passage.verses && passage.verses.length > 0
+          ? passage.verses.map((v) => `${v.number} ${v.text}`).join('\n')
+          : passage.text;
+      await Clipboard.setStringAsync(`${text}\n\n\u2014 ${passage.reference}`);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
     } catch {
       /* ignore */
     }
@@ -296,6 +312,24 @@ export default function PassageView({
               }`}
             >
               {copied ? t('bible.copied') : t('bible.copy')}
+            </Text>
+          </Pressable>
+
+          {/* Share */}
+          <Pressable
+            onPress={handleShare}
+            accessibilityRole="button"
+            accessibilityLabel={t('bible.sharePassage')}
+            className="flex-row items-center px-2.5 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg active:opacity-70"
+          >
+            <Text
+              className={`text-xs ${
+                shared
+                  ? 'text-green-600 dark:text-green-400'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              {shared ? t('bible.copied') : t('bible.sharePassage')}
             </Text>
           </Pressable>
 

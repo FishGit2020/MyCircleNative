@@ -10,6 +10,11 @@ const SUGGESTION_KEYS = [
   'ai.suggestFlashcard',
   'ai.suggestBible',
   'ai.suggestPodcast',
+  'ai.suggestNote',
+  'ai.suggestWorkEntry',
+  'ai.suggestBaby',
+  'ai.suggestImmigration',
+  'ai.suggestChildDev',
 ] as const;
 
 interface SuggestedPromptsProps {

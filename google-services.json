@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "441498720264",
+    "project_id": "mycircle-dash",
+    "storage_bucket": "mycircle-dash.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441498720264:android:e291cc7eadece8918c59bd",
+        "android_client_info": {
+          "package_name": "com.mycircle.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441498720264-ofoac5u80ru2bujilianunkparptg9ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2xvvBg_AT-fH3fYY4IXf5bKG_6vkdB1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441498720264-ofoac5u80ru2bujilianunkparptg9ne.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "441498720264-1v7ee4qetht8fh8entdeptf4g4u3ep6f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycircle.native"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

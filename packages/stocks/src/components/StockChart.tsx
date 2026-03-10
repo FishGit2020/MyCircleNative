@@ -18,6 +18,7 @@ interface StockChartProps {
   symbol: string;
   currentPrice?: number;
   previousClose?: number;
+  embedded?: boolean;
 }
 
 type Timeframe = '1D' | '1W' | '1M' | '3M' | '1Y';
@@ -26,7 +27,7 @@ type ChartMode = 'line' | 'area';
 const CHART_HEIGHT = 200;
 const PADDING = { top: 20, right: 50, bottom: 30, left: 10 };
 
-export default function StockChart({ data, symbol, currentPrice, previousClose }: StockChartProps) {
+export default function StockChart({ data, symbol, currentPrice, previousClose, embedded }: StockChartProps) {
   const { t } = useTranslation();
   const [mode, setMode] = useState<ChartMode>('area');
   const screenWidth = Dimensions.get('window').width - 32; // px-4 padding
@@ -70,29 +71,52 @@ export default function StockChart({ data, symbol, currentPrice, previousClose }
     );
   }
 
-  return (
-    <View className="bg-white dark:bg-gray-800 rounded-xl p-4 mb-4 shadow-sm">
-      {/* Chart Header */}
-      <View className="flex-row items-center justify-between mb-3">
-        <Text className="text-base font-semibold text-gray-900 dark:text-white">
-          {t('stocks.chart')}
-        </Text>
-        <View className="flex-row gap-1">
-          {(['line', 'area'] as ChartMode[]).map((m) => (
-            <Pressable
-              key={m}
-              className={`px-2 py-1 rounded ${mode === m ? 'bg-blue-100 dark:bg-blue-900/30' : ''}`}
-              onPress={() => setMode(m)}
-              accessibilityRole="button"
-              accessibilityLabel={m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
-            >
-              <Text className={`text-xs ${mode === m ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
-                {m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
-              </Text>
-            </Pressable>
-          ))}
+  const chartContent = (
+    <>
+      {/* Chart Header — hidden when embedded (parent provides header) */}
+      {!embedded && (
+        <View className="flex-row items-center justify-between mb-3">
+          <Text className="text-base font-semibold text-gray-900 dark:text-white">
+            {t('stocks.chart')}
+          </Text>
+          <View className="flex-row gap-1">
+            {(['line', 'area'] as ChartMode[]).map((m) => (
+              <Pressable
+                key={m}
+                className={`px-2 py-1 rounded ${mode === m ? 'bg-blue-100 dark:bg-blue-900/30' : ''}`}
+                onPress={() => setMode(m)}
+                accessibilityRole="button"
+                accessibilityLabel={m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
+              >
+                <Text className={`text-xs ${mode === m ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
         </View>
-      </View>
+      )}
+
+      {/* Chart mode toggle when embedded */}
+      {embedded && (
+        <View className="flex-row justify-end px-4 pb-2">
+          <View className="flex-row gap-1">
+            {(['line', 'area'] as ChartMode[]).map((m) => (
+              <Pressable
+                key={m}
+                className={`px-2 py-1 rounded ${mode === m ? 'bg-blue-100 dark:bg-blue-900/30' : ''}`}
+                onPress={() => setMode(m)}
+                accessibilityRole="button"
+                accessibilityLabel={m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
+              >
+                <Text className={`text-xs ${mode === m ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-500 dark:text-gray-400'}`}>
+                  {m === 'line' ? t('stocks.chartLine') : t('stocks.chartArea')}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
 
       {/* SVG Chart */}
       <Svg width={screenWidth} height={CHART_HEIGHT + PADDING.top + PADDING.bottom}>
@@ -141,6 +165,16 @@ export default function StockChart({ data, symbol, currentPrice, previousClose }
           </SvgText>
         ))}
       </Svg>
+    </>
+  );
+
+  if (embedded) {
+    return <View className="pb-2">{chartContent}</View>;
+  }
+
+  return (
+    <View className="bg-white dark:bg-gray-800 rounded-xl p-4 mb-4 shadow-sm">
+      {chartContent}
     </View>
   );
 }

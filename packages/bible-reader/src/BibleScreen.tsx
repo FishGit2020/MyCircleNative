@@ -132,7 +132,7 @@ export default function BibleScreen() {
       showsVerticalScrollIndicator={false}
     >
       {/* Verse of the Day */}
-      <VerseOfDay />
+      <VerseOfDay onReadChapter={handleDevotionalRead} />
 
       {/* Daily Devotional */}
       <View className="mt-4">

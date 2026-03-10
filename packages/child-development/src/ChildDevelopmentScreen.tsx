@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   Platform,
+  Alert,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useQuery } from '@apollo/client';
@@ -19,15 +20,93 @@ import {
   GET_BIBLE_PASSAGE,
 } from '@mycircle/shared';
 import { getAgeRangeForMonths } from './data/milestones';
+import { getAgeRangeForMonths as getYouthAgeRange } from './data/youthMilestones';
 import { parentingVerses } from './data/parentingVerses';
-import { TimelineView } from './components';
+import { TimelineView, YouthTimeline } from './components';
 
-/* --- Verse Section --- */
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface ChildProfile {
+  id: string;
+  name: string;
+  birthDate: string;
+}
+
+type StageTab = 'toddler' | 'middleChildhood' | 'teens';
+
+const MIDDLE_CHILDHOOD_IDS = new Set(['6-8y', '9-11y']);
+const TEEN_IDS = new Set(['12-14y', '15-17y']);
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function loadChildren(): ChildProfile[] {
+  try {
+    const raw = safeGetItem(StorageKeys.CHILDREN_LIST);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {
+    // ignore
+  }
+  // Migrate legacy single-child data
+  const legacyName = safeGetItem(StorageKeys.CHILD_NAME);
+  const legacyDate = safeGetItem(StorageKeys.CHILD_BIRTH_DATE);
+  if (legacyName && legacyDate) {
+    const child: ChildProfile = { id: generateId(), name: legacyName, birthDate: legacyDate };
+    safeSetItem(StorageKeys.CHILDREN_LIST, JSON.stringify([child]));
+    return [child];
+  }
+  return [];
+}
+
+function saveChildren(children: ChildProfile[]): void {
+  safeSetItem(StorageKeys.CHILDREN_LIST, JSON.stringify(children));
+  eventBus.publish(AppEvents.CHILDREN_LIST_CHANGED);
+}
+
+function loadCheckedMilestones(childId: string): Set<string> {
+  try {
+    const raw = safeGetItem(StorageKeys.CHECKED_MILESTONES);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed[childId] && Array.isArray(parsed[childId])) {
+        return new Set(parsed[childId]);
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return new Set();
+}
+
+function saveCheckedMilestones(childId: string, milestones: Set<string>): void {
+  let all: Record<string, string[]> = {};
+  try {
+    const raw = safeGetItem(StorageKeys.CHECKED_MILESTONES);
+    if (raw) all = JSON.parse(raw);
+  } catch {
+    // ignore
+  }
+  all[childId] = Array.from(milestones);
+  safeSetItem(StorageKeys.CHECKED_MILESTONES, JSON.stringify(all));
+}
+
+// ---------------------------------------------------------------------------
+// Verse Section
+// ---------------------------------------------------------------------------
 
 function VerseSection() {
   const { t } = useTranslation();
 
-  // Day-of-year based verse selection
   const getDayOfYear = (): number => {
     const now = new Date();
     const start = new Date(now.getFullYear(), 0, 0);
@@ -42,7 +121,6 @@ function VerseSection() {
 
   const verse = parentingVerses[verseIndex];
 
-  // Fetch verse text from API
   const { data, loading } = useQuery<{
     biblePassage?: { text?: string };
   }>(GET_BIBLE_PASSAGE, {
@@ -99,73 +177,146 @@ function VerseSection() {
   );
 }
 
-/* --- Main Component --- */
+// ---------------------------------------------------------------------------
+// Child Selector
+// ---------------------------------------------------------------------------
+
+function ChildSelector({
+  children,
+  selectedId,
+  onSelect,
+  onAdd,
+}: {
+  children: ChildProfile[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onAdd: () => void;
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <View className="flex-row flex-wrap gap-2 mb-4" accessibilityLabel={t('children.selectChild' as any)}>
+      {children.map((child) => {
+        const isSelected = child.id === selectedId;
+        return (
+          <Pressable
+            key={child.id}
+            onPress={() => onSelect(child.id)}
+            accessibilityRole="button"
+            accessibilityLabel={child.name}
+            accessibilityState={{ selected: isSelected }}
+            className={`px-4 py-2 rounded-full min-h-[44px] items-center justify-center ${
+              isSelected
+                ? 'bg-blue-600 dark:bg-blue-500'
+                : 'bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
+            }`}
+          >
+            <Text
+              className={`text-sm font-medium ${
+                isSelected
+                  ? 'text-white'
+                  : 'text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              {child.name}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <Pressable
+        onPress={onAdd}
+        accessibilityRole="button"
+        accessibilityLabel={t('children.addChild' as any)}
+        className="px-4 py-2 rounded-full min-h-[44px] items-center justify-center border border-dashed border-gray-300 dark:border-gray-600"
+      >
+        <Text className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          + {t('children.add' as any)}
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Main Component
+// ---------------------------------------------------------------------------
 
 export default function ChildDevelopmentScreen() {
   const { t } = useTranslation();
 
-  // State
-  const [childName, setChildName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  // Multi-child state
+  const [children, setChildren] = useState<ChildProfile[]>(() => loadChildren());
+  const [selectedId, setSelectedId] = useState<string | null>(
+    () => children.length > 0 ? children[0].id : null,
+  );
+  const [isAdding, setIsAdding] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [inputName, setInputName] = useState('');
   const [inputBirthDate, setInputBirthDate] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [stageTab, setStageTab] = useState<StageTab | null>(null);
 
-  // Load from AsyncStorage (via sync cache) on mount
-  useEffect(() => {
-    const storedName = safeGetItem(StorageKeys.CHILD_NAME);
-    const storedDate = safeGetItem(StorageKeys.CHILD_BIRTH_DATE);
-    if (storedName) {
-      setChildName(storedName);
-      setInputName(storedName);
-    }
-    if (storedDate) {
-      // In RN we store plain date strings (no btoa/atob)
-      setBirthDate(storedDate);
-      setInputBirthDate(storedDate);
-    }
-  }, []);
+  // Checked milestones per child
+  const [checkedMilestones, setCheckedMilestones] = useState<Set<string>>(
+    () => selectedId ? loadCheckedMilestones(selectedId) : new Set(),
+  );
 
-  // Listen for external changes (Firestore sync)
+  const selectedChild = useMemo(
+    () => children.find((c) => c.id === selectedId) ?? null,
+    [children, selectedId],
+  );
+
+  // Reload checked milestones when child changes
   useEffect(() => {
-    const unsub = eventBus.subscribe(AppEvents.CHILD_DATA_CHANGED, () => {
-      const storedName = safeGetItem(StorageKeys.CHILD_NAME);
-      const storedDate = safeGetItem(StorageKeys.CHILD_BIRTH_DATE);
-      if (storedName) {
-        setChildName(storedName);
-        setInputName(storedName);
-      } else {
-        setChildName('');
-        setInputName('');
-      }
-      if (storedDate) {
-        setBirthDate(storedDate);
-        setInputBirthDate(storedDate);
-      } else {
-        setBirthDate('');
-        setInputBirthDate('');
+    if (selectedId) {
+      setCheckedMilestones(loadCheckedMilestones(selectedId));
+    } else {
+      setCheckedMilestones(new Set());
+    }
+  }, [selectedId]);
+
+  // Listen for external changes
+  useEffect(() => {
+    const unsub = eventBus.subscribe(AppEvents.CHILDREN_LIST_CHANGED, () => {
+      const loaded = loadChildren();
+      setChildren(loaded);
+      if (loaded.length > 0 && !loaded.find((c) => c.id === selectedId)) {
+        setSelectedId(loaded[0].id);
       }
     });
     return unsub;
-  }, []);
+  }, [selectedId]);
 
   // Computed
   const ageInMonths = useMemo(() => {
-    if (!birthDate) return null;
-    const birth = new Date(birthDate + 'T00:00:00');
+    if (!selectedChild) return null;
+    const birth = new Date(selectedChild.birthDate + 'T00:00:00');
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const months =
       (today.getFullYear() - birth.getFullYear()) * 12 +
       (today.getMonth() - birth.getMonth());
     return Math.max(0, months);
-  }, [birthDate]);
+  }, [selectedChild]);
 
   const currentAgeRange = useMemo(() => {
     if (ageInMonths === null) return null;
     return getAgeRangeForMonths(ageInMonths) || null;
   }, [ageInMonths]);
+
+  const youthAgeRange = useMemo(() => {
+    if (ageInMonths === null) return null;
+    return getYouthAgeRange(ageInMonths);
+  }, [ageInMonths]);
+
+  // Auto-select stage tab based on child age
+  const activeStageTab: StageTab = useMemo(() => {
+    if (stageTab) return stageTab;
+    if (ageInMonths === null) return 'toddler';
+    if (ageInMonths >= 144) return 'teens';
+    if (ageInMonths >= 72) return 'middleChildhood';
+    return 'toddler';
+  }, [stageTab, ageInMonths]);
 
   const ageDisplay = useMemo(() => {
     if (ageInMonths === null) return '';
@@ -182,7 +333,6 @@ export default function ChildDevelopmentScreen() {
       .replace('{months}', String(months));
   }, [ageInMonths, t]);
 
-  // Format date for display (YYYY-MM-DD -> locale-friendly)
   const formatDateDisplay = useCallback((dateStr: string): string => {
     if (!dateStr) return '';
     try {
@@ -193,22 +343,84 @@ export default function ChildDevelopmentScreen() {
     }
   }, []);
 
-  // Actions
-  const saveChild = useCallback(() => {
+  // Toggle milestone
+  const toggleMilestone = useCallback(
+    (milestoneId: string) => {
+      if (!selectedId) return;
+      setCheckedMilestones((prev) => {
+        const next = new Set(prev);
+        if (next.has(milestoneId)) next.delete(milestoneId);
+        else next.add(milestoneId);
+        saveCheckedMilestones(selectedId, next);
+        return next;
+      });
+    },
+    [selectedId],
+  );
+
+  // Add child
+  const addChild = useCallback(() => {
     if (!inputName.trim() || !inputBirthDate) return;
-    // Store plain date strings (no btoa in RN)
-    safeSetItem(StorageKeys.CHILD_NAME, inputName.trim());
-    safeSetItem(StorageKeys.CHILD_BIRTH_DATE, inputBirthDate);
-    setChildName(inputName.trim());
-    setBirthDate(inputBirthDate);
+    const newChild: ChildProfile = {
+      id: generateId(),
+      name: inputName.trim(),
+      birthDate: inputBirthDate,
+    };
+    const updated = [...children, newChild];
+    setChildren(updated);
+    saveChildren(updated);
+    setSelectedId(newChild.id);
+    setInputName('');
+    setInputBirthDate('');
+    setIsAdding(false);
+  }, [inputName, inputBirthDate, children]);
+
+  // Save edit
+  const saveEdit = useCallback(() => {
+    if (!selectedChild || !inputName.trim() || !inputBirthDate) return;
+    const updated = children.map((c) =>
+      c.id === selectedChild.id
+        ? { ...c, name: inputName.trim(), birthDate: inputBirthDate }
+        : c,
+    );
+    setChildren(updated);
+    saveChildren(updated);
     setIsEditing(false);
-    eventBus.publish(AppEvents.CHILD_DATA_CHANGED);
-  }, [inputName, inputBirthDate]);
+  }, [selectedChild, inputName, inputBirthDate, children]);
+
+  // Delete child
+  const deleteChild = useCallback(() => {
+    if (!selectedChild) return;
+    Alert.alert(
+      t('children.deleteChild' as any),
+      t('children.deleteConfirm' as any).replace('{name}', selectedChild.name),
+      [
+        { text: t('children.cancel' as any), style: 'cancel' },
+        {
+          text: t('children.deleteChild' as any),
+          style: 'destructive',
+          onPress: () => {
+            const updated = children.filter((c) => c.id !== selectedChild.id);
+            setChildren(updated);
+            saveChildren(updated);
+            setSelectedId(updated.length > 0 ? updated[0].id : null);
+          },
+        },
+      ],
+    );
+  }, [selectedChild, children, t]);
+
+  // Start editing
+  const startEditing = useCallback(() => {
+    if (!selectedChild) return;
+    setInputName(selectedChild.name);
+    setInputBirthDate(selectedChild.birthDate);
+    setIsEditing(true);
+  }, [selectedChild]);
 
   // Date picker handler
   const onDateChange = useCallback(
     (_event: any, selectedDate?: Date) => {
-      // On Android, the picker dismisses automatically
       if (Platform.OS === 'android') {
         setShowDatePicker(false);
       }
@@ -229,26 +441,20 @@ export default function ChildDevelopmentScreen() {
     return new Date();
   }, [inputBirthDate]);
 
-  // --- Setup View ---
+  // --- Edit Child View ---
 
-  if (!birthDate || isEditing) {
+  if (isEditing && selectedChild) {
     return (
       <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="max-w-md mx-auto px-4 py-6">
           <View className="items-center mb-8">
             <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">
-              {t('childDev.title' as any)}
-            </Text>
-            <Text className="text-gray-600 dark:text-gray-400 text-center">
-              {t('childDev.subtitle' as any)}
+              {t('children.editChild' as any)}
             </Text>
           </View>
 
-          <VerseSection />
-
           <View className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
             <View className="gap-4">
-              {/* Child Name */}
               <View>
                 <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {t('childDev.childName' as any)}
@@ -263,7 +469,6 @@ export default function ChildDevelopmentScreen() {
                 />
               </View>
 
-              {/* Birth Date */}
               <View>
                 <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {t('childDev.birthDate' as any)}
@@ -275,11 +480,11 @@ export default function ChildDevelopmentScreen() {
                   className="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 min-h-[44px] justify-center"
                 >
                   <Text
-                    className={`${
+                    className={
                       inputBirthDate
                         ? 'text-gray-900 dark:text-white'
                         : 'text-gray-400 dark:text-gray-500'
-                    }`}
+                    }
                   >
                     {inputBirthDate
                       ? formatDateDisplay(inputBirthDate)
@@ -300,11 +505,11 @@ export default function ChildDevelopmentScreen() {
                       <Pressable
                         onPress={() => setShowDatePicker(false)}
                         accessibilityRole="button"
-                        accessibilityLabel={t('childDev.saveChild' as any)}
+                        accessibilityLabel={t('children.save' as any)}
                         className="mt-2 py-2 items-center min-h-[44px] justify-center"
                       >
                         <Text className="text-blue-600 dark:text-blue-400 font-medium">
-                          {t('childDev.saveChild' as any)}
+                          {t('children.save' as any)}
                         </Text>
                       </Pressable>
                     )}
@@ -312,28 +517,158 @@ export default function ChildDevelopmentScreen() {
                 )}
               </View>
 
-              {/* Save button */}
-              <Pressable
-                onPress={saveChild}
-                disabled={!inputName.trim() || !inputBirthDate}
-                accessibilityRole="button"
-                accessibilityLabel={
-                  isEditing
-                    ? t('childDev.saveChild' as any)
-                    : t('childDev.getStarted' as any)
-                }
-                className={`w-full py-3 px-4 rounded-lg min-h-[44px] items-center justify-center ${
-                  !inputName.trim() || !inputBirthDate
-                    ? 'bg-gray-300 dark:bg-gray-600'
-                    : 'bg-blue-600'
-                }`}
-              >
-                <Text className="text-white font-medium">
-                  {isEditing
-                    ? t('childDev.saveChild' as any)
-                    : t('childDev.getStarted' as any)}
+              <View className="flex-row gap-2">
+                <Pressable
+                  onPress={saveEdit}
+                  disabled={!inputName.trim() || !inputBirthDate}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.save' as any)}
+                  className={`flex-1 py-3 px-4 rounded-lg min-h-[44px] items-center justify-center ${
+                    !inputName.trim() || !inputBirthDate
+                      ? 'bg-gray-300 dark:bg-gray-600'
+                      : 'bg-blue-600 dark:bg-blue-500'
+                  }`}
+                >
+                  <Text className="text-white font-medium">
+                    {t('children.save' as any)}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setIsEditing(false)}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.cancel' as any)}
+                  className="py-3 px-4 bg-gray-200 dark:bg-gray-600 rounded-lg min-h-[44px] items-center justify-center"
+                >
+                  <Text className="font-medium text-gray-700 dark:text-gray-200">
+                    {t('children.cancel' as any)}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  // --- Add Child View ---
+
+  if (children.length === 0 || isAdding) {
+    return (
+      <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900">
+        <View className="max-w-md mx-auto px-4 py-6">
+          <View className="items-center mb-8">
+            <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">
+              {isAdding ? t('children.addChild' as any) : t('childDev.title' as any)}
+            </Text>
+            {!isAdding && (
+              <Text className="text-gray-600 dark:text-gray-400 text-center">
+                {t('childDev.subtitle' as any)}
+              </Text>
+            )}
+          </View>
+
+          <VerseSection />
+
+          <View className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <View className="gap-4">
+              <View>
+                <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {t('childDev.childName' as any)}
                 </Text>
-              </Pressable>
+                <TextInput
+                  value={inputName}
+                  onChangeText={setInputName}
+                  placeholder={t('childDev.childNamePlaceholder' as any)}
+                  placeholderTextColor="#9CA3AF"
+                  accessibilityLabel={t('childDev.childName' as any)}
+                  className="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </View>
+
+              <View>
+                <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {t('childDev.birthDate' as any)}
+                </Text>
+                <Pressable
+                  onPress={() => setShowDatePicker(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('childDev.birthDate' as any)}
+                  className="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 min-h-[44px] justify-center"
+                >
+                  <Text
+                    className={
+                      inputBirthDate
+                        ? 'text-gray-900 dark:text-white'
+                        : 'text-gray-400 dark:text-gray-500'
+                    }
+                  >
+                    {inputBirthDate
+                      ? formatDateDisplay(inputBirthDate)
+                      : t('childDev.birthDatePlaceholder' as any)}
+                  </Text>
+                </Pressable>
+
+                {showDatePicker && (
+                  <View>
+                    <DateTimePicker
+                      value={datePickerValue}
+                      mode="date"
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      maximumDate={new Date()}
+                      onChange={onDateChange}
+                    />
+                    {Platform.OS === 'ios' && (
+                      <Pressable
+                        onPress={() => setShowDatePicker(false)}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('children.save' as any)}
+                        className="mt-2 py-2 items-center min-h-[44px] justify-center"
+                      >
+                        <Text className="text-blue-600 dark:text-blue-400 font-medium">
+                          {t('children.save' as any)}
+                        </Text>
+                      </Pressable>
+                    )}
+                  </View>
+                )}
+              </View>
+
+              <View className="flex-row gap-2">
+                <Pressable
+                  onPress={addChild}
+                  disabled={!inputName.trim() || !inputBirthDate}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    isAdding
+                      ? t('children.addChild' as any)
+                      : t('childDev.getStarted' as any)
+                  }
+                  className={`flex-1 py-3 px-4 rounded-lg min-h-[44px] items-center justify-center ${
+                    !inputName.trim() || !inputBirthDate
+                      ? 'bg-gray-300 dark:bg-gray-600'
+                      : 'bg-blue-600 dark:bg-blue-500'
+                  }`}
+                >
+                  <Text className="text-white font-medium">
+                    {isAdding
+                      ? t('children.addChild' as any)
+                      : t('childDev.getStarted' as any)}
+                  </Text>
+                </Pressable>
+                {isAdding && (
+                  <Pressable
+                    onPress={() => setIsAdding(false)}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('children.cancel' as any)}
+                    className="py-3 px-4 bg-gray-200 dark:bg-gray-600 rounded-lg min-h-[44px] items-center justify-center"
+                  >
+                    <Text className="font-medium text-gray-700 dark:text-gray-200">
+                      {t('children.cancel' as any)}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
             </View>
           </View>
         </View>
@@ -346,36 +681,121 @@ export default function ChildDevelopmentScreen() {
   return (
     <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900">
       <View className="px-4 py-6">
-        {/* Header */}
-        <View className="flex-row items-center justify-between gap-2 mb-4">
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-gray-800 dark:text-white">
-              {childName}
-            </Text>
-            <Text className="text-gray-600 dark:text-gray-400 text-sm">
-              {ageDisplay}
-            </Text>
-          </View>
-          <Pressable
-            onPress={() => setIsEditing(true)}
-            accessibilityRole="button"
-            accessibilityLabel={t('childDev.editChild' as any)}
-            className="px-3 py-2 min-h-[44px] min-w-[44px] items-center justify-center"
-          >
-            <Text className="text-sm text-blue-600 dark:text-blue-400">
-              {t('childDev.editChild' as any)}
-            </Text>
-          </Pressable>
-        </View>
-
-        {/* Verse */}
-        <VerseSection />
-
-        {/* Timeline */}
-        <TimelineView
-          ageInMonths={ageInMonths}
-          currentAgeRange={currentAgeRange}
+        {/* Child Selector */}
+        <ChildSelector
+          children={children}
+          selectedId={selectedId}
+          onSelect={(id) => {
+            setSelectedId(id);
+            setStageTab(null);
+          }}
+          onAdd={() => {
+            setInputName('');
+            setInputBirthDate('');
+            setIsAdding(true);
+          }}
         />
+
+        {/* Header */}
+        {selectedChild && (
+          <>
+            <View className="flex-row items-center justify-between gap-2 mb-4">
+              <View className="flex-1">
+                <Text className="text-2xl font-bold text-gray-800 dark:text-white">
+                  {selectedChild.name}
+                </Text>
+                <Text className="text-gray-600 dark:text-gray-400 text-sm">
+                  {ageDisplay}
+                </Text>
+              </View>
+              <View className="flex-row gap-1">
+                <Pressable
+                  onPress={startEditing}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.editChild' as any)}
+                  className="px-3 py-2 min-h-[44px] min-w-[44px] items-center justify-center"
+                >
+                  <Text className="text-sm text-blue-600 dark:text-blue-400">
+                    {t('children.editChild' as any)}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={deleteChild}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.deleteChild' as any)}
+                  className="px-3 py-2 min-h-[44px] min-w-[44px] items-center justify-center"
+                >
+                  <Text className="text-sm text-red-600 dark:text-red-400">
+                    {t('children.deleteChild' as any)}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+
+            {/* Verse */}
+            <VerseSection />
+
+            {/* CDC-aligned stage tabs */}
+            <View className="flex-row border-b border-gray-200 dark:border-gray-700 mb-4">
+              {([
+                { id: 'toddler' as StageTab, labelKey: 'childDev.tabToddler', ages: '0\u20135' },
+                { id: 'middleChildhood' as StageTab, labelKey: 'childDev.tabMiddleChildhood', ages: '6\u201311' },
+                { id: 'teens' as StageTab, labelKey: 'childDev.tabTeens', ages: '12\u201317' },
+              ]).map((tab) => {
+                const isActive = activeStageTab === tab.id;
+                return (
+                  <Pressable
+                    key={tab.id}
+                    onPress={() => setStageTab(tab.id)}
+                    accessibilityRole="tab"
+                    accessibilityState={{ selected: isActive }}
+                    accessibilityLabel={t(tab.labelKey as any)}
+                    className={`px-3 py-2.5 min-h-[44px] justify-center border-b-2 ${
+                      isActive
+                        ? 'border-blue-500'
+                        : 'border-transparent'
+                    }`}
+                  >
+                    <Text
+                      className={`text-sm font-medium ${
+                        isActive
+                          ? 'text-blue-600 dark:text-blue-400'
+                          : 'text-gray-500 dark:text-gray-400'
+                      }`}
+                    >
+                      {t(tab.labelKey as any)}
+                    </Text>
+                    <Text className="text-xs text-gray-400 dark:text-gray-500">
+                      ({tab.ages})
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+
+            {/* Content based on active CDC stage */}
+            {activeStageTab === 'toddler' ? (
+              <TimelineView
+                ageInMonths={ageInMonths}
+                currentAgeRange={currentAgeRange}
+                checkedMilestones={checkedMilestones}
+                onToggleMilestone={toggleMilestone}
+              />
+            ) : (
+              <YouthTimeline
+                ageInMonths={ageInMonths}
+                currentAgeRange={youthAgeRange}
+                ageRangeIds={
+                  activeStageTab === 'middleChildhood'
+                    ? MIDDLE_CHILDHOOD_IDS
+                    : TEEN_IDS
+                }
+                checkedMilestones={checkedMilestones}
+                onToggleMilestone={toggleMilestone}
+              />
+            )}
+          </>
+        )}
       </View>
     </ScrollView>
   );

@@ -5,6 +5,7 @@ import {
   useTranslation,
   getDailyVerse,
   getAllDailyVerses,
+  parseVerseReference,
   GET_BIBLE_VOTD_API,
 } from '@mycircle/shared';
 import type { DailyVerse } from '@mycircle/shared';
@@ -24,7 +25,11 @@ function getDayOfYear(): number {
   return Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-export default function VerseOfDay() {
+interface VerseOfDayProps {
+  onReadChapter?: (book: string, chapter: number) => void;
+}
+
+export default function VerseOfDay({ onReadChapter }: VerseOfDayProps) {
   const { t } = useTranslation();
   const [localVerse, setLocalVerse] = useState<DailyVerse>(() => getDailyVerse());
 
@@ -93,6 +98,22 @@ export default function VerseOfDay() {
           {displayCopyright}
         </Text>
       ) : null}
+      {onReadChapter ? (() => {
+        const parsed = parseVerseReference(displayRef);
+        if (!parsed) return null;
+        return (
+          <Pressable
+            onPress={() => onReadChapter(parsed.book, parsed.chapter)}
+            accessibilityRole="button"
+            accessibilityLabel={t('bible.readChapter')}
+            className="mt-2 active:opacity-70"
+          >
+            <Text className="text-xs font-medium text-blue-600 dark:text-blue-400">
+              {t('bible.readChapter')} &#x203a;
+            </Text>
+          </Pressable>
+        );
+      })() : null}
     </View>
   );
 }
