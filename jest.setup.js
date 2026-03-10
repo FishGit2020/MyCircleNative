@@ -180,3 +180,33 @@ jest.mock('react-native-gesture-handler', () => ({
   State: {},
   Directions: {},
 }));
+
+// Mock @sentry/react-native
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+  setUser: jest.fn(),
+  withScope: jest.fn((cb) => cb({ setContext: jest.fn() })),
+}));
+
+// Mock @react-native-firebase/analytics
+jest.mock('@react-native-firebase/analytics', () => {
+  const mockAnalytics = jest.fn(() => ({
+    logEvent: jest.fn().mockResolvedValue(undefined),
+    setUserId: jest.fn().mockResolvedValue(undefined),
+    setUserProperties: jest.fn().mockResolvedValue(undefined),
+  }));
+  return { __esModule: true, default: mockAnalytics };
+});
+
+// Mock @react-native-firebase/messaging
+jest.mock('@react-native-firebase/messaging', () => {
+  const mockMessaging = jest.fn(() => ({
+    getToken: jest.fn().mockResolvedValue('mock-token'),
+    onMessage: jest.fn(() => jest.fn()),
+    requestPermission: jest.fn().mockResolvedValue(1),
+    hasPermission: jest.fn().mockResolvedValue(1),
+  }));
+  return { __esModule: true, default: mockMessaging };
+});
