@@ -1,6 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, Pressable, RefreshControl, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
 import { useImmigrationCases } from './hooks/useImmigrationCases';
@@ -51,7 +49,7 @@ export default function ImmigrationTrackerScreen() {
   }, [cases, refreshCase]);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-4 pt-4 pb-20"
@@ -115,6 +113,6 @@ export default function ImmigrationTrackerScreen() {
           ))
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

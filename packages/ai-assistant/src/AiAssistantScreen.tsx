@@ -7,7 +7,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
+
   Animated,
 } from 'react-native';
 import {
@@ -126,7 +126,7 @@ export default function AiAssistantScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -272,6 +272,6 @@ export default function AiAssistantScreen() {
         {/* Input */}
         <ChatInput onSend={sendMessage} disabled={loading} />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
