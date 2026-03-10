@@ -26,6 +26,7 @@ interface StockCardProps {
   symbol: string;
   companyName: string;
   onRemove?: (symbol: string) => void;
+  onPress?: () => void;
 }
 
 /* ── Chart sub-component ─────────────────────────────────── */
@@ -49,7 +50,7 @@ function StockChartSection({ symbol, currentPrice, previousClose }: { symbol: st
 
 /* ── Component ───────────────────────────────────────────── */
 
-function StockCard({ symbol, companyName, onRemove }: StockCardProps) {
+function StockCard({ symbol, companyName, onRemove, onPress }: StockCardProps) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
 
@@ -62,8 +63,12 @@ function StockCard({ symbol, companyName, onRemove }: StockCardProps) {
   const isPositive = quote ? quote.d >= 0 : true;
 
   const toggleExpanded = useCallback(() => {
-    setExpanded((prev) => !prev);
-  }, []);
+    if (onPress) {
+      onPress();
+    } else {
+      setExpanded((prev) => !prev);
+    }
+  }, [onPress]);
 
   /* ── Loading skeleton ──────────────────────────────────── */
 

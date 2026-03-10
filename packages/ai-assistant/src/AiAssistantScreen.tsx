@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  Animated,
 } from 'react-native';
 import {
   useTranslation,
@@ -19,11 +20,77 @@ import { useAiChat } from './hooks/useAiChat';
 import { ChatMessage, ChatInput, SuggestedPrompts } from './components';
 import AiMonitor from './components/AiMonitor';
 
+/* ── Thinking dots animation ─────────────────────────────── */
+
+function ThinkingIndicator() {
+  const { t } = useTranslation();
+  const dot1 = useRef(new Animated.Value(0)).current;
+  const dot2 = useRef(new Animated.Value(0)).current;
+  const dot3 = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const createBounce = (dot: Animated.Value, delay: number) =>
+      Animated.loop(
+        Animated.sequence([
+          Animated.delay(delay),
+          Animated.timing(dot, {
+            toValue: -6,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(dot, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+      );
+
+    const a1 = createBounce(dot1, 0);
+    const a2 = createBounce(dot2, 150);
+    const a3 = createBounce(dot3, 300);
+    a1.start();
+    a2.start();
+    a3.start();
+
+    return () => {
+      a1.stop();
+      a2.stop();
+      a3.stop();
+    };
+  }, [dot1, dot2, dot3]);
+
+  return (
+    <View
+      className="flex-row justify-start mb-3"
+      accessibilityRole="none"
+      accessibilityLabel={t('ai.thinking')}
+    >
+      <View className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-bl-md px-4 py-3">
+        <View className="flex-row items-center gap-2">
+          <View className="flex-row items-center gap-1">
+            {[dot1, dot2, dot3].map((dot, i) => (
+              <Animated.View
+                key={i}
+                style={{ transform: [{ translateY: dot }] }}
+                className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-500"
+              />
+            ))}
+          </View>
+          <Text className="text-sm text-gray-500 dark:text-gray-400">
+            {t('ai.thinking')}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 /* ── Component ────────────────────────────────────────────── */
 
 export default function AiAssistantScreen() {
   const { t } = useTranslation();
-  const { messages, loading, error, canRetry, sendMessage, clearChat, retry } =
+  const { messages, loading, error, canRetry, sendMessage, clearChat, retry, abort } =
     useAiChat();
 
   const [showMonitor, setShowMonitor] = useState(false);
@@ -159,17 +226,7 @@ export default function AiAssistantScreen() {
             accessibilityLabel={t('ai.chatMessages')}
             accessibilityRole="list"
             ListHeaderComponent={
-              loading ? (
-                <View className="flex-row justify-start mb-3">
-                  <View className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-bl-md px-4 py-3">
-                    <View className="flex-row items-center gap-2">
-                      <Text className="text-sm text-gray-500 dark:text-gray-400">
-                        {'\u2022\u2022\u2022'} {t('ai.thinking')}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              ) : null
+              loading ? <ThinkingIndicator /> : null
             }
           />
         )}
@@ -192,6 +249,23 @@ export default function AiAssistantScreen() {
                 </Text>
               </Pressable>
             )}
+          </View>
+        )}
+
+        {/* Stop button — shown while loading */}
+        {loading && (
+          <View className="items-center mb-2">
+            <Pressable
+              onPress={abort}
+              accessibilityLabel={t('ai.stop')}
+              accessibilityRole="button"
+              className="flex-row items-center gap-1.5 px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+              style={{ minHeight: 44 }}
+            >
+              <Text className="text-sm font-medium text-red-600 dark:text-red-400">
+                {'\u25A0'} {t('ai.stop')}
+              </Text>
+            </Pressable>
           </View>
         )}
 

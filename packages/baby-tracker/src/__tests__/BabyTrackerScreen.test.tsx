@@ -11,9 +11,12 @@ jest.mock('@mycircle/shared', () => ({
   eventBus: { subscribe: jest.fn(() => jest.fn()), publish: jest.fn() },
   StorageKeys: {
     BABY_DUE_DATE: 'babyDueDate',
+    CHILDREN_LIST: 'children-list',
+    CHECKED_MILESTONES: 'checked-milestones',
   },
   AppEvents: {
     BABY_DUE_DATE_CHANGED: 'babyDueDateChanged',
+    CHILDREN_LIST_CHANGED: 'childrenListChanged',
   },
   GET_BIBLE_PASSAGE: 'GET_BIBLE_PASSAGE',
 }));
@@ -53,7 +56,7 @@ describe('BabyTrackerScreen', () => {
     expect(screen.getByText('baby.dueDate')).toBeTruthy();
   });
 
-  it('shows no-due-date message initially when no due date is set', () => {
+  it('shows no-due-date message initially when no children exist', () => {
     render(<BabyTrackerScreen />);
     expect(screen.getByText('baby.noDueDate')).toBeTruthy();
   });
@@ -63,8 +66,8 @@ describe('BabyTrackerScreen', () => {
     expect(screen.getByText('baby.subtitle')).toBeTruthy();
   });
 
-  it('shows the due date placeholder when no date is set', () => {
+  it('shows the add child button when no children exist', () => {
     render(<BabyTrackerScreen />);
-    expect(screen.getByText('baby.dueDatePlaceholder')).toBeTruthy();
+    expect(screen.getByText('children.addChild')).toBeTruthy();
   });
 });

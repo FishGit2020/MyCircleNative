@@ -268,7 +268,24 @@ export function useAiChat() {
     [state.messages, aiChatMutation, handleActions],
   );
 
+  const abort = useCallback(() => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
+    setState((prev) => ({
+      ...prev,
+      loading: false,
+      error: null,
+      lastUserContent: null,
+    }));
+  }, []);
+
   const clearChat = useCallback(() => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
     setState({
       messages: [],
       loading: false,
@@ -303,5 +320,6 @@ export function useAiChat() {
     sendMessage,
     clearChat,
     retry,
+    abort,
   };
 }

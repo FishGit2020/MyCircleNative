@@ -12,9 +12,12 @@ jest.mock('@mycircle/shared', () => ({
   StorageKeys: {
     CHILD_NAME: 'childName',
     CHILD_BIRTH_DATE: 'childBirthDate',
+    CHILDREN_LIST: 'children-list',
+    CHECKED_MILESTONES: 'checked-milestones',
   },
   AppEvents: {
     CHILD_DATA_CHANGED: 'childDataChanged',
+    CHILDREN_LIST_CHANGED: 'childrenListChanged',
   },
   GET_BIBLE_PASSAGE: 'GET_BIBLE_PASSAGE',
 }));
@@ -52,19 +55,23 @@ describe('ChildDevelopmentScreen', () => {
     expect(screen.getByText('childDev.getStarted')).toBeTruthy();
   });
 
-  it('renders timeline when child data exists', () => {
-    // Mock safeGetItem to return stored child data
-    (safeGetItem as jest.Mock).mockImplementation((key: string) => {
-      if (key === 'childName') return 'Emma';
-      if (key === 'childBirthDate') return '2024-06-15';
+  it('renders timeline when child data exists in CHILDREN_LIST', () => {
+    const child = { id: 'test1', name: 'Emma', birthDate: '2024-06-15' };
+    // Must set up mock BEFORE render since loadChildren runs in useState initializer
+    const mockGetItem = safeGetItem as jest.Mock;
+    mockGetItem.mockImplementation((key: string) => {
+      if (key === 'children-list') return JSON.stringify([child]);
       return null;
     });
 
-    render(<ChildDevelopmentScreen />);
+    const { unmount } = render(<ChildDevelopmentScreen />);
 
-    // Should show the child's name
-    expect(screen.getByText('Emma')).toBeTruthy();
-    // Should show the edit button
-    expect(screen.getByText('childDev.editChild')).toBeTruthy();
+    // Should show the child's name in the main view (appears in selector and header)
+    expect(screen.getAllByText('Emma').length).toBeGreaterThanOrEqual(1);
+    // Should show the edit and delete buttons
+    expect(screen.getByText('children.editChild')).toBeTruthy();
+    expect(screen.getByText('children.deleteChild')).toBeTruthy();
+
+    unmount();
   });
 });

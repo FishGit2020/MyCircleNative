@@ -42,6 +42,7 @@ export {
   getDailyVerse,
   getDailyDevotional,
   getAllDailyVerses,
+  parseVerseReference,
   fuzzySearchCities,
 } from './utils';
 

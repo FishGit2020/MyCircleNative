@@ -25,6 +25,7 @@ jest.mock('../hooks/useAiChat', () => ({
     sendMessage: jest.fn(),
     clearChat: jest.fn(),
     retry: jest.fn(),
+    abort: jest.fn(),
   })),
 }));
 

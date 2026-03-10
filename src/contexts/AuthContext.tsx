@@ -510,7 +510,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await auth().signOut();
 
       // Clear user-specific AsyncStorage keys, preserving device-level preferences
-      const keysToPreserve = new Set([
+      const keysToPreserve = new Set<string>([
         StorageKeys.THEME,
         StorageKeys.LOCALE,
         StorageKeys.WEATHER_ALERTS,
