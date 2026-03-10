@@ -20,7 +20,14 @@
       "@mycircle/city-search": ["./packages/city-search/src"],
       "@mycircle/cloud-files": ["./packages/cloud-files/src"],
       "@mycircle/immigration-tracker": ["./packages/immigration-tracker/src"],
-      "@mycircle/model-benchmark": ["./packages/model-benchmark/src"]
+      "@mycircle/model-benchmark": ["./packages/model-benchmark/src"],
+      "@mycircle/radio-station": ["./packages/radio-station/src"],
+      "@mycircle/poll-system": ["./packages/poll-system/src"],
+      "@mycircle/trip-planner": ["./packages/trip-planner/src"],
+      "@mycircle/digital-library": ["./packages/digital-library/src"],
+      "@mycircle/family-games": ["./packages/family-games/src"],
+      "@mycircle/doc-scanner": ["./packages/doc-scanner/src"],
+      "@mycircle/hiking-map": ["./packages/hiking-map/src"]
     }
   },
   "include": [
