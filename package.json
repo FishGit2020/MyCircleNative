@@ -34,7 +34,7 @@
     "@react-native-firebase/app-check": "^23.8.6",
     "@react-native-firebase/messaging": "^23.8.6",
     "@react-native-google-signin/google-signin": "^16.1.2",
-    "@sentry/react-native": "~7.2.0",
+    "@sentry/react-native": "~8.3.0",
     "@shopify/react-native-skia": "2.2.12",
     "expo": "~54.0.0",
     "expo-av": "~16.0.8",
