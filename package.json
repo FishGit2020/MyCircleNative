@@ -21,6 +21,7 @@
     "build:preview": "eas build --profile preview --platform android",
     "build:prod": "eas build --profile production --platform android",
     "submit:android": "eas submit --platform android",
+    "codegen": "graphql-codegen --config codegen.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -71,6 +72,9 @@
   "devDependencies": {
     "@babel/core": "^7.25.0",
     "@eslint/js": "^10.0.1",
+    "@graphql-codegen/cli": "^6.1.3",
+    "@graphql-codegen/typescript": "^5.0.9",
+    "@graphql-codegen/typescript-operations": "^5.0.9",
     "@react-native-firebase/app": "^23.8.6",
     "@react-native-firebase/auth": "^23.8.6",
     "@react-native-firebase/firestore": "^23.8.6",
