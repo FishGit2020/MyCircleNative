@@ -1,7 +1,10 @@
 import '../global.css';
 
 import { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, LogBox } from 'react-native';
+
+// Suppress NativeWind CSS interop navigation context warning (known v4 bug)
+LogBox.ignoreLogs(["Couldn't find a navigation context"]);
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
