@@ -91,7 +91,7 @@ A native iOS app built with **React Native + Expo**, replicating all features fr
 - 3D flip animation via react-native-reanimated
 - Spaced repetition tracking
 
-### Work Tracker
+### Daily Log
 - Daily work log entries
 - Timeline visualization
 - Firestore real-time sync
@@ -129,7 +129,7 @@ MyCircleNative/
 │   ├── baby-tracker/             # Baby tracker components
 │   ├── child-development/        # Child dev components
 │   ├── flashcards/               # Flashcard components
-│   ├── work-tracker/             # Work tracker components
+│   ├── daily-log/                # Daily log components
 │   └── city-search/              # City search components
 ├── src/
 │   ├── components/               # Shared UI components

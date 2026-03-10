@@ -16,7 +16,7 @@
       "@mycircle/baby-tracker": ["./packages/baby-tracker/src"],
       "@mycircle/child-development": ["./packages/child-development/src"],
       "@mycircle/flashcards": ["./packages/flashcards/src"],
-      "@mycircle/work-tracker": ["./packages/work-tracker/src"],
+      "@mycircle/daily-log": ["./packages/daily-log/src"],
       "@mycircle/city-search": ["./packages/city-search/src"],
       "@mycircle/cloud-files": ["./packages/cloud-files/src"],
       "@mycircle/immigration-tracker": ["./packages/immigration-tracker/src"],

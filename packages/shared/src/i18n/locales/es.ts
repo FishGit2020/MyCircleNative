@@ -1336,35 +1336,6 @@ const es: Record<TranslationKey, string> = {
   'flashcards.publishConfirm': '\u00bfPublicar esta tarjeta en la colecci\u00f3n compartida?',
   'flashcards.loading': 'Cargando...',
 
-  // Work Tracker
-  'nav.workTracker': 'Registro de Trabajo',
-  'bottomNav.workTracker': 'Trabajo',
-  'dashboard.workTracker': 'Registro de Trabajo',
-  'home.quickWorkTrackerDesc': 'Registra tus actividades de trabajo diarias',
-  'commandPalette.goToWorkTracker': 'Ir a Registro de Trabajo',
-  'shortcuts.goWorkTracker': 'Ir a Registro de Trabajo',
-  'widgets.workTracker': 'Registro de Trabajo',
-  'widgets.workTrackerDesc': 'Registro diario de actividades',
-  'widgets.workTrackerEntries': '{count} entradas este mes',
-  'widgets.noWorkEntries': 'Sin entradas de trabajo a\u00fan',
-  'workTracker.title': 'Registro de Trabajo',
-  'workTracker.subtitle': 'Registra tus actividades de trabajo diarias',
-  'workTracker.addEntry': 'Agregar Entrada',
-  'workTracker.placeholder': '\u00bfEn qu\u00e9 trabajaste?',
-  'workTracker.save': 'Guardar',
-  'workTracker.cancel': 'Cancelar',
-  'workTracker.delete': 'Eliminar',
-  'workTracker.deleteConfirm': '\u00bfEliminar esta entrada? No se puede deshacer.',
-  'workTracker.edit': 'Editar',
-  'workTracker.noEntries': 'Sin entradas a\u00fan. \u00a1Agrega tu primer registro de trabajo!',
-  'workTracker.signInRequired': 'Inicia sesi\u00f3n para registrar tu trabajo',
-  'workTracker.timeline': 'L\u00ednea de Tiempo',
-  'workTracker.today': 'Hoy',
-  'workTracker.yesterday': 'Ayer',
-  'workTracker.thisMonth': 'Este Mes',
-  'workTracker.allTime': 'Todo',
-  'workTracker.entriesCount': '{count} entradas',
-  'workTracker.loading': 'Cargando entradas...',
 
   // Cloud Files
   'cloudFiles.title': 'Archivos en la Nube',
@@ -2556,6 +2527,10 @@ const es: Record<TranslationKey, string> = {
   'recycleBin.type.worship': 'Canci\u00f3n de adoraci\u00f3n',
   'recycleBin.personalSection': 'Personal',
   'recycleBin.publicSection': 'Compartido / P\u00fablico',
+  'recycleBin.subtitle': 'Restaurar o eliminar elementos permanentemente',
+  'whatsNew.subtitle': '\u00daltimas actualizaciones y funciones',
+  'privacy.subtitle': 'C\u00f3mo manejamos sus datos',
+  'terms.subtitle': 'Reglas para usar MyCircle',
 };
 
 export default es;

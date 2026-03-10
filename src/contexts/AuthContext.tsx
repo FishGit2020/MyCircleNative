@@ -529,7 +529,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       eventBus.publish(WindowEvents.NOTEBOOK_CHANGED);
       eventBus.publish(WindowEvents.BIBLE_BOOKMARKS_CHANGED);
       eventBus.publish(WindowEvents.FLASHCARD_PROGRESS_CHANGED);
-      eventBus.publish(WindowEvents.WORK_TRACKER_CHANGED);
+      eventBus.publish(WindowEvents.DAILY_LOG_CHANGED);
       eventBus.publish(WindowEvents.CHILD_DATA_CHANGED);
       eventBus.publish(WindowEvents.BABY_DUE_DATE_CHANGED);
       eventBus.publish(WindowEvents.UNITS_CHANGED);

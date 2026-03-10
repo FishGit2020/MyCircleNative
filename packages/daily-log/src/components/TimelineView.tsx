@@ -29,7 +29,7 @@ export default function TimelineView({ entries, onUpdate, onDelete }: TimelineVi
   if (entries.length === 0) {
     return (
       <Text className="text-center text-gray-500 dark:text-gray-400 py-8">
-        {t('workTracker.noEntries')}
+        {t('dailyLog.noEntries')}
       </Text>
     );
   }
