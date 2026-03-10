@@ -82,7 +82,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "your-eas-project-id"
+        "projectId": "3e4a0b03-3d55-4d3d-90b0-d45e07df6f4a"
       },
       "graphqlEndpoint": "https://mycircle-graphql.onrender.com/graphql"
     },
