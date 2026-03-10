@@ -1,16 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Modal, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  interpolate,
-} from 'react-native-reanimated';
 import { useTranslation } from '@mycircle/shared';
 import type { FlashCard } from '../types';
 import type { ChineseCharacter } from '../data/characters';
 import PracticeCanvas from './PracticeCanvas';
+import FlipCard from './FlipCard';
 
 interface CardPracticeProps {
   cards: FlashCard[];
@@ -55,32 +50,17 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showWritingPractice, setShowWritingPractice] = useState(false);
-  const rotation = useSharedValue(0);
 
   const card = cards[currentIndex];
   const isMastered = card ? masteredIds.includes(card.id) : false;
-  const screenWidth = Dimensions.get('window').width;
 
   const flip = useCallback(() => {
-    const newFlipped = !isFlipped;
-    setIsFlipped(newFlipped);
-    rotation.value = withTiming(newFlipped ? 180 : 0, { duration: 400 });
-  }, [isFlipped, rotation]);
+    setIsFlipped(prev => !prev);
+  }, []);
 
   const resetFlip = useCallback(() => {
     setIsFlipped(false);
-    rotation.value = withTiming(0, { duration: 0 });
-  }, [rotation]);
-
-  const frontAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotateY: `${interpolate(rotation.value, [0, 180], [0, 180])}deg` }],
-    backfaceVisibility: 'hidden' as const,
-  }));
-
-  const backAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotateY: `${interpolate(rotation.value, [0, 180], [180, 360])}deg` }],
-    backfaceVisibility: 'hidden' as const,
-  }));
+  }, []);
 
   const goNext = useCallback(() => {
     if (currentIndex < cards.length - 1) {
@@ -167,45 +147,14 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
         </View>
 
         {/* Flip card */}
-        <TouchableOpacity
-          onPress={flip}
-          activeOpacity={0.9}
-          className="flex-1 justify-center items-center px-4"
-          accessibilityLabel={t('flashcards.tapToFlip')}
-          accessibilityRole="button"
-        >
-          <View style={{ width: screenWidth - 48, height: 240 }}>
-            {/* Front face */}
-            <Animated.View
-              style={[
-                frontAnimatedStyle,
-                {
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                },
-              ]}
-              className="rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 items-center justify-center p-6"
-            >
-              <CardFront card={card} />
-            </Animated.View>
-
-            {/* Back face */}
-            <Animated.View
-              style={[
-                backAnimatedStyle,
-                {
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                },
-              ]}
-              className="rounded-2xl bg-blue-50 dark:bg-blue-900/30 shadow-lg border border-blue-200 dark:border-blue-700 items-center justify-center p-6"
-            >
-              <CardBack card={card} />
-            </Animated.View>
-          </View>
-        </TouchableOpacity>
+        <View className="flex-1 justify-center items-center px-4">
+          <FlipCard
+            front={<CardFront card={card} />}
+            back={<CardBack card={card} />}
+            flipped={isFlipped}
+            onFlip={flip}
+          />
+        </View>
 
         {/* Controls */}
         <View className="flex-row items-center justify-center gap-3 px-4 py-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">

@@ -123,7 +123,7 @@ export default function DocScannerScreen() {
       // Save file locally using expo-file-system
       const FileSystem = await import('expo-file-system');
       const fileName = `scan-${Date.now()}.jpg`;
-      const destUri = `${FileSystem.documentDirectory}${fileName}`;
+      const destUri = `${FileSystem.Paths.cache.uri}${fileName}`;
       await FileSystem.copyAsync({ from: capturedUri, to: destUri });
 
       const newScan: ScanEntry = {

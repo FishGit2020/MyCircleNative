@@ -97,7 +97,6 @@ export default function RegisterScreen() {
         >
           {/* Back button */}
           <Pressable
-            type="button"
             onPress={() => router.back()}
             className="w-11 h-11 items-center justify-center rounded-full active:bg-gray-100 dark:active:bg-gray-800 mb-4 -ml-2"
             accessibilityRole="button"
@@ -127,7 +126,6 @@ export default function RegisterScreen() {
 
           {/* Google Sign-In */}
           <Pressable
-            type="button"
             onPress={handleGoogleSignIn}
             disabled={isSubmitting}
             className="flex-row items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl py-3.5 px-4 mb-6 active:bg-gray-50 dark:active:bg-gray-700"
@@ -213,7 +211,6 @@ export default function RegisterScreen() {
                 accessibilityLabel={t('auth.password')}
               />
               <Pressable
-                type="button"
                 onPress={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-0 bottom-0 w-12 items-center justify-center"
                 accessibilityRole="button"
@@ -266,7 +263,6 @@ export default function RegisterScreen() {
 
           {/* Navigate to Login */}
           <Pressable
-            type="button"
             onPress={() => router.back()}
             className="items-center py-2"
             accessibilityRole="button"

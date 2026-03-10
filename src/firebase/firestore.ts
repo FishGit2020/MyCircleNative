@@ -88,7 +88,7 @@ function userDoc(uid: string) {
  */
 export async function getUserProfile(uid: string): Promise<UserProfile | null> {
   const snap = await userDoc(uid).get();
-  if (snap.exists) {
+  if (snap.exists()) {
     return snap.data() as UserProfile;
   }
   return null;
@@ -138,7 +138,7 @@ export async function addRecentCity(
   city: Omit<RecentCity, 'searchedAt'>,
 ): Promise<void> {
   const snap = await userDoc(uid).get();
-  if (!snap.exists) return;
+  if (!snap.exists()) return;
 
   const profile = snap.data() as UserProfile;
   const recentCities = profile.recentCities || [];
@@ -160,7 +160,7 @@ export async function addRecentCity(
 
 export async function removeRecentCity(uid: string, cityId: string): Promise<void> {
   const snap = await userDoc(uid).get();
-  if (!snap.exists) return;
+  if (!snap.exists()) return;
 
   const profile = snap.data() as UserProfile;
   const updated = (profile.recentCities || []).filter((c) => c.id !== cityId);
@@ -196,7 +196,7 @@ export async function toggleFavoriteCity(
   city: FavoriteCity,
 ): Promise<boolean> {
   const snap = await userDoc(uid).get();
-  if (!snap.exists) return false;
+  if (!snap.exists()) return false;
 
   const profile = snap.data() as UserProfile;
   const favorites = profile.favoriteCities || [];

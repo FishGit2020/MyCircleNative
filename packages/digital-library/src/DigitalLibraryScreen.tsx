@@ -300,7 +300,7 @@ export default function DigitalLibraryScreen() {
     setReaderLoading(true);
     try {
       const base64 = await FileSystem.readAsStringAsync(book.fileUri, {
-        encoding: FileSystem.EncodingType.Base64,
+        encoding: 'base64',
       });
       // Inject the base64 data into the WebView
       if (webViewRef.current) {

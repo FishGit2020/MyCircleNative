@@ -14,6 +14,12 @@ interface MoreMenuItem {
 
 const MENU_ITEMS: MoreMenuItem[] = [
   {
+    route: '/profile',
+    titleKey: 'profile.title',
+    descriptionKey: 'profile.subtitle',
+    icon: 'person-circle-outline',
+  },
+  {
     route: '/ai-assistant',
     titleKey: 'dashboard.ai',
     descriptionKey: 'ai.subtitle',
@@ -169,7 +175,6 @@ export default function MoreScreen() {
           {MENU_ITEMS.map((item) => (
             <Pressable
               key={item.route}
-              type="button"
               className="flex-row items-center bg-gray-50 dark:bg-gray-800 rounded-xl p-4 active:bg-gray-100 dark:active:bg-gray-700"
               onPress={() => router.push(item.route as any)}
               accessibilityRole="button"

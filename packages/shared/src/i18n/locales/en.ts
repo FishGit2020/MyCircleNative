@@ -2563,6 +2563,24 @@ const en = {
 
   // Cloud Files auth wall
   'cloudFiles.signInToAccess': 'Sign in to access your files',
+
+  // Profile
+  'profile.title': 'Profile',
+  'profile.subtitle': 'Manage your account and preferences',
+  'profile.signOut': 'Sign Out',
+  'profile.signOutConfirm': 'Are you sure you want to sign out?',
+  'profile.export': 'Export Data',
+  'profile.import': 'Import Data',
+  'profile.exportSuccess': 'Data exported successfully',
+  'profile.importSuccess': 'Data imported successfully',
+  'profile.accounts': 'Accounts',
+  'profile.switchAccount': 'Switch Account',
+  'profile.noAccounts': 'No other accounts found',
+  'profile.units': 'Unit System',
+  'profile.tempUnit': 'Temperature',
+  'profile.speedUnit': 'Speed',
+  'profile.distanceUnit': 'Distance',
+  'profile.dataManagement': 'Data Management',
 } as const;
 
 export default en;
