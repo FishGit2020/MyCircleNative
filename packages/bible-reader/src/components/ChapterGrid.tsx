@@ -67,6 +67,8 @@ export default function ChapterGrid({
         numColumns={5}
         contentContainerStyle={{ paddingBottom: 16 }}
         showsVerticalScrollIndicator={false}
+        nestedScrollEnabled
+        scrollEnabled={false}
       />
     </View>
   );
