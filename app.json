@@ -68,7 +68,17 @@
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/messaging",
       "./plugins/withFirebaseMessagingManifestFix",
-      "@sentry/react-native"
+      "@sentry/react-native",
+      "./plugins/withFirebaseIOSStaticFrameworks",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
