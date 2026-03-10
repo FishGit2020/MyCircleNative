@@ -68,7 +68,10 @@
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/messaging",
       "./plugins/withFirebaseMessagingManifestFix",
-      "@sentry/react-native",
+      ["@sentry/react-native", {
+        "organization": "youpeng-huang",
+        "project": "react-native"
+      }],
       "./plugins/withFirebaseIOSStaticFrameworks",
       [
         "expo-build-properties",
