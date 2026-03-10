@@ -8,6 +8,7 @@ import {
   Switch,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   useTranslation,
   safeGetItem,
@@ -271,6 +272,7 @@ function saveLayout(layout: WidgetConfig[]): void {
 // ---------------------------------------------------------------------------
 
 export default function DashboardScreen() {
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const { isDark } = useTheme();
   const router = useRouter();

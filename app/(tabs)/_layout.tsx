@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from '@mycircle/shared';
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
@@ -52,12 +53,14 @@ const TAB_CONFIG: TabConfig[] = [
 ];
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
 
   const isDark = colorScheme === 'dark';
 
   return (
+    <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: isDark ? '#111827' : '#ffffff' }}>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -95,5 +98,6 @@ export default function TabLayout() {
         />
       ))}
     </Tabs>
+    </View>
   );
 }
