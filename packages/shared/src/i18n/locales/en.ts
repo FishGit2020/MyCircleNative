@@ -2581,6 +2581,13 @@ const en = {
   'profile.speedUnit': 'Speed',
   'profile.distanceUnit': 'Distance',
   'profile.dataManagement': 'Data Management',
+
+  // Global Search
+  'globalSearch.title': 'Search',
+  'globalSearch.placeholder': 'Search features...',
+  'globalSearch.noResults': 'No results found',
+  'globalSearch.recentSearches': 'Recent Searches',
+  'globalSearch.clear': 'Clear search',
 } as const;
 
 export default en;
