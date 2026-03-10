@@ -25,7 +25,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@apollo/client": "^3.12.11",
+    "@apollo/client": "^4.1.6",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-community/datetimepicker": "8.4.4",
