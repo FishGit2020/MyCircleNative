@@ -73,6 +73,8 @@ const AAP_LINKS: Record<AgeRangeId, string> = {
 interface TimelineViewProps {
   ageInMonths: number | null;
   currentAgeRange: AgeRangeMeta | null;
+  checkedMilestones?: Set<string>;
+  onToggleMilestone?: (milestoneId: string) => void;
 }
 
 /* --- Component --- */
@@ -80,6 +82,8 @@ interface TimelineViewProps {
 export default function TimelineView({
   ageInMonths,
   currentAgeRange,
+  checkedMilestones,
+  onToggleMilestone,
 }: TimelineViewProps) {
   const { t } = useTranslation();
 
@@ -377,24 +381,50 @@ export default function TimelineView({
                             </Text>
                           </View>
                           <View className="gap-1">
-                            {milestones.map((m) => (
-                              <View
-                                key={m.id}
-                                className="flex-row items-start gap-2 py-0.5"
-                              >
-                                <View className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 flex-shrink-0" />
-                                <Text className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed flex-1">
-                                  {t(m.nameKey as any)}
-                                </Text>
-                                {m.isRedFlag && (
-                                  <View className="flex-shrink-0 px-1.5 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30">
-                                    <Text className="text-[10px] text-red-600 dark:text-red-400 font-medium">
-                                      {t('childDev.redFlag' as any)}
-                                    </Text>
+                            {milestones.map((m) => {
+                              const checked = checkedMilestones?.has(m.id) ?? false;
+                              return (
+                                <Pressable
+                                  key={m.id}
+                                  onPress={() => onToggleMilestone?.(m.id)}
+                                  accessibilityRole="checkbox"
+                                  accessibilityState={{ checked }}
+                                  accessibilityLabel={t(m.nameKey as any)}
+                                  className="flex-row items-start gap-2 py-1 min-h-[36px]"
+                                >
+                                  <View
+                                    className={`mt-0.5 w-4 h-4 rounded border items-center justify-center flex-shrink-0 ${
+                                      checked
+                                        ? 'bg-blue-500 dark:bg-blue-600 border-blue-500 dark:border-blue-600'
+                                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700'
+                                    }`}
+                                  >
+                                    {checked && (
+                                      <Text className="text-white text-[10px] font-bold">
+                                        {'\u2713'}
+                                      </Text>
+                                    )}
                                   </View>
-                                )}
-                              </View>
-                            ))}
+                                  <Text
+                                    className={`text-sm leading-relaxed flex-1 ${
+                                      checked
+                                        ? 'text-gray-400 dark:text-gray-500 line-through'
+                                        : 'text-gray-700 dark:text-gray-300'
+                                    }`}
+                                    style={checked ? { opacity: 0.5 } : undefined}
+                                  >
+                                    {t(m.nameKey as any)}
+                                  </Text>
+                                  {m.isRedFlag && !checked && (
+                                    <View className="flex-shrink-0 px-1.5 py-0.5 rounded-full bg-red-100 dark:bg-red-900/30">
+                                      <Text className="text-[10px] text-red-600 dark:text-red-400 font-medium">
+                                        {t('childDev.redFlag' as any)}
+                                      </Text>
+                                    </View>
+                                  )}
+                                </Pressable>
+                              );
+                            })}
                           </View>
                         </View>
                       );

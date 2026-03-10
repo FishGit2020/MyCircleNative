@@ -19,11 +19,12 @@ interface SearchStocksResponse {
 
 interface StockSearchProps {
   onAddToWatchlist: (symbol: string, companyName: string) => void;
+  onSelectStock?: (symbol: string, companyName: string) => void;
 }
 
 /* ── Component ───────────────────────────────────────────── */
 
-export default function StockSearch({ onAddToWatchlist }: StockSearchProps) {
+export default function StockSearch({ onAddToWatchlist, onSelectStock }: StockSearchProps) {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -68,9 +69,26 @@ export default function StockSearch({ onAddToWatchlist }: StockSearchProps) {
     [onAddToWatchlist],
   );
 
+  const handleSelect = useCallback(
+    (item: StockSearchResult) => {
+      if (onSelectStock) {
+        onSelectStock(item.symbol, item.description);
+        setQuery('');
+        setDebouncedQuery('');
+      }
+    },
+    [onSelectStock],
+  );
+
   const renderItem = useCallback(
     ({ item }: { item: StockSearchResult }) => (
-      <View className="flex-row items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+      <Pressable
+        onPress={() => handleSelect(item)}
+        accessibilityRole="button"
+        accessibilityLabel={`${t('stocks.viewDetail')} ${item.symbol} - ${item.description}`}
+        className="flex-row items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700 active:bg-gray-50 dark:active:bg-gray-700"
+        style={{ minHeight: 44 }}
+      >
         <View className="bg-indigo-100 dark:bg-indigo-900/50 px-2 py-1 rounded mr-3">
           <Text className="text-xs font-bold text-indigo-700 dark:text-indigo-300">
             {item.displaySymbol}
@@ -88,7 +106,10 @@ export default function StockSearch({ onAddToWatchlist }: StockSearchProps) {
           </Text>
         </View>
         <Pressable
-          onPress={() => handleAdd(item)}
+          onPress={(e) => {
+            e.stopPropagation?.();
+            handleAdd(item);
+          }}
           accessibilityRole="button"
           accessibilityLabel={`${t('stocks.addToWatchlist')} ${item.symbol}`}
           className="bg-indigo-500 dark:bg-indigo-600 px-3 py-2 rounded-lg active:opacity-80"
@@ -96,9 +117,9 @@ export default function StockSearch({ onAddToWatchlist }: StockSearchProps) {
         >
           <Ionicons name="add" size={18} color="#ffffff" />
         </Pressable>
-      </View>
+      </Pressable>
     ),
-    [handleAdd, t],
+    [handleAdd, handleSelect, t],
   );
 
   const keyExtractor = useCallback(

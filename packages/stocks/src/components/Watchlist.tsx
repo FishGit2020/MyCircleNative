@@ -14,6 +14,7 @@ import type { WatchlistItem } from '../hooks/useWatchlist';
 interface WatchlistProps {
   watchlist: WatchlistItem[];
   onRemove: (symbol: string) => void;
+  onSelectStock?: (symbol: string, companyName: string) => void;
 }
 
 /* ── Swipeable row ───────────────────────────────────────── */
@@ -21,9 +22,11 @@ interface WatchlistProps {
 function SwipeableRow({
   item,
   onRemove,
+  onSelectStock,
 }: {
   item: WatchlistItem;
   onRemove: (symbol: string) => void;
+  onSelectStock?: (symbol: string, companyName: string) => void;
 }) {
   const { t } = useTranslation();
   const swipeRef = useRef<Swipeable>(null);
@@ -69,6 +72,7 @@ function SwipeableRow({
       <StockCard
         symbol={item.symbol}
         companyName={item.companyName}
+        onPress={onSelectStock ? () => onSelectStock(item.symbol, item.companyName) : undefined}
       />
     </Swipeable>
   );
@@ -76,7 +80,7 @@ function SwipeableRow({
 
 /* ── Component ───────────────────────────────────────────── */
 
-export default function Watchlist({ watchlist, onRemove }: WatchlistProps) {
+export default function Watchlist({ watchlist, onRemove, onSelectStock }: WatchlistProps) {
   const { t } = useTranslation();
 
   if (watchlist.length === 0) {
@@ -100,6 +104,7 @@ export default function Watchlist({ watchlist, onRemove }: WatchlistProps) {
           key={item.symbol}
           item={item}
           onRemove={onRemove}
+          onSelectStock={onSelectStock}
         />
       ))}
     </GestureHandlerRootView>
