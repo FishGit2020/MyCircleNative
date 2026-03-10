@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Modal, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,

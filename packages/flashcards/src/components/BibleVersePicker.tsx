@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, Modal, ScrollView, SafeAreaView, ActivityIndicator, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, ScrollView, ActivityIndicator, Switch } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLazyQuery } from '@apollo/client';
 import { useTranslation, GET_BIBLE_PASSAGE } from '@mycircle/shared';
 import type { FlashCard } from '../types';
