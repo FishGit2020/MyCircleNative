@@ -114,6 +114,8 @@ export default function BookGrid({ onSelectBook }: BookGridProps) {
         numColumns={2}
         contentContainerStyle={{ paddingBottom: 16 }}
         showsVerticalScrollIndicator={false}
+        nestedScrollEnabled
+        scrollEnabled={false}
       />
     </View>
   );
