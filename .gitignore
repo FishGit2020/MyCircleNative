@@ -31,6 +31,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# npm (migrated to pnpm)
+package-lock.json
+
 # local env files
 .env*.local
 .env
