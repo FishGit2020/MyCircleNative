@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Alert,
   Image,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
+import * as FileSystem from 'expo-file-system';
 import {
   useTranslation,
   StorageKeys,
@@ -18,6 +20,7 @@ import {
   safeSetItem,
   createLogger,
 } from '@mycircle/shared';
+import { useTheme } from '../../../src/contexts';
 
 const logger = createLogger('DigitalLibrary');
 
@@ -46,14 +49,157 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+/** Build the HTML for the epub.js reader WebView */
+function buildEpubReaderHtml(isDark: boolean, initialFontSize: number): string {
+  const bgColor = isDark ? '#111827' : '#ffffff';
+  const textColor = isDark ? '#e5e7eb' : '#1f2937';
+
+  return `<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+<style>
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:${bgColor};color:${textColor};}
+  #viewer{width:100%;height:100%;}
+  #loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:system-ui;color:${textColor};font-size:14px;}
+</style>
+</head><body>
+<div id="loading">Loading...</div>
+<div id="viewer"></div>
+<script>
+  var book = null;
+  var rendition = null;
+  var currentFontSize = ${initialFontSize};
+
+  function loadBook(base64Data) {
+    try {
+      document.getElementById('loading').innerText = 'Rendering...';
+      // Decode base64 to ArrayBuffer
+      var binary = atob(base64Data);
+      var len = binary.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+
+      book = ePub(bytes.buffer);
+      rendition = book.renderTo('viewer', {
+        width: '100%',
+        height: '100%',
+        flow: 'paginated',
+        spread: 'none'
+      });
+
+      rendition.themes.default({
+        body: {
+          'background-color': '${bgColor}',
+          'color': '${textColor}',
+          'font-size': currentFontSize + 'px',
+          'line-height': '1.6',
+          'padding': '8px'
+        },
+        'p,div,span,h1,h2,h3,h4,h5,h6,li,a': {
+          'color': '${textColor} !important'
+        }
+      });
+
+      rendition.display().then(function() {
+        document.getElementById('loading').style.display = 'none';
+        sendLocationInfo();
+      });
+
+      rendition.on('relocated', function(location) {
+        sendLocationInfo();
+      });
+
+      book.ready.then(function() {
+        return book.locations.generate(1024);
+      }).then(function() {
+        sendLocationInfo();
+      });
+
+      // Notify RN of chapter info
+      book.loaded.navigation.then(function(nav) {
+        var chapters = nav.toc.map(function(ch, i) {
+          return { index: i, label: ch.label.trim(), href: ch.href };
+        });
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'chapters', chapters: chapters
+        }));
+      });
+
+    } catch(e) {
+      document.getElementById('loading').innerText = 'Error: ' + e.message;
+      window.ReactNativeWebView.postMessage(JSON.stringify({
+        type: 'error', message: e.message
+      }));
+    }
+  }
+
+  function sendLocationInfo() {
+    if (!rendition || !book) return;
+    var loc = rendition.currentLocation();
+    var pct = 0;
+    if (book.locations && loc && loc.start) {
+      pct = book.locations.percentageFromCfi(loc.start.cfi);
+      pct = Math.round(pct * 100);
+    }
+    window.ReactNativeWebView.postMessage(JSON.stringify({
+      type: 'progress', percent: pct
+    }));
+  }
+
+  function nextPage() {
+    if (rendition) rendition.next();
+  }
+
+  function prevPage() {
+    if (rendition) rendition.prev();
+  }
+
+  function setFontSize(size) {
+    currentFontSize = size;
+    if (rendition) {
+      rendition.themes.default({
+        body: { 'font-size': size + 'px' }
+      });
+    }
+  }
+
+  function goToChapter(href) {
+    if (rendition) rendition.display(href);
+  }
+
+  function setDarkMode(dark) {
+    var bg = dark ? '#111827' : '#ffffff';
+    var fg = dark ? '#e5e7eb' : '#1f2937';
+    document.body.style.background = bg;
+    document.body.style.color = fg;
+    if (rendition) {
+      rendition.themes.default({
+        body: { 'background-color': bg, 'color': fg },
+        'p,div,span,h1,h2,h3,h4,h5,h6,li,a': { 'color': fg + ' !important' }
+      });
+    }
+  }
+</script>
+</body></html>`;
+}
+
 export default function DigitalLibraryScreen() {
   const { t } = useTranslation();
+  const { isDark } = useTheme();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [fontSize, setFontSize] = useState(DEFAULT_FONT_SIZE);
   const [deleteTarget, setDeleteTarget] = useState<Book | null>(null);
+  const [readerReady, setReaderReady] = useState(false);
+  const [readerLoading, setReaderLoading] = useState(false);
+  const [chapters, setChapters] = useState<{ index: number; label: string; href: string }[]>([]);
+  const [showToc, setShowToc] = useState(false);
+  const [currentProgress, setCurrentProgress] = useState(0);
+
+  const webViewRef = useRef<WebView>(null);
 
   // Load books from storage
   const loadBooks = useCallback(() => {
@@ -90,7 +236,6 @@ export default function DigitalLibraryScreen() {
   const handleUpload = useCallback(async () => {
     try {
       setUploading(true);
-      // Dynamic import to avoid crash if not installed
       const DocumentPicker = await import('expo-document-picker');
       const result = await DocumentPicker.getDocumentAsync({
         type: 'application/epub+zip',
@@ -150,6 +295,93 @@ export default function DigitalLibraryScreen() {
     [books, saveBooks],
   );
 
+  // Load epub into WebView after it mounts
+  const loadEpubIntoWebView = useCallback(async (book: Book) => {
+    setReaderLoading(true);
+    try {
+      const base64 = await FileSystem.readAsStringAsync(book.fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      // Inject the base64 data into the WebView
+      if (webViewRef.current) {
+        webViewRef.current.injectJavaScript(`loadBook("${base64}");true;`);
+      }
+    } catch (err) {
+      logger.error('Failed to read EPUB file', err);
+      Alert.alert(t('library.title'), t('library.uploadFailed'));
+    } finally {
+      setReaderLoading(false);
+    }
+  }, [t]);
+
+  // Handle messages from the WebView
+  const handleWebViewMessage = useCallback(
+    (event: { nativeEvent: { data: string } }) => {
+      try {
+        const data = JSON.parse(event.nativeEvent.data);
+        if (data.type === 'chapters') {
+          setChapters(data.chapters);
+          if (selectedBook) {
+            const updated = books.map((b) =>
+              b.id === selectedBook.id ? { ...b, chapterCount: data.chapters.length } : b,
+            );
+            saveBooks(updated);
+          }
+        } else if (data.type === 'progress') {
+          setCurrentProgress(data.percent);
+          if (selectedBook) {
+            updateProgress(selectedBook.id, data.percent);
+          }
+        } else if (data.type === 'error') {
+          logger.error('EPUB render error', data.message);
+        }
+      } catch {
+        // ignore non-JSON messages
+      }
+    },
+    [selectedBook, books, saveBooks, updateProgress],
+  );
+
+  // Font size change
+  const handleFontSizeChange = useCallback(
+    (newSize: number) => {
+      const clamped = Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, newSize));
+      setFontSize(clamped);
+      if (webViewRef.current) {
+        webViewRef.current.injectJavaScript(`setFontSize(${clamped});true;`);
+      }
+    },
+    [],
+  );
+
+  // Navigate pages
+  const handleNextPage = useCallback(() => {
+    if (webViewRef.current) {
+      webViewRef.current.injectJavaScript('nextPage();true;');
+    }
+  }, []);
+
+  const handlePrevPage = useCallback(() => {
+    if (webViewRef.current) {
+      webViewRef.current.injectJavaScript('prevPage();true;');
+    }
+  }, []);
+
+  // Navigate to chapter
+  const handleGoToChapter = useCallback((href: string) => {
+    if (webViewRef.current) {
+      webViewRef.current.injectJavaScript(`goToChapter("${href.replace(/"/g, '\\"')}");true;`);
+    }
+    setShowToc(false);
+  }, []);
+
+  // Sync dark mode to WebView when theme changes
+  useEffect(() => {
+    if (webViewRef.current && selectedBook) {
+      webViewRef.current.injectJavaScript(`setDarkMode(${isDark});true;`);
+    }
+  }, [isDark, selectedBook]);
+
   // Reader view
   if (selectedBook) {
     return (
@@ -157,9 +389,14 @@ export default function DigitalLibraryScreen() {
         {/* Reader header */}
         <View className="flex-row items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <TouchableOpacity
-            onPress={() => setSelectedBook(null)}
+            onPress={() => {
+              setSelectedBook(null);
+              setChapters([]);
+              setReaderReady(false);
+              setCurrentProgress(0);
+            }}
             className="min-h-[44px] min-w-[44px] justify-center"
-            accessibilityLabel={t('library.back' as any)}
+            accessibilityLabel={t('library.backToLibrary')}
             accessibilityRole="button"
           >
             <Text className="text-blue-500 dark:text-blue-400 text-sm">
@@ -172,126 +409,136 @@ export default function DigitalLibraryScreen() {
           >
             {selectedBook.title}
           </Text>
-          <View className="w-10" />
+          <TouchableOpacity
+            onPress={() => setShowToc(!showToc)}
+            className="min-h-[44px] min-w-[44px] justify-center items-end"
+            accessibilityLabel={t('library.tableOfContents')}
+            accessibilityRole="button"
+          >
+            <Text className="text-blue-500 dark:text-blue-400 text-xs">
+              {t('library.tableOfContents')}
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <ScrollView className="flex-1 px-4 py-4" showsVerticalScrollIndicator={false}>
-          {/* Book info */}
-          <View className="mb-6">
-            {selectedBook.coverUri ? (
-              <Image
-                source={{ uri: selectedBook.coverUri }}
-                className="w-32 h-48 rounded-lg self-center mb-4"
-                resizeMode="cover"
-              />
-            ) : (
-              <View className="w-32 h-48 rounded-lg self-center mb-4 bg-blue-100 dark:bg-blue-900/30 items-center justify-center">
-                <Text className="text-4xl text-blue-300 dark:text-blue-600">{'\u{1F4D6}'}</Text>
+        {/* Table of contents overlay */}
+        {showToc && chapters.length > 0 && (
+          <View className="absolute top-16 right-2 left-2 z-10 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg max-h-80">
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View className="p-2">
+                <Text className="text-sm font-semibold text-gray-800 dark:text-white px-3 py-2">
+                  {t('library.tableOfContents')}
+                </Text>
+                {chapters.map((ch) => (
+                  <TouchableOpacity
+                    key={ch.index}
+                    onPress={() => handleGoToChapter(ch.href)}
+                    className="py-3 px-3 border-b border-gray-100 dark:border-gray-700 min-h-[44px] justify-center"
+                    accessibilityLabel={`${t('library.chapters')} ${ch.index + 1}: ${ch.label}`}
+                    accessibilityRole="button"
+                  >
+                    <Text className="text-sm text-gray-700 dark:text-gray-300" numberOfLines={2}>
+                      {ch.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
-            )}
-            <Text className="text-lg font-bold text-gray-900 dark:text-white text-center">
-              {selectedBook.title}
-            </Text>
-            {selectedBook.author ? (
-              <Text className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
-                {t('library.author')}: {selectedBook.author}
-              </Text>
-            ) : null}
+            </ScrollView>
           </View>
+        )}
 
-          {/* Reading progress */}
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t('library.progress')}: {selectedBook.readingProgress}%
-            </Text>
-            <View className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        {/* EPUB WebView Reader */}
+        <View className="flex-1">
+          {readerLoading && (
+            <View className="absolute top-0 left-0 right-0 bottom-0 z-10 justify-center items-center bg-white/80 dark:bg-gray-900/80">
+              <ActivityIndicator size="large" />
+              <Text className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                {t('library.reading')}...
+              </Text>
+            </View>
+          )}
+          <WebView
+            ref={webViewRef}
+            originWhitelist={['*']}
+            source={{ html: buildEpubReaderHtml(isDark, fontSize) }}
+            style={{ flex: 1 }}
+            javaScriptEnabled
+            domStorageEnabled
+            allowFileAccess
+            allowUniversalAccessFromFileURLs
+            onMessage={handleWebViewMessage}
+            onLoadEnd={() => {
+              setReaderReady(true);
+              loadEpubIntoWebView(selectedBook);
+            }}
+            accessibilityLabel={t('library.reading')}
+          />
+        </View>
+
+        {/* Bottom controls */}
+        <View className="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+          {/* Progress bar */}
+          <View className="mb-3">
+            <View className="flex-row justify-between mb-1">
+              <Text className="text-xs text-gray-500 dark:text-gray-400">
+                {t('library.progress')}
+              </Text>
+              <Text className="text-xs text-gray-500 dark:text-gray-400">
+                {currentProgress}%
+              </Text>
+            </View>
+            <View className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
               <View
                 className="h-full bg-blue-500 dark:bg-blue-400 rounded-full"
-                style={{ width: `${selectedBook.readingProgress}%` }}
+                style={{ width: `${currentProgress}%` }}
               />
             </View>
-            {/* Simulate progress buttons */}
-            <View className="flex-row gap-2 mt-3">
-              <TouchableOpacity
-                onPress={() => updateProgress(selectedBook.id, selectedBook.readingProgress + 10)}
-                className="px-3 py-2 rounded-lg bg-blue-500 dark:bg-blue-600 min-h-[44px] justify-center"
-                accessibilityLabel={t('library.reading')}
-                accessibilityRole="button"
-              >
-                <Text className="text-white text-sm font-medium">+10%</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => updateProgress(selectedBook.id, 0)}
-                className="px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 min-h-[44px] justify-center"
-                accessibilityLabel={t('library.progress')}
-                accessibilityRole="button"
-              >
-                <Text className="text-gray-700 dark:text-gray-300 text-sm">{t('library.progress')}: 0%</Text>
-              </TouchableOpacity>
-            </View>
           </View>
 
-          {/* Font size adjustment */}
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t('library.fontSize')}
-            </Text>
-            <View className="flex-row items-center gap-3">
+          {/* Navigation and font controls */}
+          <View className="flex-row items-center justify-between">
+            {/* Prev page */}
+            <TouchableOpacity
+              onPress={handlePrevPage}
+              className="min-h-[44px] min-w-[44px] items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg px-4"
+              accessibilityLabel={t('library.prevChapter')}
+              accessibilityRole="button"
+            >
+              <Text className="text-gray-700 dark:text-gray-300 font-medium">{'\u2190'}</Text>
+            </TouchableOpacity>
+
+            {/* Font size controls */}
+            <View className="flex-row items-center gap-2">
               <TouchableOpacity
-                onPress={() => setFontSize(Math.max(FONT_SIZE_MIN, fontSize - 2))}
-                className="w-11 h-11 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center"
+                onPress={() => handleFontSizeChange(fontSize - 2)}
+                className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 items-center justify-center"
                 accessibilityLabel={t('library.fontSize')}
                 accessibilityRole="button"
               >
-                <Text className="text-lg text-gray-700 dark:text-gray-300">A-</Text>
+                <Text className="text-sm text-gray-700 dark:text-gray-300">A-</Text>
               </TouchableOpacity>
-              <Text className="text-sm text-gray-600 dark:text-gray-400">{fontSize}px</Text>
+              <Text className="text-xs text-gray-500 dark:text-gray-400">{fontSize}px</Text>
               <TouchableOpacity
-                onPress={() => setFontSize(Math.min(FONT_SIZE_MAX, fontSize + 2))}
-                className="w-11 h-11 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center"
+                onPress={() => handleFontSizeChange(fontSize + 2)}
+                className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 items-center justify-center"
                 accessibilityLabel={t('library.fontSize')}
                 accessibilityRole="button"
               >
-                <Text className="text-lg text-gray-700 dark:text-gray-300">A+</Text>
+                <Text className="text-sm text-gray-700 dark:text-gray-300">A+</Text>
               </TouchableOpacity>
             </View>
-          </View>
 
-          {/* Placeholder for EPUB rendering */}
-          <View className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mb-6">
-            <Text className="text-sm text-yellow-700 dark:text-yellow-300 text-center">
-              {/* Full EPUB rendering placeholder — would use a WebView or native EPUB library */}
-              EPUB reader view coming soon. File stored locally at: {selectedBook.fileUri ? '...' : 'N/A'}
-            </Text>
+            {/* Next page */}
+            <TouchableOpacity
+              onPress={handleNextPage}
+              className="min-h-[44px] min-w-[44px] items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg px-4"
+              accessibilityLabel={t('library.nextChapter')}
+              accessibilityRole="button"
+            >
+              <Text className="text-gray-700 dark:text-gray-300 font-medium">{'\u2192'}</Text>
+            </TouchableOpacity>
           </View>
-
-          {/* Chapter list placeholder */}
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t('library.chapters')}
-            </Text>
-            {selectedBook.chapterCount === 0 ? (
-              <Text className="text-sm text-gray-400 dark:text-gray-500">
-                {t('library.noBooks')}
-              </Text>
-            ) : (
-              Array.from({ length: selectedBook.chapterCount }, (_, i) => (
-                <TouchableOpacity
-                  key={i}
-                  className="py-3 px-3 border-b border-gray-100 dark:border-gray-800 min-h-[44px] justify-center"
-                  accessibilityLabel={`${t('library.chapters')} ${i + 1}`}
-                  accessibilityRole="button"
-                >
-                  <Text className="text-sm text-gray-700 dark:text-gray-300">
-                    {t('library.chapters')} {i + 1}
-                  </Text>
-                </TouchableOpacity>
-              ))
-            )}
-          </View>
-
-          <View className="h-20" />
-        </ScrollView>
+        </View>
       </View>
     );
   }
@@ -362,7 +609,7 @@ export default function DigitalLibraryScreen() {
                 key={book.id}
                 onPress={() => setSelectedBook(book)}
                 className="w-[47%] bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
-                accessibilityLabel={`${t('library.reading')}: ${book.title}`}
+                accessibilityLabel={`${t('library.openBook')}: ${book.title}`}
                 accessibilityRole="button"
               >
                 {book.coverUri ? (
@@ -433,13 +680,13 @@ export default function DigitalLibraryScreen() {
           <View className="flex-1 justify-center items-center bg-black/50 px-4">
             <View className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-6">
               <Text className="text-gray-800 dark:text-white mb-4">
-                {t('library.delete')} &quot;{deleteTarget.title}&quot;?
+                {t('library.confirmDelete')} &quot;{deleteTarget.title}&quot;?
               </Text>
               <View className="flex-row justify-end gap-2">
                 <TouchableOpacity
                   onPress={() => setDeleteTarget(null)}
                   className="px-4 py-2 rounded-lg min-h-[44px] justify-center"
-                  accessibilityLabel={t('library.back' as any)}
+                  accessibilityLabel={t('library.backToLibrary')}
                   accessibilityRole="button"
                 >
                   <Text className="text-sm text-gray-600 dark:text-gray-400">
