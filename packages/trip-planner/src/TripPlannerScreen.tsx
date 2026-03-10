@@ -9,7 +9,6 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -309,42 +308,42 @@ export default function TripPlannerScreen() {
   // ── Auth wall ──────────────────────────────────────────────
   if (!user) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center px-6">
           <Ionicons name="lock-closed-outline" size={48} color="#d1d5db" />
           <Text className="text-gray-500 dark:text-gray-400 mt-3 text-center">
             {t('trip.loginToUse')}
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // ── Loading ────────────────────────────────────────────────
   if (loading) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="large" color="#06b6d4" />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   if (error) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-red-500 dark:text-red-400 text-center">{error}</Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // ── Create/Edit view ───────────────────────────────────────
   if (view === 'new') {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <ScrollView className="flex-1 px-4 pt-4" keyboardShouldPersistTaps="handled">
           <View className="flex-row items-center justify-between mb-4">
             <Text className="text-xl font-bold text-gray-800 dark:text-white">
@@ -442,7 +441,7 @@ export default function TripPlannerScreen() {
             </Text>
           </Pressable>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -466,7 +465,7 @@ export default function TripPlannerScreen() {
     }
 
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <ScrollView className="flex-1 px-4 pt-4" keyboardShouldPersistTaps="handled">
           {/* Back */}
           <Pressable
@@ -665,13 +664,13 @@ export default function TripPlannerScreen() {
           {/* Bottom spacer */}
           <View style={{ height: 32 }} />
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // ── List view ──────────────────────────────────────────────
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <View className="px-4 pt-4 pb-2">
         <View className="flex-row items-center justify-between mb-4">
           <View className="flex-row items-center gap-2">
@@ -808,6 +807,6 @@ export default function TripPlannerScreen() {
           }}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }

@@ -7,7 +7,6 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import auth from '@react-native-firebase/auth';
 import { useTranslation } from '@mycircle/shared';
@@ -49,14 +48,14 @@ export default function NotebookScreen() {
   // ── Auth wall ──
   if (!user) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center px-6">
           <Ionicons name="lock-closed-outline" size={48} color="#d1d5db" />
           <Text className="text-gray-500 dark:text-gray-400 mt-3 text-center">
             {t('notebook.loginToUse')}
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -66,24 +65,24 @@ export default function NotebookScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="large" color="#3b82f6" />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // ── Error ──
   if (currentError) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <View className="flex-1 items-center justify-center px-6">
           <Text className="text-red-500 dark:text-red-400 text-center">
             {currentError}
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -152,7 +151,7 @@ export default function NotebookScreen() {
   // ── Editor view ──
   if (view === 'new' || view === 'edit') {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         <NoteEditor
           note={view === 'edit' ? selectedNote : null}
           onSave={handleSave}
@@ -160,7 +159,7 @@ export default function NotebookScreen() {
           onDelete={view === 'edit' ? handleDelete : undefined}
           onPublish={tab === 'my' ? handlePublish : undefined}
         />
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -171,7 +170,7 @@ export default function NotebookScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <View className="px-4 pt-4 pb-2">
         {/* Header */}
         <View className="flex-row items-center justify-between mb-4">
@@ -247,6 +246,6 @@ export default function NotebookScreen() {
           isPublicView={tab === 'public'}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

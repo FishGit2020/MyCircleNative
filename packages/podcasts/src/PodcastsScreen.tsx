@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import {
-  SafeAreaView,
+
   ScrollView,
   View,
   Text,
@@ -67,7 +67,7 @@ export default function PodcastsScreen() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-4 py-6 pb-32"
@@ -259,7 +259,7 @@ export default function PodcastsScreen() {
           />
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 

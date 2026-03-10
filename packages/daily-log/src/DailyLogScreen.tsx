@@ -3,7 +3,7 @@ import {
   View,
   Text,
   ScrollView,
-  SafeAreaView,
+
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -55,7 +55,7 @@ export default function DailyLogScreen() {
   // Loading state
   if (!authChecked || loading) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="px-4 pt-4">
           <Text className="text-2xl font-bold text-gray-800 dark:text-white">
             {t('dailyLog.title')}
@@ -70,14 +70,14 @@ export default function DailyLogScreen() {
             {t('dailyLog.loading')}
           </Text>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // Sign-in wall
   if (!isAuthenticated) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="px-4 pt-4 flex-1">
           <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
             {t('dailyLog.title')}
@@ -88,7 +88,7 @@ export default function DailyLogScreen() {
             </Text>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -101,7 +101,7 @@ export default function DailyLogScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-4 pt-4 pb-20"
@@ -165,6 +165,6 @@ export default function DailyLogScreen() {
           onDelete={deleteEntry}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

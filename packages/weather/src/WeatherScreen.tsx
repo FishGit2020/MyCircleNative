@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import {
-  SafeAreaView,
+
   ScrollView,
   RefreshControl,
   View,
@@ -86,7 +86,7 @@ export default function WeatherScreen() {
   // Loading skeleton
   if (weatherLoading && !current) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <ScrollView
           className="flex-1 px-4 pt-4"
           contentContainerStyle={{ paddingBottom: 80 }}
@@ -148,14 +148,14 @@ export default function WeatherScreen() {
             ))}
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
   // Error state
   if (weatherError && !current) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="flex-1 items-center justify-center px-6">
           <View className="w-full rounded-xl border border-red-200 bg-red-50 p-6 dark:border-red-800 dark:bg-red-900/20">
             <Text className="text-center text-base text-red-600 dark:text-red-400">
@@ -163,12 +163,12 @@ export default function WeatherScreen() {
             </Text>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
         className="flex-1 px-4 pt-4"
         contentContainerStyle={{ paddingBottom: 80 }}
@@ -240,6 +240,6 @@ export default function WeatherScreen() {
           />
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

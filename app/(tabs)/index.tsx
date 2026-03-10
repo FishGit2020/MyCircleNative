@@ -7,7 +7,6 @@ import {
   Pressable,
   Switch,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import {
   useTranslation,
@@ -493,7 +492,7 @@ export default function DashboardScreen() {
   // ---------------------------------------------------------------------------
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <ScrollView
         className="flex-1"
         contentContainerClassName="p-4 pb-20 md:pb-8"
@@ -655,6 +654,6 @@ export default function DashboardScreen() {
           })}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -9,7 +9,6 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@apollo/client';
@@ -466,7 +465,7 @@ export default function BabyTrackerScreen() {
   // ---- Add Child Form ----
   if (isAddingChild) {
     return (
-      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+      <View className="flex-1 bg-white dark:bg-gray-900">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
           <Pressable
@@ -584,12 +583,12 @@ export default function BabyTrackerScreen() {
             </View>
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
       <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
         <Pressable
@@ -1131,6 +1130,6 @@ export default function BabyTrackerScreen() {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
