@@ -61,6 +61,7 @@ export const WindowEvents = AppEvents;
 export const StorageKeys = {
   TEMP_UNIT: 'tempUnit',
   SPEED_UNIT: 'speedUnit',
+  DISTANCE_UNIT: 'distanceUnit',
   THEME: 'theme',
   LOCALE: 'weather-app-locale',
   STOCK_WATCHLIST: 'stock-tracker-watchlist',
