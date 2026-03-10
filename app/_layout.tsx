@@ -15,6 +15,7 @@ import GlobalAudioPlayer from '../src/components/GlobalAudioPlayer';
 import { initSentry } from '../src/sentry';
 import { ErrorBoundary } from '../src/components/common/ErrorBoundary';
 import { ThemeProvider } from '../src/contexts/ThemeContext';
+import { AuthProvider } from '../src/contexts/AuthContext';
 
 initSentry();
 
@@ -98,15 +99,17 @@ export default function RootLayout() {
         <I18nProvider>
           <ApolloProvider client={apolloClient}>
             <ThemeProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: {
-                    backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
-                  },
-                }}
-              />
-              <GlobalAudioPlayer />
+              <AuthProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: {
+                      backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
+                    },
+                  }}
+                />
+                <GlobalAudioPlayer />
+              </AuthProvider>
             </ThemeProvider>
           </ApolloProvider>
         </I18nProvider>
