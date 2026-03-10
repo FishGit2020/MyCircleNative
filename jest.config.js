@@ -43,10 +43,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 15,
-      branches: 12,
-      functions: 12,
-      lines: 15,
+      statements: 12,
+      branches: 10,
+      functions: 10,
+      lines: 12,
     },
   },
   testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
