@@ -13,7 +13,7 @@ import { EntryForm, TimelineView } from './components';
 
 type TimeFilter = 'today' | 'thisMonth' | 'all';
 
-export default function WorkTrackerScreen() {
+export default function DailyLogScreen() {
   const { t } = useTranslation();
   const {
     entries,
@@ -46,16 +46,16 @@ export default function WorkTrackerScreen() {
       <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="px-4 pt-4">
           <Text className="text-2xl font-bold text-gray-800 dark:text-white">
-            {t('workTracker.title')}
+            {t('dailyLog.title')}
           </Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {t('workTracker.subtitle')}
+            {t('dailyLog.subtitle')}
           </Text>
         </View>
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#3b82f6" />
           <Text className="text-gray-500 dark:text-gray-400 mt-3 text-sm">
-            {t('workTracker.loading')}
+            {t('dailyLog.loading')}
           </Text>
         </View>
       </SafeAreaView>
@@ -68,11 +68,11 @@ export default function WorkTrackerScreen() {
       <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
         <View className="px-4 pt-4 flex-1">
           <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-            {t('workTracker.title')}
+            {t('dailyLog.title')}
           </Text>
           <View className="flex-1 justify-center items-center">
             <Text className="text-gray-500 dark:text-gray-400 text-center">
-              {t('workTracker.signInRequired')}
+              {t('dailyLog.signInRequired')}
             </Text>
           </View>
         </View>
@@ -81,9 +81,9 @@ export default function WorkTrackerScreen() {
   }
 
   const filterChips: { key: TimeFilter; label: string }[] = [
-    { key: 'today', label: t('workTracker.today') },
-    { key: 'thisMonth', label: t('workTracker.thisMonth') },
-    { key: 'all', label: t('workTracker.allTime') },
+    { key: 'today', label: t('dailyLog.today') },
+    { key: 'thisMonth', label: t('dailyLog.thisMonth') },
+    { key: 'all', label: t('dailyLog.allTime') },
   ];
 
   return (
@@ -97,10 +97,10 @@ export default function WorkTrackerScreen() {
         {/* Header */}
         <View className="mb-6">
           <Text className="text-2xl font-bold text-gray-800 dark:text-white">
-            {t('workTracker.title')}
+            {t('dailyLog.title')}
           </Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {t('workTracker.subtitle')}
+            {t('dailyLog.subtitle')}
           </Text>
         </View>
 
@@ -140,7 +140,7 @@ export default function WorkTrackerScreen() {
             </TouchableOpacity>
           ))}
           <Text className="text-xs text-gray-400 dark:text-gray-500 ml-2">
-            {t('workTracker.entriesCount').replace('{count}', String(filteredEntries.length))}
+            {t('dailyLog.entriesCount').replace('{count}', String(filteredEntries.length))}
           </Text>
         </View>
 

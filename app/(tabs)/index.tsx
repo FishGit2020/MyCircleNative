@@ -57,7 +57,7 @@ const WIDGET_ROUTES: Record<string, string> = {
   childDev: '/child-development',
   worship: '/worship',
   flashcards: '/flashcards',
-  workTracker: '/work-tracker',
+  workTracker: '/daily-log',
 };
 
 // ---------------------------------------------------------------------------
@@ -217,9 +217,9 @@ function loadWidgetData(): WidgetData {
   );
   const flashcardMastered = Object.values(flashProgress).filter(Boolean).length;
 
-  // Work Tracker
+  // Daily Log
   const workEntries = safeGetJSON<Array<{ date?: string }>>(
-    StorageKeys.WORK_TRACKER_CACHE,
+    StorageKeys.DAILY_LOG_CACHE,
     [],
   );
   const workEntriesThisMonth = getEntriesThisMonth(workEntries);
@@ -305,7 +305,7 @@ export default function DashboardScreen() {
       eventBus.subscribe(AppEvents.BABY_DUE_DATE_CHANGED, reloadData),
       eventBus.subscribe(AppEvents.CHILD_DATA_CHANGED, reloadData),
       eventBus.subscribe(AppEvents.FLASHCARD_PROGRESS_CHANGED, reloadData),
-      eventBus.subscribe(AppEvents.WORK_TRACKER_CHANGED, reloadData),
+      eventBus.subscribe(AppEvents.DAILY_LOG_CHANGED, reloadData),
       eventBus.subscribe(AppEvents.WORSHIP_FAVORITES_CHANGED, reloadData),
       eventBus.subscribe(AppEvents.UNITS_CHANGED, reloadData),
     ];
@@ -368,7 +368,7 @@ export default function DashboardScreen() {
       childDev: t('widgets.childDev'),
       worship: t('widgets.worship'),
       flashcards: t('widgets.flashcards'),
-      workTracker: t('widgets.workTracker'),
+      workTracker: t('widgets.dailyLog'),
     }),
     [t],
   );
@@ -457,12 +457,12 @@ export default function DashboardScreen() {
 
         case 'workTracker':
           if (data.workEntriesThisMonth > 0) {
-            return t('widgets.workTrackerEntries').replace(
+            return t('widgets.dailyLogEntries').replace(
               '{count}',
               String(data.workEntriesThisMonth),
             );
           }
-          return t('widgets.noWorkEntries');
+          return t('widgets.noDailyLogEntries');
 
         default:
           return '';
@@ -483,7 +483,7 @@ export default function DashboardScreen() {
       childDev: t('widgets.childDevDesc'),
       worship: t('widgets.worshipDesc'),
       flashcards: t('widgets.flashcardsDesc'),
-      workTracker: t('widgets.workTrackerDesc'),
+      workTracker: t('widgets.dailyLogDesc'),
     }),
     [t],
   );

@@ -37,19 +37,19 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const dayLabel = isToday(date)
-    ? t('workTracker.today')
+    ? t('dailyLog.today')
     : isYesterday(date)
-      ? t('workTracker.yesterday')
+      ? t('dailyLog.yesterday')
       : '';
 
   const handleDelete = (entryId: string) => {
     Alert.alert(
-      t('workTracker.delete'),
-      t('workTracker.deleteConfirm'),
+      t('dailyLog.delete'),
+      t('dailyLog.deleteConfirm'),
       [
-        { text: t('workTracker.cancel'), style: 'cancel' },
+        { text: t('dailyLog.cancel'), style: 'cancel' },
         {
-          text: t('workTracker.delete'),
+          text: t('dailyLog.delete'),
           style: 'destructive',
           onPress: () => onDelete(entryId),
         },
@@ -82,7 +82,7 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
           </Text>
         )}
         <Text className="ml-2 text-xs text-gray-400 dark:text-gray-500">
-          {t('workTracker.entriesCount').replace('{count}', String(entries.length))}
+          {t('dailyLog.entriesCount').replace('{count}', String(entries.length))}
         </Text>
       </View>
 
@@ -111,21 +111,21 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
                   <TouchableOpacity
                     onPress={() => setEditingId(entry.id)}
                     className="p-2 min-w-[44px] min-h-[44px] items-center justify-center"
-                    accessibilityLabel={t('workTracker.edit')}
+                    accessibilityLabel={t('dailyLog.edit')}
                     accessibilityRole="button"
                   >
                     <Text className="text-blue-500 dark:text-blue-400 text-xs font-medium">
-                      {t('workTracker.edit')}
+                      {t('dailyLog.edit')}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => handleDelete(entry.id)}
                     className="p-2 min-w-[44px] min-h-[44px] items-center justify-center"
-                    accessibilityLabel={t('workTracker.delete')}
+                    accessibilityLabel={t('dailyLog.delete')}
                     accessibilityRole="button"
                   >
                     <Text className="text-red-500 dark:text-red-400 text-xs font-medium">
-                      {t('workTracker.delete')}
+                      {t('dailyLog.delete')}
                     </Text>
                   </TouchableOpacity>
                 </View>

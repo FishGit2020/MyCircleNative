@@ -1336,35 +1336,6 @@ const zh: Record<TranslationKey, string> = {
   'flashcards.publishConfirm': '\u5c06\u6b64\u5361\u7247\u53d1\u5e03\u5230\u5171\u4eab\u96c6\u5408\uff1f',
   'flashcards.loading': '\u52a0\u8f7d\u4e2d...',
 
-  // Work Tracker
-  'nav.workTracker': '\u5de5\u4f5c\u65e5\u5fd7',
-  'bottomNav.workTracker': '\u5de5\u4f5c',
-  'dashboard.workTracker': '\u5de5\u4f5c\u65e5\u5fd7',
-  'home.quickWorkTrackerDesc': '\u8bb0\u5f55\u6bcf\u65e5\u5de5\u4f5c\u6d3b\u52a8',
-  'commandPalette.goToWorkTracker': '\u524d\u5f80\u5de5\u4f5c\u65e5\u5fd7',
-  'shortcuts.goWorkTracker': '\u524d\u5f80\u5de5\u4f5c\u65e5\u5fd7',
-  'widgets.workTracker': '\u5de5\u4f5c\u65e5\u5fd7',
-  'widgets.workTrackerDesc': '\u6bcf\u65e5\u5de5\u4f5c\u6d3b\u52a8\u8bb0\u5f55',
-  'widgets.workTrackerEntries': '\u672c\u6708 {count} \u6761\u8bb0\u5f55',
-  'widgets.noWorkEntries': '\u8fd8\u6ca1\u6709\u5de5\u4f5c\u8bb0\u5f55',
-  'workTracker.title': '\u5de5\u4f5c\u65e5\u5fd7',
-  'workTracker.subtitle': '\u8bb0\u5f55\u6bcf\u65e5\u5de5\u4f5c\u6d3b\u52a8',
-  'workTracker.addEntry': '\u6dfb\u52a0\u8bb0\u5f55',
-  'workTracker.placeholder': '\u4f60\u5de5\u4f5c\u4e86\u4ec0\u4e48\uff1f',
-  'workTracker.save': '\u4fdd\u5b58',
-  'workTracker.cancel': '\u53d6\u6d88',
-  'workTracker.delete': '\u5220\u9664',
-  'workTracker.deleteConfirm': '\u5220\u9664\u6b64\u6761\u76ee\uff1f\u65e0\u6cd5\u64a4\u9500\u3002',
-  'workTracker.edit': '\u7f16\u8f91',
-  'workTracker.noEntries': '\u8fd8\u6ca1\u6709\u8bb0\u5f55\u3002\u6dfb\u52a0\u7b2c\u4e00\u6761\u5de5\u4f5c\u65e5\u5fd7\uff01',
-  'workTracker.signInRequired': '\u767b\u5f55\u540e\u8bb0\u5f55\u5de5\u4f5c',
-  'workTracker.timeline': '\u65f6\u95f4\u7ebf',
-  'workTracker.today': '\u4eca\u5929',
-  'workTracker.yesterday': '\u6628\u5929',
-  'workTracker.thisMonth': '\u672c\u6708',
-  'workTracker.allTime': '\u5168\u90e8',
-  'workTracker.entriesCount': '{count} \u6761\u8bb0\u5f55',
-  'workTracker.loading': '\u52a0\u8f7d\u8bb0\u5f55\u4e2d...',
 
   // Cloud Files
   'cloudFiles.title': '\u4e91\u6587\u4ef6',
@@ -2556,6 +2527,10 @@ const zh: Record<TranslationKey, string> = {
   'recycleBin.type.worship': '\u6572\u62dc\u6b4c\u66f2',
   'recycleBin.personalSection': '\u4e2a\u4eba',
   'recycleBin.publicSection': '\u5171\u4eab / \u516c\u5f00',
+  'recycleBin.subtitle': '\u6062\u590d\u6216\u6c38\u4e45\u5220\u9664\u9879\u76ee',
+  'whatsNew.subtitle': '\u6700\u65b0\u66f4\u65b0\u548c\u529f\u80fd',
+  'privacy.subtitle': '\u6211\u4eec\u5982\u4f55\u5904\u7406\u60a8\u7684\u6570\u636e',
+  'terms.subtitle': '\u4f7f\u7528 MyCircle \u7684\u89c4\u5219',
 };
 
 export default zh;

@@ -41,7 +41,7 @@ jest.mock('@mycircle/shared', () => ({
     WORSHIP_SONGS_CHANGED: 'worship-songs-changed',
     NOTEBOOK_CHANGED: 'notebook-changed',
     FLASHCARD_PROGRESS_CHANGED: 'flashcard-progress-changed',
-    WORK_TRACKER_CHANGED: 'work-tracker-changed',
+    DAILY_LOG_CHANGED: 'daily-log-changed',
     CHILD_DATA_CHANGED: 'child-data-changed',
   },
   AppEvents: {},
