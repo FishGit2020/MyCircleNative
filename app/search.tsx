@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '@mycircle/shared';
@@ -192,6 +193,7 @@ export default function SearchScreen() {
   const { t } = useTranslation();
   const { isDark } = useTheme();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInput>(null);
   const [query, setQuery] = useState('');
 
@@ -222,7 +224,7 @@ export default function SearchScreen() {
   }, [query, t]);
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900" style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}>
       {/* Search input */}
       <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
         <Ionicons

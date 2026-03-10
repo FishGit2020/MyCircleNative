@@ -18,7 +18,7 @@ export function ScreenHeader({ title, showBack = false, rightAction }: ScreenHea
         {showBack && (
           <Pressable
             onPress={() => router.back()}
-            className="mr-3 p-1"
+            className="w-11 h-11 items-center justify-center rounded-full active:bg-gray-100 dark:active:bg-gray-800 mr-2"
             accessibilityRole="button"
             accessibilityLabel="Go back"
           >
