@@ -67,7 +67,8 @@
       "expo-web-browser",
       "@react-native-google-signin/google-signin",
       "@react-native-firebase/messaging",
-      "./plugins/withFirebaseMessagingManifestFix"
+      "./plugins/withFirebaseMessagingManifestFix",
+      "@sentry/react-native"
     ],
     "extra": {
       "eas": {

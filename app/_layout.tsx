@@ -12,6 +12,10 @@ import { getApolloClient } from '@mycircle/shared';
 import { subscribeToAuthChanges } from '../src/firebase/auth';
 import type { FirebaseAuthTypes } from '../src/firebase/config';
 import GlobalAudioPlayer from '../src/components/GlobalAudioPlayer';
+import { initSentry } from '../src/sentry';
+import { ErrorBoundary } from '../src/components/common/ErrorBoundary';
+
+initSentry();
 
 // Prevent the splash screen from auto-hiding until we finish loading
 SplashScreen.preventAutoHideAsync();
@@ -88,20 +92,22 @@ export default function RootLayout() {
   const apolloClient = getApolloClient();
 
   return (
-    <SafeAreaProvider>
-      <I18nProvider>
-        <ApolloProvider client={apolloClient}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: {
-                backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
-              },
-            }}
-          />
-          <GlobalAudioPlayer />
-        </ApolloProvider>
-      </I18nProvider>
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <I18nProvider>
+          <ApolloProvider client={apolloClient}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                  backgroundColor: colorScheme === 'dark' ? '#111827' : '#ffffff',
+                },
+              }}
+            />
+            <GlobalAudioPlayer />
+          </ApolloProvider>
+        </I18nProvider>
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

@@ -224,16 +224,39 @@ async function getRecentCities(uid: string): Promise<RecentCity[]> {
 // Analytics helpers (React Native Firebase analytics)
 // ---------------------------------------------------------------------------
 
-function identifyUser(_uid: string, _properties?: Record<string, string>) {
-  // TODO: integrate @react-native-firebase/analytics when added
+let analytics: ReturnType<typeof import('@react-native-firebase/analytics').default> | null = null;
+
+function getAnalytics() {
+  if (!analytics) {
+    try {
+      const mod = require('@react-native-firebase/analytics');
+      analytics = mod.default();
+    } catch {
+      // Analytics not available (e.g. in tests)
+    }
+  }
+  return analytics;
+}
+
+function identifyUser(uid: string, properties?: Record<string, string>) {
+  const a = getAnalytics();
+  if (!a) return;
+  a.setUserId(uid).catch(() => {});
+  if (properties) {
+    a.setUserProperties(properties).catch(() => {});
+  }
 }
 
 function clearUserIdentity() {
-  // TODO: integrate @react-native-firebase/analytics when added
+  const a = getAnalytics();
+  if (!a) return;
+  a.setUserId(null).catch(() => {});
 }
 
-function logEvent(_eventName: string, _params?: Record<string, any>) {
-  // TODO: integrate @react-native-firebase/analytics when added
+function logEvent(eventName: string, params?: Record<string, any>) {
+  const a = getAnalytics();
+  if (!a) return;
+  a.logEvent(eventName, params).catch(() => {});
 }
 
 // ---------------------------------------------------------------------------
