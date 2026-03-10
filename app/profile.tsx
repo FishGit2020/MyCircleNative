@@ -14,10 +14,7 @@ import {
   AppEvents,
   eventBus,
 } from '@mycircle/shared';
-import type { TemperatureUnit, SpeedUnit } from '@mycircle/shared';
 import { useAuth } from '../src/contexts/AuthContext';
-
-type DistanceUnit = 'km' | 'mi';
 
 const EXPORT_VERSION = 1;
 const KNOWN_ACCOUNTS_KEY = 'known-accounts';
@@ -34,20 +31,18 @@ interface KnownAccountEntry {
   lastSignedInAt: number;
 }
 
+type UnitSystem = 'us' | 'metric';
+
 export default function ProfileScreen() {
-  const { t } = useTranslation();
-  const { user, signOut, updateTempUnit, updateSpeedUnit } = useAuth();
+  const { t, locale, setLocale } = useTranslation();
+  const { user, signOut, updateUnitSystem } = useAuth();
   const router = useRouter();
 
-  const [tempUnit, setTempUnitState] = useState<TemperatureUnit>(
-    () => (safeGetItem(StorageKeys.TEMP_UNIT) as TemperatureUnit) || 'C',
-  );
-  const [speedUnit, setSpeedUnitState] = useState<SpeedUnit>(
-    () => (safeGetItem(StorageKeys.SPEED_UNIT) as SpeedUnit) || 'ms',
-  );
-  const [distanceUnit, setDistanceUnitState] = useState<DistanceUnit>(
-    () => (safeGetItem(DISTANCE_UNIT_KEY) as DistanceUnit) || 'km',
-  );
+  const [unitSystem, setUnitSystemState] = useState<UnitSystem>(() => {
+    const temp = safeGetItem(StorageKeys.TEMP_UNIT);
+    const dist = safeGetItem(StorageKeys.DISTANCE_UNIT);
+    return temp === 'F' && dist === 'mi' ? 'us' : 'metric';
+  });
   const [knownAccounts, setKnownAccounts] = useState<KnownAccountEntry[]>([]);
   const [importStatus, setImportStatus] = useState<string | null>(null);
 
@@ -66,26 +61,16 @@ export default function ProfileScreen() {
     }
   }, []);
 
-  // ---------- Unit handlers ----------
+  // ---------- Unit system handler ----------
 
-  function handleTempUnitChange(unit: TemperatureUnit) {
-    setTempUnitState(unit);
-    safeSetItem(StorageKeys.TEMP_UNIT, unit);
+  function handleUnitSystemChange(system: UnitSystem) {
+    const isUS = system === 'us';
+    setUnitSystemState(system);
+    safeSetItem(StorageKeys.TEMP_UNIT, isUS ? 'F' : 'C');
+    safeSetItem(StorageKeys.SPEED_UNIT, isUS ? 'mph' : 'kmh');
+    safeSetItem(StorageKeys.DISTANCE_UNIT, isUS ? 'mi' : 'km');
     eventBus.publish(AppEvents.UNITS_CHANGED);
-    updateTempUnit(unit);
-  }
-
-  function handleSpeedUnitChange(unit: SpeedUnit) {
-    setSpeedUnitState(unit);
-    safeSetItem(StorageKeys.SPEED_UNIT, unit);
-    eventBus.publish(AppEvents.UNITS_CHANGED);
-    updateSpeedUnit(unit);
-  }
-
-  function handleDistanceUnitChange(unit: DistanceUnit) {
-    setDistanceUnitState(unit);
-    safeSetItem(DISTANCE_UNIT_KEY, unit);
-    eventBus.publish(AppEvents.UNITS_CHANGED);
+    updateUnitSystem(system);
   }
 
   // ---------- Sign out ----------
@@ -183,20 +168,15 @@ export default function ProfileScreen() {
     ? (user.displayName || user.email || '?')[0].toUpperCase()
     : '?';
 
-  const tempOptions: { value: TemperatureUnit; label: string }[] = [
-    { value: 'C', label: '\u00B0C' },
-    { value: 'F', label: '\u00B0F' },
+  const unitSystemOptions: { value: UnitSystem; label: string }[] = [
+    { value: 'metric', label: t('settings.unitSystemMetric' as any) },
+    { value: 'us', label: t('settings.unitSystemUS' as any) },
   ];
 
-  const speedOptions: { value: SpeedUnit; label: string }[] = [
-    { value: 'ms', label: 'm/s' },
-    { value: 'mph', label: 'mph' },
-    { value: 'kmh', label: 'km/h' },
-  ];
-
-  const distanceOptions: { value: DistanceUnit; label: string }[] = [
-    { value: 'km', label: 'km' },
-    { value: 'mi', label: 'mi' },
+  const languageOptions: { value: 'en' | 'es' | 'zh'; label: string }[] = [
+    { value: 'en', label: t('language.en' as any) },
+    { value: 'es', label: t('language.es' as any) },
+    { value: 'zh', label: t('language.zh' as any) },
   ];
 
   return (
@@ -304,42 +284,26 @@ export default function ProfileScreen() {
           </View>
         )}
 
-        {/* Unit system toggle */}
-        <SectionHeader title={t('profile.units' as any)} />
-
-        {/* Temperature */}
+        {/* Unit system toggle — unified Metric / US, matching web */}
+        <SectionHeader title={t('settings.units' as any)} />
         <View className="px-4 mb-3">
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t('profile.tempUnit' as any)}
-          </Text>
           <SegmentedControl
-            options={tempOptions}
-            selected={tempUnit}
-            onSelect={(value) => handleTempUnitChange(value as TemperatureUnit)}
+            options={unitSystemOptions}
+            selected={unitSystem}
+            onSelect={(value) => handleUnitSystemChange(value as UnitSystem)}
           />
+          <Text className="text-xs text-gray-400 dark:text-gray-500 mt-2 px-1">
+            {unitSystem === 'us' ? '\u00B0F \u00B7 mph \u00B7 mi' : '\u00B0C \u00B7 km/h \u00B7 km'}
+          </Text>
         </View>
 
-        {/* Speed */}
+        {/* Language */}
+        <SectionHeader title={t('language.label' as any)} />
         <View className="px-4 mb-3">
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t('profile.speedUnit' as any)}
-          </Text>
           <SegmentedControl
-            options={speedOptions}
-            selected={speedUnit}
-            onSelect={(value) => handleSpeedUnitChange(value as SpeedUnit)}
-          />
-        </View>
-
-        {/* Distance */}
-        <View className="px-4 mb-3">
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t('profile.distanceUnit' as any)}
-          </Text>
-          <SegmentedControl
-            options={distanceOptions}
-            selected={distanceUnit}
-            onSelect={(value) => handleDistanceUnitChange(value as DistanceUnit)}
+            options={languageOptions}
+            selected={locale}
+            onSelect={(value) => setLocale(value as 'en' | 'es' | 'zh')}
           />
         </View>
 

@@ -10,37 +10,32 @@ import {
   AppEvents,
   eventBus,
 } from '@mycircle/shared';
-import type { TemperatureUnit, SpeedUnit } from '@mycircle/shared';
 import { useAuth } from '../src/contexts/AuthContext';
 import { useTheme } from '../src/contexts/ThemeContext';
 
 type ThemeMode = 'light' | 'dark' | 'system';
+type UnitSystem = 'us' | 'metric';
 
 export default function SettingsScreen() {
   const { t, locale, setLocale } = useTranslation();
-  const { user, signOut, updateTempUnit, updateSpeedUnit } = useAuth();
+  const { user, signOut, updateUnitSystem } = useAuth();
   const { themeMode, setThemeMode } = useTheme();
   const router = useRouter();
 
-  const [tempUnit, setTempUnitState] = useState<TemperatureUnit>(
-    () => (safeGetItem(StorageKeys.TEMP_UNIT) as TemperatureUnit) || 'C',
-  );
-  const [speedUnit, setSpeedUnitState] = useState<SpeedUnit>(
-    () => (safeGetItem(StorageKeys.SPEED_UNIT) as SpeedUnit) || 'ms',
-  );
+  const [unitSystem, setUnitSystemState] = useState<UnitSystem>(() => {
+    const temp = safeGetItem(StorageKeys.TEMP_UNIT);
+    const dist = safeGetItem(StorageKeys.DISTANCE_UNIT);
+    return temp === 'F' && dist === 'mi' ? 'us' : 'metric';
+  });
 
-  function handleTempUnitChange(unit: TemperatureUnit) {
-    setTempUnitState(unit);
-    safeSetItem(StorageKeys.TEMP_UNIT, unit);
+  function handleUnitSystemChange(system: UnitSystem) {
+    const isUS = system === 'us';
+    setUnitSystemState(system);
+    safeSetItem(StorageKeys.TEMP_UNIT, isUS ? 'F' : 'C');
+    safeSetItem(StorageKeys.SPEED_UNIT, isUS ? 'mph' : 'kmh');
+    safeSetItem(StorageKeys.DISTANCE_UNIT, isUS ? 'mi' : 'km');
     eventBus.publish(AppEvents.UNITS_CHANGED);
-    updateTempUnit(unit);
-  }
-
-  function handleSpeedUnitChange(unit: SpeedUnit) {
-    setSpeedUnitState(unit);
-    safeSetItem(StorageKeys.SPEED_UNIT, unit);
-    eventBus.publish(AppEvents.UNITS_CHANGED);
-    updateSpeedUnit(unit);
+    updateUnitSystem(system);
   }
 
   function handleSignOut() {
@@ -69,15 +64,9 @@ export default function SettingsScreen() {
     { value: 'dark', label: t('theme.dark'), icon: 'moon-outline' },
   ];
 
-  const tempOptions: { value: TemperatureUnit; label: string }[] = [
-    { value: 'C', label: '\u00B0C' },
-    { value: 'F', label: '\u00B0F' },
-  ];
-
-  const speedOptions: { value: SpeedUnit; label: string }[] = [
-    { value: 'ms', label: t('units.speedMs') },
-    { value: 'mph', label: t('units.speedMph') },
-    { value: 'kmh', label: t('units.speedKmh') },
+  const unitSystemOptions: { value: UnitSystem; label: string }[] = [
+    { value: 'metric', label: t('settings.unitSystemMetric') },
+    { value: 'us', label: t('settings.unitSystemUS') },
   ];
 
   return (
@@ -156,21 +145,16 @@ export default function SettingsScreen() {
           ))}
         </View>
 
-        {/* Temperature unit */}
-        <SectionHeader title="Temperature" />
+        {/* Unit system — unified Metric / US toggle */}
+        <SectionHeader title={t('settings.units')} />
         <SegmentedControl
-          options={tempOptions}
-          selected={tempUnit}
-          onSelect={(value) => handleTempUnitChange(value as TemperatureUnit)}
+          options={unitSystemOptions}
+          selected={unitSystem}
+          onSelect={(value) => handleUnitSystemChange(value as UnitSystem)}
         />
-
-        {/* Speed unit */}
-        <SectionHeader title={t('units.speed')} />
-        <SegmentedControl
-          options={speedOptions}
-          selected={speedUnit}
-          onSelect={(value) => handleSpeedUnitChange(value as SpeedUnit)}
-        />
+        <Text className="px-5 mt-1 text-xs text-gray-400 dark:text-gray-500">
+          {unitSystem === 'us' ? '\u00B0F \u00B7 mph \u00B7 mi' : '\u00B0C \u00B7 km/h \u00B7 km'}
+        </Text>
 
         {/* Notification preferences */}
         <SectionHeader title={t('notifications.preferences')} />

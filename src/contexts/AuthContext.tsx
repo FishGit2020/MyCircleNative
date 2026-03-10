@@ -27,6 +27,8 @@ export interface UserProfile {
   locale?: string;
   tempUnit?: 'C' | 'F';
   speedUnit?: 'ms' | 'mph' | 'kmh';
+  distanceUnit?: 'km' | 'mi';
+  unitSystem?: 'us' | 'metric';
   recentCities: RecentCity[];
   favoriteCities: FavoriteCity[];
   stockWatchlist?: WatchlistItem[];
@@ -136,6 +138,20 @@ async function updateUserTempUnit(uid: string, tempUnit: 'C' | 'F') {
 
 async function updateUserSpeedUnit(uid: string, speedUnit: 'ms' | 'mph' | 'kmh') {
   await userDoc(uid).update({ speedUnit, updatedAt: serverTimestamp() });
+}
+
+async function updateUserUnitSystem(
+  uid: string,
+  system: 'us' | 'metric',
+) {
+  const isUS = system === 'us';
+  await userDoc(uid).update({
+    unitSystem: system,
+    tempUnit: isUS ? 'F' : 'C',
+    speedUnit: isUS ? 'mph' : 'kmh',
+    distanceUnit: isUS ? 'mi' : 'km',
+    updatedAt: serverTimestamp(),
+  });
 }
 
 async function addRecentCity(uid: string, city: Omit<RecentCity, 'searchedAt'>) {
@@ -284,6 +300,7 @@ interface AuthContextType {
   updateLocale: (locale: string) => Promise<void>;
   updateTempUnit: (unit: 'C' | 'F') => Promise<void>;
   updateSpeedUnit: (unit: 'ms' | 'mph' | 'kmh') => Promise<void>;
+  updateUnitSystem: (system: 'us' | 'metric') => Promise<void>;
   addCity: (city: Omit<RecentCity, 'searchedAt'>) => Promise<void>;
   removeCity: (cityId: string) => Promise<void>;
   clearCities: () => Promise<void>;
@@ -346,6 +363,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
           if (userProfile.speedUnit) {
             safeSetItem(StorageKeys.SPEED_UNIT, userProfile.speedUnit);
+            eventBus.publish(WindowEvents.UNITS_CHANGED);
+          }
+          if (userProfile.distanceUnit) {
+            safeSetItem(StorageKeys.DISTANCE_UNIT, userProfile.distanceUnit);
             eventBus.publish(WindowEvents.UNITS_CHANGED);
           }
 
@@ -584,6 +605,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [user],
   );
 
+  const updateUnitSystem = useCallback(
+    async (system: 'us' | 'metric') => {
+      if (user) {
+        await updateUserUnitSystem(user.uid, system);
+        const isUS = system === 'us';
+        setProfile((prev) =>
+          prev
+            ? {
+                ...prev,
+                unitSystem: system,
+                tempUnit: isUS ? 'F' : 'C',
+                speedUnit: isUS ? 'mph' : 'kmh',
+                distanceUnit: isUS ? 'mi' : 'km',
+              }
+            : null,
+        );
+      }
+    },
+    [user],
+  );
+
   const addCity = useCallback(
     async (city: Omit<RecentCity, 'searchedAt'>) => {
       if (user) {
@@ -767,6 +809,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         updateLocale,
         updateTempUnit,
         updateSpeedUnit,
+        updateUnitSystem,
         addCity,
         removeCity,
         clearCities,
