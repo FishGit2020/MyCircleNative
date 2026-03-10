@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,9 @@ import {
   ActivityIndicator,
   Alert,
   Share,
+  Platform,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import {
   useTranslation,
   StorageKeys,
@@ -19,6 +21,7 @@ import {
   safeSetItem,
   createLogger,
 } from '@mycircle/shared';
+import { useTheme } from '../../../src/contexts';
 
 const logger = createLogger('HikingMap');
 
@@ -72,8 +75,99 @@ function calculateRouteStats(waypoints: Waypoint[]): { distance: number; duratio
   return { distance: Math.round(distance * 100) / 100, duration: estimateDuration(distance) };
 }
 
+/** Build the Leaflet HTML for an interactive map */
+function buildLeafletHtml(
+  waypoints: Waypoint[],
+  isDark: boolean,
+  interactive: boolean,
+): string {
+  const validWps = waypoints.filter((wp) => {
+    const lat = parseFloat(wp.lat);
+    const lon = parseFloat(wp.lon);
+    return !isNaN(lat) && !isNaN(lon);
+  });
+
+  const centerLat = validWps.length > 0
+    ? validWps.reduce((s, wp) => s + parseFloat(wp.lat), 0) / validWps.length
+    : 47.6;
+  const centerLon = validWps.length > 0
+    ? validWps.reduce((s, wp) => s + parseFloat(wp.lon), 0) / validWps.length
+    : -122.3;
+  const zoom = validWps.length > 0 ? 13 : 4;
+
+  const markersJs = validWps
+    .map((wp, idx) => {
+      const lat = parseFloat(wp.lat);
+      const lon = parseFloat(wp.lon);
+      const color = idx === 0 ? '#22c55e' : idx === validWps.length - 1 ? '#ef4444' : '#3b82f6';
+      return `
+        L.circleMarker([${lat}, ${lon}], {
+          radius: 14, fillColor: '${color}', color: '#fff',
+          weight: 2, opacity: 1, fillOpacity: 0.9
+        }).addTo(map).bindTooltip('${(idx + 1)}. ${wp.label.replace(/'/g, "\\'")}', {permanent: false});
+        L.marker([${lat}, ${lon}], {
+          icon: L.divIcon({
+            className: 'num-icon',
+            html: '<div style="color:#fff;font-size:11px;font-weight:bold;text-align:center;line-height:28px;">${idx + 1}</div>',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+          })
+        }).addTo(map);
+      `;
+    })
+    .join('\n');
+
+  const polylineCoords = validWps
+    .map((wp) => `[${parseFloat(wp.lat)}, ${parseFloat(wp.lon)}]`)
+    .join(',');
+
+  const tileUrl = isDark
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  const tileAttr = isDark
+    ? '&copy; CARTO'
+    : '&copy; OpenStreetMap contributors';
+
+  const tapHandler = interactive
+    ? `
+      map.on('click', function(e) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'mapTap',
+          lat: e.latlng.lat.toFixed(6),
+          lon: e.latlng.lng.toFixed(6)
+        }));
+      });
+    `
+    : '';
+
+  return `<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+  #map{width:100%;height:100%;}
+  .num-icon{background:transparent;border:none;}
+</style>
+</head><body>
+<div id="map"></div>
+<script>
+  var map = L.map('map',{zoomControl:false}).setView([${centerLat},${centerLon}],${zoom});
+  L.tileLayer('${tileUrl}',{maxZoom:19,attribution:'${tileAttr}'}).addTo(map);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  ${markersJs}
+  ${validWps.length >= 2 ? `L.polyline([${polylineCoords}],{color:'#3b82f6',weight:3,opacity:0.7,dashArray:'8,6'}).addTo(map);` : ''}
+  ${validWps.length > 1 ? `map.fitBounds([${polylineCoords}],{padding:[30,30]});` : ''}
+  ${tapHandler}
+  window.flyTo = function(lat,lon,z){map.flyTo([lat,lon],z||15);};
+</script>
+</body></html>`;
+}
+
 export default function HikingMapScreen() {
   const { t } = useTranslation();
+  const { isDark } = useTheme();
   const [routes, setRoutes] = useState<HikingRoute[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -85,6 +179,9 @@ export default function HikingMapScreen() {
   const [selectedRoute, setSelectedRoute] = useState<HikingRoute | null>(null);
   const [tab, setTab] = useState<'my' | 'public'>('my');
   const [deleteTarget, setDeleteTarget] = useState<HikingRoute | null>(null);
+
+  const detailWebViewRef = useRef<WebView>(null);
+  const createWebViewRef = useRef<WebView>(null);
 
   // Load routes
   const loadRoutes = useCallback(() => {
@@ -123,23 +220,54 @@ export default function HikingMapScreen() {
       const Location = await import('expo-location');
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        Alert.alert(t('hiking.title'), t('hiking.locating'));
+        Alert.alert(t('hiking.title'), t('hiking.locationError'));
         setLocating(false);
         return;
       }
       const loc = await Location.getCurrentPositionAsync({});
-      setCurrentLocation({
+      const coords = {
         lat: loc.coords.latitude.toFixed(6),
         lon: loc.coords.longitude.toFixed(6),
-      });
+      };
+      setCurrentLocation(coords);
+      // Fly map to current location
+      if (createWebViewRef.current) {
+        createWebViewRef.current.injectJavaScript(
+          `window.flyTo(${coords.lat},${coords.lon},15);true;`,
+        );
+      }
     } catch (err) {
       logger.error('Location failed', err);
+      Alert.alert(t('hiking.title'), t('hiking.locationError'));
     } finally {
       setLocating(false);
     }
   }, [t]);
 
-  // Add waypoint
+  // Handle map tap in create mode — add a waypoint at tapped coordinates
+  const handleCreateMapMessage = useCallback(
+    (event: { nativeEvent: { data: string } }) => {
+      try {
+        const data = JSON.parse(event.nativeEvent.data);
+        if (data.type === 'mapTap') {
+          setWaypoints((prev) => [
+            ...prev,
+            {
+              id: `wp-${Date.now()}`,
+              lat: data.lat,
+              lon: data.lon,
+              label: `${t('hiking.waypoints')} ${prev.length + 1}`,
+            },
+          ]);
+        }
+      } catch {
+        // ignore non-JSON messages
+      }
+    },
+    [t],
+  );
+
+  // Add waypoint from current location
   const addWaypoint = useCallback(() => {
     setWaypoints((prev) => [
       ...prev,
@@ -215,6 +343,31 @@ export default function HikingMapScreen() {
     }
   }, [t]);
 
+  // Locate me on the detail view map
+  const handleDetailLocate = useCallback(async () => {
+    setLocating(true);
+    try {
+      const Location = await import('expo-location');
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(t('hiking.title'), t('hiking.locationError'));
+        setLocating(false);
+        return;
+      }
+      const loc = await Location.getCurrentPositionAsync({});
+      if (detailWebViewRef.current) {
+        detailWebViewRef.current.injectJavaScript(
+          `window.flyTo(${loc.coords.latitude},${loc.coords.longitude},15);true;`,
+        );
+      }
+    } catch (err) {
+      logger.error('Location failed', err);
+      Alert.alert(t('hiking.title'), t('hiking.locationError'));
+    } finally {
+      setLocating(false);
+    }
+  }, [t]);
+
   // Route detail view
   if (selectedRoute) {
     const stats = calculateRouteStats(selectedRoute.waypoints);
@@ -224,7 +377,7 @@ export default function HikingMapScreen() {
           <TouchableOpacity
             onPress={() => setSelectedRoute(null)}
             className="min-h-[44px] min-w-[44px] justify-center"
-            accessibilityLabel={t('hiking.myRoutes')}
+            accessibilityLabel={t('hiking.back')}
             accessibilityRole="button"
           >
             <Text className="text-blue-500 dark:text-blue-400 text-sm">
@@ -261,11 +414,33 @@ export default function HikingMapScreen() {
             </View>
           </View>
 
-          {/* Map placeholder */}
-          <View className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mb-4">
-            <Text className="text-sm text-yellow-700 dark:text-yellow-300 text-center">
-              Map view coming soon
-            </Text>
+          {/* Interactive Leaflet Map */}
+          <View className="mb-4 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            <WebView
+              ref={detailWebViewRef}
+              originWhitelist={['*']}
+              source={{ html: buildLeafletHtml(selectedRoute.waypoints, isDark, false) }}
+              style={{ height: 300, width: '100%' }}
+              scrollEnabled={false}
+              javaScriptEnabled
+              domStorageEnabled
+              accessibilityLabel={t('hiking.interactiveMap')}
+            />
+            <TouchableOpacity
+              onPress={handleDetailLocate}
+              disabled={locating}
+              className="absolute bottom-3 left-3 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow min-h-[44px] min-w-[44px] justify-center items-center flex-row"
+              accessibilityLabel={t('hiking.locateMe')}
+              accessibilityRole="button"
+            >
+              {locating ? (
+                <ActivityIndicator size="small" />
+              ) : (
+                <Text className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                  {'\u{1F4CD}'} {t('hiking.locateMe')}
+                </Text>
+              )}
+            </TouchableOpacity>
           </View>
 
           {/* Waypoints */}
@@ -316,7 +491,7 @@ export default function HikingMapScreen() {
           <TouchableOpacity
             onPress={() => { setShowNewRoute(false); setWaypoints([]); setRouteName(''); }}
             className="min-h-[44px] min-w-[44px] justify-center"
-            accessibilityLabel={t('hiking.myRoutes')}
+            accessibilityLabel={t('hiking.back')}
             accessibilityRole="button"
           >
             <Text className="text-blue-500 dark:text-blue-400 text-sm">{'\u2190'}</Text>
@@ -335,33 +510,53 @@ export default function HikingMapScreen() {
           <TextInput
             value={routeName}
             onChangeText={setRouteName}
-            placeholder={t('hiking.newRoute')}
+            placeholder={t('hiking.routeNamePlaceholder')}
             placeholderTextColor="#9CA3AF"
             className="border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-3 text-gray-800 dark:text-white bg-white dark:bg-gray-800 mb-4"
             accessibilityLabel={t('hiking.newRoute')}
           />
 
-          {/* Current location */}
-          <TouchableOpacity
-            onPress={handleLocate}
-            disabled={locating}
-            className="mb-4 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex-row items-center justify-center min-h-[44px]"
-            accessibilityLabel={t('hiking.locating')}
-            accessibilityRole="button"
-          >
-            {locating ? (
-              <ActivityIndicator size="small" />
-            ) : (
-              <>
-                <Text className="text-blue-600 dark:text-blue-400 text-sm mr-2">{'\u{1F4CD}'}</Text>
-                <Text className="text-blue-600 dark:text-blue-400 text-sm">
-                  {currentLocation
-                    ? `${currentLocation.lat}, ${currentLocation.lon}`
-                    : t('hiking.locating')}
+          {/* Interactive Map — tap to add waypoints */}
+          <Text className="text-xs text-gray-500 dark:text-gray-400 mb-2 text-center">
+            {t('hiking.tapMapToAddWaypoint')}
+          </Text>
+          <View className="mb-4 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            <WebView
+              ref={createWebViewRef}
+              originWhitelist={['*']}
+              source={{ html: buildLeafletHtml(waypoints, isDark, true) }}
+              style={{ height: 300, width: '100%' }}
+              scrollEnabled={false}
+              javaScriptEnabled
+              domStorageEnabled
+              onMessage={handleCreateMapMessage}
+              accessibilityLabel={t('hiking.interactiveMap')}
+            />
+            <TouchableOpacity
+              onPress={handleLocate}
+              disabled={locating}
+              className="absolute bottom-3 left-3 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow min-h-[44px] min-w-[44px] justify-center items-center flex-row"
+              accessibilityLabel={t('hiking.locateMe')}
+              accessibilityRole="button"
+            >
+              {locating ? (
+                <ActivityIndicator size="small" />
+              ) : (
+                <Text className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                  {'\u{1F4CD}'} {t('hiking.locateMe')}
                 </Text>
-              </>
-            )}
-          </TouchableOpacity>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {/* Current location display */}
+          {currentLocation && (
+            <View className="mb-4 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+              <Text className="text-blue-600 dark:text-blue-400 text-xs text-center">
+                {currentLocation.lat}, {currentLocation.lon}
+              </Text>
+            </View>
+          )}
 
           {/* Waypoints */}
           <View className="flex-row justify-between items-center mb-2">
@@ -512,11 +707,23 @@ export default function HikingMapScreen() {
           </Text>
         </View>
 
-        {/* Map placeholder banner */}
-        <View className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mb-4">
-          <Text className="text-sm text-yellow-700 dark:text-yellow-300 text-center">
-            Map view coming soon — use the text-based route planner below
-          </Text>
+        {/* Overview Leaflet Map */}
+        <View className="mb-4 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+          <WebView
+            originWhitelist={['*']}
+            source={{
+              html: buildLeafletHtml(
+                routes.flatMap((r) => r.waypoints),
+                isDark,
+                false,
+              ),
+            }}
+            style={{ height: 200, width: '100%' }}
+            scrollEnabled={false}
+            javaScriptEnabled
+            domStorageEnabled
+            accessibilityLabel={t('hiking.interactiveMap')}
+          />
         </View>
 
         {/* New route button */}
@@ -607,7 +814,7 @@ export default function HikingMapScreen() {
                   <TouchableOpacity
                     onPress={() => setDeleteTarget(route)}
                     className="px-3 py-1.5 rounded-full min-h-[32px] justify-center"
-                    accessibilityLabel={t('hiking.save')}
+                    accessibilityLabel={t('hiking.deleteRoute')}
                     accessibilityRole="button"
                   >
                     <Text className="text-xs text-red-500 dark:text-red-400">{'\u2715'}</Text>
@@ -627,24 +834,24 @@ export default function HikingMapScreen() {
           <View className="flex-1 justify-center items-center bg-black/50 px-4">
             <View className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-6">
               <Text className="text-gray-800 dark:text-white mb-4">
-                {t('hiking.save')} &quot;{deleteTarget.name}&quot;?
+                {t('hiking.confirmDeleteRoute')} &quot;{deleteTarget.name}&quot;?
               </Text>
               <View className="flex-row justify-end gap-2">
                 <TouchableOpacity
                   onPress={() => setDeleteTarget(null)}
                   className="px-4 py-2 rounded-lg min-h-[44px] justify-center"
-                  accessibilityLabel={t('hiking.myRoutes')}
+                  accessibilityLabel={t('hiking.cancel')}
                   accessibilityRole="button"
                 >
-                  <Text className="text-sm text-gray-600 dark:text-gray-400">{'\u2190'}</Text>
+                  <Text className="text-sm text-gray-600 dark:text-gray-400">{t('hiking.cancel')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleDelete}
                   className="px-4 py-2 rounded-lg min-h-[44px] justify-center bg-red-500 dark:bg-red-600"
-                  accessibilityLabel={t('hiking.title')}
+                  accessibilityLabel={t('hiking.delete')}
                   accessibilityRole="button"
                 >
-                  <Text className="text-sm font-medium text-white">{'\u2715'}</Text>
+                  <Text className="text-sm font-medium text-white">{t('hiking.delete')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
