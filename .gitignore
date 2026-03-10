@@ -51,3 +51,4 @@ play-store-key.json
 
 # EAS
 .easignore
+coverage/

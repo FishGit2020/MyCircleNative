@@ -32,10 +32,10 @@ jest.mock('../components', () => ({
   TimelineView: () => 'TimelineView',
 }));
 
-import WorkTrackerScreen from '../WorkTrackerScreen';
+import DailyLogScreen from '../DailyLogScreen';
 import { useWorkEntries } from '../hooks/useWorkEntries';
 
-describe('WorkTrackerScreen', () => {
+describe('DailyLogScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -51,9 +51,9 @@ describe('WorkTrackerScreen', () => {
       deleteEntry: jest.fn(),
     });
 
-    render(<WorkTrackerScreen />);
+    render(<DailyLogScreen />);
 
-    expect(screen.getByText('workTracker.title')).toBeTruthy();
-    expect(screen.getByText('workTracker.signInRequired')).toBeTruthy();
+    expect(screen.getByText('dailyLog.title')).toBeTruthy();
+    expect(screen.getByText('dailyLog.signInRequired')).toBeTruthy();
   });
 });

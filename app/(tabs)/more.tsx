@@ -51,9 +51,9 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'layers-outline',
   },
   {
-    route: '/work-tracker',
-    titleKey: 'workTracker.title',
-    descriptionKey: 'home.quickWorkTrackerDesc',
+    route: '/daily-log',
+    titleKey: 'dailyLog.title',
+    descriptionKey: 'home.quickDailyLogDesc',
     icon: 'briefcase-outline',
   },
   {
@@ -115,6 +115,30 @@ const MENU_ITEMS: MoreMenuItem[] = [
     titleKey: 'hiking.title',
     descriptionKey: 'hiking.subtitle',
     icon: 'trail-sign-outline',
+  },
+  {
+    route: '/trash',
+    titleKey: 'recycleBin.title',
+    descriptionKey: 'recycleBin.subtitle',
+    icon: 'trash-outline',
+  },
+  {
+    route: '/whats-new',
+    titleKey: 'whatsNew.title',
+    descriptionKey: 'whatsNew.subtitle',
+    icon: 'newspaper-outline',
+  },
+  {
+    route: '/privacy',
+    titleKey: 'privacy.title',
+    descriptionKey: 'privacy.subtitle',
+    icon: 'shield-checkmark-outline',
+  },
+  {
+    route: '/terms',
+    titleKey: 'terms.title',
+    descriptionKey: 'terms.subtitle',
+    icon: 'reader-outline',
   },
   {
     route: '/settings',

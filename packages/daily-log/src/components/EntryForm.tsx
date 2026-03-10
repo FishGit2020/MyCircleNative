@@ -36,27 +36,27 @@ export default function EntryForm({ onSubmit, initialValue = '', onCancel }: Ent
       <TextInput
         value={content}
         onChangeText={setContent}
-        placeholder={t('workTracker.placeholder')}
+        placeholder={t('dailyLog.placeholder')}
         placeholderTextColor="#9ca3af"
         className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm"
         autoFocus
         returnKeyType="done"
         onSubmitEditing={handleSubmit}
-        accessibilityLabel={t('workTracker.placeholder')}
+        accessibilityLabel={t('dailyLog.placeholder')}
       />
       <TouchableOpacity
         onPress={handleSubmit}
         disabled={!content.trim() || submitting}
         className="px-4 py-3 rounded-xl bg-blue-500 dark:bg-blue-600 justify-center items-center min-h-[44px]"
         style={{ opacity: !content.trim() || submitting ? 0.5 : 1 }}
-        accessibilityLabel={t('workTracker.save')}
+        accessibilityLabel={t('dailyLog.save')}
         accessibilityRole="button"
       >
         {submitting ? (
           <ActivityIndicator size="small" color="#ffffff" />
         ) : (
           <Text className="text-sm font-medium text-white">
-            {t('workTracker.save')}
+            {t('dailyLog.save')}
           </Text>
         )}
       </TouchableOpacity>
@@ -64,11 +64,11 @@ export default function EntryForm({ onSubmit, initialValue = '', onCancel }: Ent
         <TouchableOpacity
           onPress={onCancel}
           className="px-3 py-3 rounded-xl justify-center items-center min-h-[44px]"
-          accessibilityLabel={t('workTracker.cancel')}
+          accessibilityLabel={t('dailyLog.cancel')}
           accessibilityRole="button"
         >
           <Text className="text-sm text-gray-600 dark:text-gray-400">
-            {t('workTracker.cancel')}
+            {t('dailyLog.cancel')}
           </Text>
         </TouchableOpacity>
       )}

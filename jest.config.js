@@ -14,7 +14,7 @@ module.exports = {
     '^@mycircle/baby-tracker$': '<rootDir>/packages/baby-tracker/src',
     '^@mycircle/child-development$': '<rootDir>/packages/child-development/src',
     '^@mycircle/flashcards$': '<rootDir>/packages/flashcards/src',
-    '^@mycircle/work-tracker$': '<rootDir>/packages/work-tracker/src',
+    '^@mycircle/daily-log$': '<rootDir>/packages/daily-log/src',
     '^@mycircle/city-search$': '<rootDir>/packages/city-search/src',
     '^@mycircle/radio-station$': '<rootDir>/packages/radio-station/src',
     '^@mycircle/poll-system$': '<rootDir>/packages/poll-system/src',

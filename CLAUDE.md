@@ -51,7 +51,7 @@ MyCircleNative/
 │   ├── baby-tracker/       # Baby tracker
 │   ├── child-development/  # Child dev milestones
 │   ├── flashcards/         # Flashcards
-│   ├── work-tracker/       # Work tracker
+│   ├── daily-log/          # Daily log
 │   └── city-search/        # City search
 ├── src/
 │   ├── components/         # Shared UI components
