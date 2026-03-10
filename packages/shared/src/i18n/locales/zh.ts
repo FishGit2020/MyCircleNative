@@ -2565,6 +2565,24 @@ const zh: Record<TranslationKey, string> = {
 
   // Cloud Files auth wall
   'cloudFiles.signInToAccess': '\u767b\u5f55\u4ee5\u8bbf\u95ee\u60a8\u7684\u6587\u4ef6',
+
+  // Profile
+  'profile.title': '\u4e2a\u4eba\u8d44\u6599',
+  'profile.subtitle': '\u7ba1\u7406\u60a8\u7684\u8d26\u6237\u548c\u504f\u597d\u8bbe\u7f6e',
+  'profile.signOut': '\u9000\u51fa\u767b\u5f55',
+  'profile.signOutConfirm': '\u60a8\u786e\u5b9a\u8981\u9000\u51fa\u767b\u5f55\u5417\uff1f',
+  'profile.export': '\u5bfc\u51fa\u6570\u636e',
+  'profile.import': '\u5bfc\u5165\u6570\u636e',
+  'profile.exportSuccess': '\u6570\u636e\u5bfc\u51fa\u6210\u529f',
+  'profile.importSuccess': '\u6570\u636e\u5bfc\u5165\u6210\u529f',
+  'profile.accounts': '\u8d26\u6237',
+  'profile.switchAccount': '\u5207\u6362\u8d26\u6237',
+  'profile.noAccounts': '\u672a\u627e\u5230\u5176\u4ed6\u8d26\u6237',
+  'profile.units': '\u5355\u4f4d\u7cfb\u7edf',
+  'profile.tempUnit': '\u6e29\u5ea6',
+  'profile.speedUnit': '\u901f\u5ea6',
+  'profile.distanceUnit': '\u8ddd\u79bb',
+  'profile.dataManagement': '\u6570\u636e\u7ba1\u7406',
 };
 
 export default zh;

@@ -297,7 +297,7 @@ function WordGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number
   const [scrambled, setScrambled] = useState('');
   const maxWords = Math.min(5, WORD_LIST.length);
 
-  const scramble = useCallback((word: string) => {
+  const scramble = useCallback((word: string): string => {
     const arr = word.split('');
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

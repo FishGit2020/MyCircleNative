@@ -2565,6 +2565,24 @@ const es: Record<TranslationKey, string> = {
 
   // Cloud Files auth wall
   'cloudFiles.signInToAccess': 'Inicia sesi\u00f3n para acceder a tus archivos',
+
+  // Profile
+  'profile.title': 'Perfil',
+  'profile.subtitle': 'Administra tu cuenta y preferencias',
+  'profile.signOut': 'Cerrar sesi\u00f3n',
+  'profile.signOutConfirm': '\u00bfEst\u00e1s seguro de que quieres cerrar sesi\u00f3n?',
+  'profile.export': 'Exportar datos',
+  'profile.import': 'Importar datos',
+  'profile.exportSuccess': 'Datos exportados exitosamente',
+  'profile.importSuccess': 'Datos importados exitosamente',
+  'profile.accounts': 'Cuentas',
+  'profile.switchAccount': 'Cambiar cuenta',
+  'profile.noAccounts': 'No se encontraron otras cuentas',
+  'profile.units': 'Sistema de unidades',
+  'profile.tempUnit': 'Temperatura',
+  'profile.speedUnit': 'Velocidad',
+  'profile.distanceUnit': 'Distancia',
+  'profile.dataManagement': 'Gesti\u00f3n de datos',
 };
 
 export default es;

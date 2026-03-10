@@ -129,7 +129,6 @@ export default function LoginScreen() {
 
           {/* Google Sign-In */}
           <Pressable
-            type="button"
             onPress={handleGoogleSignIn}
             disabled={isSubmitting}
             className="flex-row items-center justify-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl py-3.5 px-4 mb-6 active:bg-gray-50 dark:active:bg-gray-700"
@@ -196,7 +195,6 @@ export default function LoginScreen() {
                 accessibilityLabel={t('auth.password')}
               />
               <Pressable
-                type="button"
                 onPress={() => setShowPassword(!showPassword)}
                 className="absolute right-0 top-0 bottom-0 w-12 items-center justify-center"
                 accessibilityRole="button"
@@ -213,7 +211,6 @@ export default function LoginScreen() {
 
           {/* Forgot password */}
           <Pressable
-            type="button"
             onPress={handleForgotPassword}
             className="self-end mb-6"
             accessibilityRole="button"
@@ -242,7 +239,6 @@ export default function LoginScreen() {
 
           {/* Navigate to Register */}
           <Pressable
-            type="button"
             onPress={() => router.push('/(auth)/register')}
             className="items-center py-2"
             accessibilityRole="button"
