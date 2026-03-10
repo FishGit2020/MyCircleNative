@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, Pressable, Image, Modal, FlatList } from 'react-native';
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { useAudioPlayer, useAudioPlayerStatus, AudioModule } from 'expo-audio';
 import * as Sharing from 'expo-sharing';
 import {
   useTranslation,
@@ -34,20 +34,22 @@ function formatTime(seconds: number): string {
 
 export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerProps) {
   const { t } = useTranslation();
-  const soundRef = useRef<Audio.Sound | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const player = useAudioPlayer(episode?.enclosureUrl ?? null);
+  const status = useAudioPlayerStatus(player);
   const [playbackSpeed, setPlaybackSpeed] = useState(loadSavedSpeed);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showSleepMenu, setShowSleepMenu] = useState(false);
   const [sleepMinutes, setSleepMinutes] = useState(0);
-  const [sleepRemaining, setSleepRemaining] = useState(0); // seconds remaining
+  const [sleepRemaining, setSleepRemaining] = useState(0);
   const sleepTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sleepCountdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentTimeRef = useRef(0);
   const episodeIdRef = useRef<string | number | null>(null);
+
+  const currentTime = (status.currentTime ?? 0);
+  const duration = (status.duration ?? 0);
+  const isPlaying = status.playing;
 
   // Keep currentTimeRef in sync
   useEffect(() => {
@@ -56,81 +58,25 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
 
   // Configure audio session for background playback
   useEffect(() => {
-    Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-      staysActiveInBackground: true,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      playThroughEarpieceAndroid: false,
+    AudioModule.setAudioModeAsync({
+      playsInSilentMode: true,
+      shouldRouteThroughEarpiece: false,
     });
   }, []);
 
   // Load and play episode when it changes
   useEffect(() => {
     if (!episode) return;
+    episodeIdRef.current = episode.id;
 
-    let isCancelled = false;
-
-    async function loadSound() {
-      // Unload previous sound
-      if (soundRef.current) {
-        try {
-          await soundRef.current.unloadAsync();
-        } catch {
-          /* ignore */
-        }
-        soundRef.current = null;
-      }
-
-      try {
-        const { sound } = await Audio.Sound.createAsync(
-          { uri: episode!.enclosureUrl },
-          {
-            shouldPlay: false,
-            rate: playbackSpeed,
-            shouldCorrectPitch: true,
-          },
-        );
-
-        if (isCancelled) {
-          await sound.unloadAsync();
-          return;
-        }
-
-        soundRef.current = sound;
-        episodeIdRef.current = episode!.id;
-
-        // Set playback status update handler
-        sound.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-          if (!status.isLoaded) return;
-          setCurrentTime(status.positionMillis / 1000);
-          if (status.durationMillis) {
-            setDuration(status.durationMillis / 1000);
-          }
-          setIsPlaying(status.isPlaying);
-          if (status.didJustFinish) {
-            setIsPlaying(false);
-          }
-        });
-
-        // Restore saved progress
-        const savedTime = loadSavedProgress(episode!.id);
-        if (savedTime > 0) {
-          await sound.setPositionAsync(savedTime * 1000);
-        }
-
-        // Start playing
-        await sound.playAsync();
-      } catch (err) {
-        console.warn('Failed to load audio:', err);
-      }
+    // Restore saved progress
+    const savedTime = loadSavedProgress(episode.id);
+    if (savedTime > 0) {
+      player.seekTo(savedTime);
     }
 
-    loadSound();
-
-    return () => {
-      isCancelled = true;
-    };
+    player.rate = playbackSpeed;
+    player.play();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [episode?.id]);
 
@@ -150,16 +96,6 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
       }
     };
   }, [episode?.id]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Cleanup sound on unmount
-  useEffect(() => {
-    return () => {
-      if (soundRef.current) {
-        soundRef.current.unloadAsync().catch(() => {});
-        soundRef.current = null;
-      }
-    };
-  }, []);
 
   // Sleep timer logic
   const clearSleepTimer = useCallback(() => {
@@ -185,7 +121,6 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
     const totalSeconds = minutes * 60;
     setSleepRemaining(totalSeconds);
 
-    // Countdown interval (update every second)
     sleepCountdownRef.current = setInterval(() => {
       setSleepRemaining((prev) => {
         if (prev <= 1) return 0;
@@ -193,19 +128,11 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
       });
     }, 1000);
 
-    // Pause playback when timer expires
-    sleepTimerRef.current = setTimeout(async () => {
-      const sound = soundRef.current;
-      if (sound) {
-        try {
-          await sound.pauseAsync();
-        } catch {
-          /* ignore */
-        }
-      }
+    sleepTimerRef.current = setTimeout(() => {
+      player.pause();
       clearSleepTimer();
     }, totalSeconds * 1000);
-  }, [clearSleepTimer]);
+  }, [clearSleepTimer, player]);
 
   // Clean up sleep timer on unmount
   useEffect(() => {
@@ -215,108 +142,55 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
     };
   }, []);
 
-  const togglePlayPause = useCallback(async () => {
-    const sound = soundRef.current;
-    if (!sound) return;
-
-    try {
-      if (isPlaying) {
-        await sound.pauseAsync();
-      } else {
-        await sound.playAsync();
-      }
-    } catch {
-      /* ignore */
+  const togglePlayPause = useCallback(() => {
+    if (isPlaying) {
+      player.pause();
+    } else {
+      player.play();
     }
-  }, [isPlaying]);
+  }, [isPlaying, player]);
 
-  const skipForward = useCallback(async () => {
-    const sound = soundRef.current;
-    if (!sound) return;
-    try {
-      const status = await sound.getStatusAsync();
-      if (status.isLoaded) {
-        const newPos = Math.min(
-          (status.positionMillis || 0) + 15000,
-          status.durationMillis || 0,
-        );
-        await sound.setPositionAsync(newPos);
-      }
-    } catch {
-      /* ignore */
-    }
-  }, []);
+  const skipForward = useCallback(() => {
+    const newPos = Math.min(currentTime + 15, duration);
+    player.seekTo(newPos);
+  }, [currentTime, duration, player]);
 
-  const skipBack = useCallback(async () => {
-    const sound = soundRef.current;
-    if (!sound) return;
-    try {
-      const status = await sound.getStatusAsync();
-      if (status.isLoaded) {
-        const newPos = Math.max((status.positionMillis || 0) - 15000, 0);
-        await sound.setPositionAsync(newPos);
-      }
-    } catch {
-      /* ignore */
-    }
-  }, []);
+  const skipBack = useCallback(() => {
+    const newPos = Math.max(currentTime - 15, 0);
+    player.seekTo(newPos);
+  }, [currentTime, player]);
 
   const handleSeek = useCallback(
-    async (fraction: number) => {
-      const sound = soundRef.current;
-      if (!sound || duration <= 0) return;
-      try {
-        const newPos = Math.max(0, Math.min(fraction * duration * 1000, duration * 1000));
-        await sound.setPositionAsync(newPos);
-      } catch {
-        /* ignore */
-      }
+    (fraction: number) => {
+      if (duration <= 0) return;
+      const newPos = Math.max(0, Math.min(fraction * duration, duration));
+      player.seekTo(newPos);
     },
-    [duration],
+    [duration, player],
   );
 
-  const changeSpeed = useCallback(async (speed: number) => {
-    const sound = soundRef.current;
-    if (sound) {
-      try {
-        await sound.setRateAsync(speed, true);
-      } catch {
-        /* ignore */
-      }
-    }
+  const changeSpeed = useCallback((speed: number) => {
+    player.rate = speed;
     setPlaybackSpeed(speed);
     setShowSpeedMenu(false);
     saveSpeed(speed);
-  }, []);
+  }, [player]);
 
   const cycleSpeed = useCallback(() => {
     const nextIndex = (PLAYBACK_SPEEDS.indexOf(playbackSpeed) + 1) % PLAYBACK_SPEEDS.length;
     changeSpeed(PLAYBACK_SPEEDS[nextIndex]);
   }, [playbackSpeed, changeSpeed]);
 
-  const handleClose = useCallback(async () => {
+  const handleClose = useCallback(() => {
     // Save final progress
     if (episodeIdRef.current != null && currentTimeRef.current > 0) {
       saveProgress(episodeIdRef.current, currentTimeRef.current);
     }
 
-    // Stop and unload
-    if (soundRef.current) {
-      try {
-        await soundRef.current.stopAsync();
-        await soundRef.current.unloadAsync();
-      } catch {
-        /* ignore */
-      }
-      soundRef.current = null;
-    }
-
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setDuration(0);
+    player.pause();
     eventBus.publish(MFEvents.PODCAST_CLOSE_PLAYER);
     onClose();
-  }, [onClose]);
+  }, [onClose, player]);
 
   const handleShare = useCallback(async () => {
     if (!episode) return;
@@ -330,7 +204,6 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
     try {
       const isAvailable = await Sharing.isAvailableAsync();
       if (isAvailable) {
-        // expo-sharing works with files; for text share we use the URL
         await Sharing.shareAsync(episode.enclosureUrl, {
           dialogTitle: shareText,
         });
@@ -357,8 +230,6 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
         onPress={(e) => {
           const { locationX } = e.nativeEvent;
           const { width } = e.nativeEvent as any;
-          // Use layout width from the event target
-          // We approximate with locationX / estimated width
         }}
         onLayout={() => {}}
         accessibilityLabel={t('podcasts.seekPosition')}

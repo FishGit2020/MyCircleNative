@@ -4,27 +4,22 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
-// Mock expo-av
-jest.mock('expo-av', () => ({
-  Audio: {
-    Sound: {
-      createAsync: jest.fn().mockResolvedValue({
-        sound: {
-          playAsync: jest.fn(),
-          pauseAsync: jest.fn(),
-          stopAsync: jest.fn(),
-          unloadAsync: jest.fn(),
-          setPositionAsync: jest.fn(),
-          setRateAsync: jest.fn(),
-          setOnPlaybackStatusUpdate: jest.fn(),
-          getStatusAsync: jest.fn().mockResolvedValue({ isLoaded: false }),
-        },
-        status: { isLoaded: false },
-      }),
-    },
+// Mock expo-audio
+jest.mock('expo-audio', () => ({
+  useAudioPlayer: jest.fn(() => ({
+    play: jest.fn(),
+    pause: jest.fn(),
+    seekTo: jest.fn(),
+    rate: 1,
+  })),
+  useAudioPlayerStatus: jest.fn(() => ({
+    playing: false,
+    currentTime: 0,
+    duration: 0,
+  })),
+  AudioModule: {
     setAudioModeAsync: jest.fn(),
   },
-  Video: jest.fn(),
 }));
 
 // Mock expo-speech-recognition
