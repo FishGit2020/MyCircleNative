@@ -44,6 +44,13 @@ export const AppEvents = {
   AI_CHAT_UPDATED: 'ai-chat-updated',
   CLOUD_FILES_CHANGED: 'cloud-files-changed',
   IMMIGRATION_CASES_CHANGED: 'immigration-cases-changed',
+  RADIO_CHANGED: 'radio-changed',
+  POLLS_CHANGED: 'polls-changed',
+  TRIPS_CHANGED: 'trips-changed',
+  DIGITAL_LIBRARY_CHANGED: 'digital-library-changed',
+  FAMILY_GAMES_CHANGED: 'family-games-changed',
+  DOC_SCANNER_CHANGED: 'doc-scanner-changed',
+  HIKING_ROUTES_CHANGED: 'hiking-routes-changed',
 } as const;
 
 // Keep WindowEvents alias for easier porting from web code
@@ -94,6 +101,13 @@ export const StorageKeys = {
   CLOUD_FILES_CACHE: 'cloud-files-cache',
   IMMIGRATION_CASES_CACHE: 'immigration-cases-cache',
   BENCHMARK_HISTORY_CACHE: 'benchmark-history-cache',
+  RADIO_FAVORITES: 'radio-favorites',
+  POLL_CACHE: 'poll-cache',
+  TRIP_CACHE: 'trip-cache',
+  DIGITAL_LIBRARY_CACHE: 'digital-library-cache',
+  FAMILY_GAMES_CACHE: 'family-games-cache',
+  DOC_SCANNER_CACHE: 'doc-scanner-cache',
+  HIKING_ROUTES_CACHE: 'hiking-routes-cache',
 } as const;
 
 export interface CitySelectedEvent {
