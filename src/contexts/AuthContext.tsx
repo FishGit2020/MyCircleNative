@@ -6,6 +6,12 @@ import {
   auth,
   firestore,
 } from '../firebase/config';
+import {
+  requestNotificationPermission,
+  registerPushToken,
+  unregisterPushToken,
+  onTokenRefresh,
+} from '../firebase/notifications';
 
 // ---------------------------------------------------------------------------
 // Types re-exported from the web firebase lib (duplicated here because the
@@ -320,6 +326,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         identifyUser(firebaseUser.uid, { sign_in_method: method });
         logEvent('login', { method });
 
+        // Register push notification token
+        requestNotificationPermission().then((granted) => {
+          if (granted) {
+            registerPushToken(firebaseUser.uid);
+          }
+        });
+
         const userProfile = await getUserProfile(firebaseUser.uid);
         setProfile(userProfile);
         if (userProfile) {
@@ -490,6 +503,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOutUser = async () => {
     try {
+      // Unregister push token before signing out
+      if (user) {
+        await unregisterPushToken(user.uid).catch(() => {});
+      }
       await auth().signOut();
 
       // Clear user-specific AsyncStorage keys, preserving device-level preferences
@@ -642,6 +659,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // ---------------------------------------------------------------------------
   // Auto-sync effects: listen to eventBus events and persist to Firestore
   // ---------------------------------------------------------------------------
+
+  // Listen for FCM token refreshes and update Firestore
+  useEffect(() => {
+    if (!user) return;
+    const unsubscribe = onTokenRefresh(user.uid);
+    return unsubscribe;
+  }, [user]);
 
   // Auto-sync baby due date changes to Firestore
   useEffect(() => {
