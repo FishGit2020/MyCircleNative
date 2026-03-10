@@ -17,6 +17,7 @@ import {
   StorageKeys,
 } from '@mycircle/shared';
 import { useAiChat } from './hooks/useAiChat';
+import { useAiChatStream } from './hooks/useAiChatStream';
 import { ChatMessage, ChatInput, SuggestedPrompts } from './components';
 import AiMonitor from './components/AiMonitor';
 
@@ -92,11 +93,33 @@ export default function AiAssistantScreen() {
   const { t } = useTranslation();
   const { messages, loading, error, canRetry, sendMessage, clearChat, retry, abort } =
     useAiChat();
+  const {
+    startTypewriter,
+    skipTypewriter,
+    getDisplayedContent,
+    isTypingMessage,
+    isTyping: isAnyTyping,
+  } = useAiChatStream();
 
   const [showMonitor, setShowMonitor] = useState(false);
   const [debugMode, setDebugMode] = useState(() => {
     return safeGetItem(StorageKeys.AI_DEBUG_MODE) === 'true';
   });
+
+  // Track previously seen message count to detect new assistant messages
+  const prevMessageCountRef = useRef(messages.length);
+
+  useEffect(() => {
+    const prevCount = prevMessageCountRef.current;
+    prevMessageCountRef.current = messages.length;
+
+    if (messages.length > prevCount) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage && lastMessage.role === 'assistant' && lastMessage.content) {
+        startTypewriter(lastMessage.id, lastMessage.content);
+      }
+    }
+  }, [messages, startTypewriter]);
 
   const toggleDebug = useCallback(() => {
     setDebugMode((prev) => {
@@ -108,9 +131,19 @@ export default function AiAssistantScreen() {
 
   const renderItem = useCallback(
     ({ item }: { item: (typeof messages)[0] }) => (
-      <ChatMessage message={item} debugMode={debugMode} />
+      <ChatMessage
+        message={item}
+        debugMode={debugMode}
+        displayedContent={
+          item.role === 'assistant' ? getDisplayedContent(item) : undefined
+        }
+        isTyping={isTypingMessage(item.id)}
+        onSkipTypewriter={
+          isTypingMessage(item.id) ? skipTypewriter : undefined
+        }
+      />
     ),
-    [debugMode],
+    [debugMode, getDisplayedContent, isTypingMessage, skipTypewriter],
   );
 
   const keyExtractor = useCallback(
@@ -228,6 +261,8 @@ export default function AiAssistantScreen() {
             ListHeaderComponent={
               loading ? <ThinkingIndicator /> : null
             }
+            // Re-render more frequently during typewriter animation
+            extraData={isAnyTyping}
           />
         )}
 
@@ -269,7 +304,7 @@ export default function AiAssistantScreen() {
           </View>
         )}
 
-        {/* Input */}
+        {/* Input — disabled while loading or during typewriter */}
         <ChatInput onSend={sendMessage} disabled={loading} />
       </KeyboardAvoidingView>
     </View>

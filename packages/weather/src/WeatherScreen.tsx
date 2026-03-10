@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import {
 
   ScrollView,
@@ -6,12 +6,16 @@ import {
   View,
   Text,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import { useQuery } from '@apollo/client';
 import {
   GET_WEATHER,
   GET_AIR_QUALITY,
   useTranslation,
+  StorageKeys,
+  safeGetItem,
+  safeSetItem,
 } from '@mycircle/shared';
 import type {
   CurrentWeather,
@@ -46,10 +50,18 @@ interface AirQualityResponse {
   airQuality: AirQualityType | null;
 }
 
+const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
 export default function WeatherScreen() {
   const { t } = useTranslation();
   const { city } = useSelectedCity();
   const [refreshing, setRefreshing] = useState(false);
+  const [isLive, setIsLive] = useState(() => {
+    const stored = safeGetItem(StorageKeys.WEATHER_LIVE);
+    return stored !== 'false'; // default to live
+  });
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const autoRefreshRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const {
     data: weatherData,
@@ -73,10 +85,47 @@ export default function WeatherScreen() {
     setRefreshing(true);
     try {
       await Promise.all([refetchWeather(), refetchAirQuality()]);
+      setLastUpdated(new Date());
     } finally {
       setRefreshing(false);
     }
   }, [refetchWeather, refetchAirQuality]);
+
+  const toggleLive = useCallback(() => {
+    setIsLive((prev) => {
+      const next = !prev;
+      safeSetItem(StorageKeys.WEATHER_LIVE, String(next));
+      return next;
+    });
+  }, []);
+
+  // Auto-refresh when live
+  useEffect(() => {
+    if (isLive) {
+      autoRefreshRef.current = setInterval(async () => {
+        try {
+          await Promise.all([refetchWeather(), refetchAirQuality()]);
+          setLastUpdated(new Date());
+        } catch {
+          /* ignore auto-refresh errors */
+        }
+      }, AUTO_REFRESH_INTERVAL);
+    }
+
+    return () => {
+      if (autoRefreshRef.current) {
+        clearInterval(autoRefreshRef.current);
+        autoRefreshRef.current = null;
+      }
+    };
+  }, [isLive, refetchWeather, refetchAirQuality]);
+
+  // Set initial last-updated when data loads
+  useEffect(() => {
+    if (weatherData?.weather?.current && !lastUpdated) {
+      setLastUpdated(new Date());
+    }
+  }, [weatherData?.weather?.current, lastUpdated]);
 
   const current = weatherData?.weather?.current ?? null;
   const forecast = weatherData?.weather?.forecast ?? null;
@@ -182,10 +231,44 @@ export default function WeatherScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
-        {/* City name header */}
-        <Text className="mb-4 text-2xl font-bold text-gray-800 dark:text-white">
-          {city.name}
-        </Text>
+        {/* City name header with live/pause toggle */}
+        <View className="mb-4 flex-row items-center justify-between">
+          <Text className="text-2xl font-bold text-gray-800 dark:text-white">
+            {city.name}
+          </Text>
+          <View className="items-end">
+            <Pressable
+              onPress={toggleLive}
+              className={`px-3 py-1.5 rounded-full min-h-[44px] justify-center flex-row items-center gap-1.5 ${
+                isLive
+                  ? 'bg-green-100 dark:bg-green-900/30'
+                  : 'bg-gray-100 dark:bg-gray-700'
+              }`}
+              accessibilityLabel={isLive ? t('weather.live') : t('weather.paused')}
+              accessibilityRole="button"
+            >
+              <View
+                className={`w-2 h-2 rounded-full ${
+                  isLive ? 'bg-green-500 dark:bg-green-400' : 'bg-gray-400 dark:bg-gray-500'
+                }`}
+              />
+              <Text
+                className={`text-xs font-semibold ${
+                  isLive
+                    ? 'text-green-700 dark:text-green-400'
+                    : 'text-gray-500 dark:text-gray-400'
+                }`}
+              >
+                {isLive ? t('weather.live') : t('weather.paused')}
+              </Text>
+            </Pressable>
+            {lastUpdated && (
+              <Text className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                {t('weather.lastUpdated')} {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </Text>
+            )}
+          </View>
+        </View>
 
         {/* Weather Comparison */}
         <WeatherComparison currentCity={city} />

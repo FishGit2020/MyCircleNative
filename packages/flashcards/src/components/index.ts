@@ -6,3 +6,4 @@ export { default as CharacterEditor } from './CharacterEditor';
 export { default as PracticeCanvas } from './PracticeCanvas';
 export { default as BibleVersePicker } from './BibleVersePicker';
 export { default as AddCardModal } from './AddCardModal';
+export { default as PinyinKeyboard } from './PinyinKeyboard';

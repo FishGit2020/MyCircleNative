@@ -19,6 +19,7 @@ interface AudioPlayerProps {
 
 const PLAYBACK_SPEEDS = [0.5, 1, 1.25, 1.5, 2];
 const PROGRESS_SAVE_INTERVAL = 5000;
+const SLEEP_TIMER_OPTIONS = [0, 5, 15, 30, 45, 60]; // minutes, 0 = off
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds) || seconds < 0) return '0:00';
@@ -39,6 +40,11 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
   const [duration, setDuration] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(loadSavedSpeed);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [showSleepMenu, setShowSleepMenu] = useState(false);
+  const [sleepMinutes, setSleepMinutes] = useState(0);
+  const [sleepRemaining, setSleepRemaining] = useState(0); // seconds remaining
+  const sleepTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sleepCountdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentTimeRef = useRef(0);
   const episodeIdRef = useRef<string | number | null>(null);
@@ -152,6 +158,60 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
         soundRef.current.unloadAsync().catch(() => {});
         soundRef.current = null;
       }
+    };
+  }, []);
+
+  // Sleep timer logic
+  const clearSleepTimer = useCallback(() => {
+    if (sleepTimerRef.current) {
+      clearTimeout(sleepTimerRef.current);
+      sleepTimerRef.current = null;
+    }
+    if (sleepCountdownRef.current) {
+      clearInterval(sleepCountdownRef.current);
+      sleepCountdownRef.current = null;
+    }
+    setSleepRemaining(0);
+    setSleepMinutes(0);
+  }, []);
+
+  const startSleepTimer = useCallback((minutes: number) => {
+    clearSleepTimer();
+    setSleepMinutes(minutes);
+    setShowSleepMenu(false);
+
+    if (minutes === 0) return;
+
+    const totalSeconds = minutes * 60;
+    setSleepRemaining(totalSeconds);
+
+    // Countdown interval (update every second)
+    sleepCountdownRef.current = setInterval(() => {
+      setSleepRemaining((prev) => {
+        if (prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+
+    // Pause playback when timer expires
+    sleepTimerRef.current = setTimeout(async () => {
+      const sound = soundRef.current;
+      if (sound) {
+        try {
+          await sound.pauseAsync();
+        } catch {
+          /* ignore */
+        }
+      }
+      clearSleepTimer();
+    }, totalSeconds * 1000);
+  }, [clearSleepTimer]);
+
+  // Clean up sleep timer on unmount
+  useEffect(() => {
+    return () => {
+      if (sleepTimerRef.current) clearTimeout(sleepTimerRef.current);
+      if (sleepCountdownRef.current) clearInterval(sleepCountdownRef.current);
     };
   }, []);
 
@@ -398,6 +458,28 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
               </Text>
             </Pressable>
 
+            {/* Sleep Timer */}
+            <Pressable
+              onPress={() => setShowSleepMenu(true)}
+              className={`px-2 py-1 min-h-[44px] items-center justify-center rounded ${
+                sleepMinutes > 0
+                  ? 'bg-indigo-50 dark:bg-indigo-900/30'
+                  : 'bg-gray-100 dark:bg-gray-800'
+              }`}
+              accessibilityLabel={t('podcasts.sleepTimer')}
+              accessibilityRole="button"
+            >
+              {sleepMinutes > 0 && sleepRemaining > 0 ? (
+                <Text className="text-xs font-medium text-indigo-600 dark:text-indigo-400">
+                  {Math.ceil(sleepRemaining / 60)}m
+                </Text>
+              ) : (
+                <Text className="text-xs font-medium text-gray-600 dark:text-gray-300">
+                  {'\u23F0'}
+                </Text>
+              )}
+            </Pressable>
+
             {/* Share */}
             <Pressable
               onPress={handleShare}
@@ -463,6 +545,57 @@ export default function AudioPlayer({ episode, podcast, onClose }: AudioPlayerPr
                     }`}
                   >
                     {speed}x
+                  </Text>
+                </Pressable>
+              )}
+            />
+          </View>
+        </Pressable>
+      </Modal>
+
+      {/* Sleep timer modal */}
+      <Modal
+        visible={showSleepMenu}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowSleepMenu(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/40 items-center justify-center"
+          onPress={() => setShowSleepMenu(false)}
+        >
+          <View className="bg-white dark:bg-gray-800 rounded-xl p-4 w-52 border border-gray-200 dark:border-gray-700">
+            <Text className="text-sm font-semibold text-gray-900 dark:text-white mb-3 text-center">
+              {t('podcasts.sleepTimer')}
+            </Text>
+            {sleepMinutes > 0 && sleepRemaining > 0 && (
+              <Text className="text-xs text-indigo-600 dark:text-indigo-400 text-center mb-2">
+                {t('podcasts.minutesRemaining').replace('{minutes}', String(Math.ceil(sleepRemaining / 60)))}
+              </Text>
+            )}
+            <FlatList
+              data={SLEEP_TIMER_OPTIONS}
+              keyExtractor={(item) => String(item)}
+              scrollEnabled={false}
+              renderItem={({ item: mins }) => (
+                <Pressable
+                  onPress={() => startSleepTimer(mins)}
+                  className={`px-4 py-3 rounded-lg mb-1 min-h-[44px] items-center justify-center ${
+                    mins === sleepMinutes
+                      ? 'bg-indigo-50 dark:bg-indigo-900/30'
+                      : ''
+                  }`}
+                  accessibilityLabel={mins === 0 ? t('podcasts.sleepTimerOff') : `${mins} min`}
+                  accessibilityRole="button"
+                >
+                  <Text
+                    className={`text-base ${
+                      mins === sleepMinutes
+                        ? 'text-indigo-600 dark:text-indigo-400 font-semibold'
+                        : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    {mins === 0 ? t('podcasts.sleepOff') : `${mins} min`}
                   </Text>
                 </Pressable>
               )}
