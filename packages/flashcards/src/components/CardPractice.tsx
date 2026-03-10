@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Modal, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -50,6 +50,7 @@ function CardBack({ card }: { card: FlashCard }) {
 }
 
 export default function CardPractice({ cards, masteredIds, onToggleMastered, onClose, startIndex = 0 }: CardPracticeProps) {
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -108,20 +109,20 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
 
   if (showWritingPractice && chineseCharForCanvas) {
     return (
-      <Modal visible animationType="slide" onRequestClose={() => setShowWritingPractice(false)}>
-        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top', 'bottom', 'left', 'right']}>
+      <Modal visible animationType="slide" presentationStyle="fullScreen" onRequestClose={() => setShowWritingPractice(false)}>
+        <View style={{ flex: 1, backgroundColor: '#f9fafb', paddingTop: insets.top, paddingBottom: insets.bottom }}>
           <PracticeCanvas
             character={chineseCharForCanvas}
             onBack={() => setShowWritingPractice(false)}
           />
-        </SafeAreaView>
+        </View>
       </Modal>
     );
   }
 
   return (
-    <Modal visible animationType="slide" onRequestClose={onClose}>
-      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900" edges={['top', 'bottom', 'left', 'right']}>
+    <Modal visible animationType="slide" presentationStyle="fullScreen" onRequestClose={onClose}>
+      <View style={{ flex: 1, backgroundColor: '#f9fafb', paddingTop: insets.top, paddingBottom: insets.bottom }}>
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <TouchableOpacity
@@ -260,7 +261,7 @@ export default function CardPractice({ cards, masteredIds, onToggleMastered, onC
             </Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }
