@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Text, ScrollView, Pressable, Switch, Alert } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import {
@@ -21,6 +22,7 @@ export default function SettingsScreen() {
   const { user, signOut, updateUnitSystem } = useAuth();
   const { themeMode, setThemeMode } = useTheme();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const [unitSystem, setUnitSystemState] = useState<UnitSystem>(() => {
     const temp = safeGetItem(StorageKeys.TEMP_UNIT);
@@ -70,7 +72,7 @@ export default function SettingsScreen() {
   ];
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900" style={{ paddingTop: insets.top }}>
       <ScrollView className="flex-1" contentContainerClassName="pb-20">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -82,7 +84,7 @@ export default function SettingsScreen() {
           >
             <Ionicons name="arrow-back" size={24} color="#6b7280" />
           </Pressable>
-          <Text className="text-xl font-bold text-gray-900 dark:text-white">Settings</Text>
+          <Text className="text-xl font-bold text-gray-900 dark:text-white">{t('dashboard.settings')}</Text>
         </View>
 
         {/* User profile section */}

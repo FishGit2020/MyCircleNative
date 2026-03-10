@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, Pressable, Alert, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
@@ -37,6 +37,7 @@ export default function ProfileScreen() {
   const { t, locale, setLocale } = useTranslation();
   const { user, signOut, updateUnitSystem } = useAuth();
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const [unitSystem, setUnitSystemState] = useState<UnitSystem>(() => {
     const temp = safeGetItem(StorageKeys.TEMP_UNIT);
@@ -180,7 +181,7 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-white dark:bg-gray-900" style={{ paddingTop: insets.top }}>
       <ScrollView className="flex-1" contentContainerClassName="pb-20">
         {/* Header */}
         <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -394,7 +395,7 @@ export default function ProfileScreen() {
           </Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
