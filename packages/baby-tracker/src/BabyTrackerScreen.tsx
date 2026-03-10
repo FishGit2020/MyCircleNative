@@ -2,10 +2,12 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
+  TextInput,
   Pressable,
   ScrollView,
   RefreshControl,
   Platform,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -36,8 +38,66 @@ import {
 import { pregnancyVerses } from './data/pregnancyVerses';
 
 // ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface ChildProfile {
+  id: string;
+  name: string;
+  dueDate: string;
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function loadBabyChildren(): ChildProfile[] {
+  try {
+    const raw = safeGetItem(StorageKeys.CHILDREN_LIST);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        // Filter to children that have a dueDate
+        return parsed.filter((c: any) => c.dueDate);
+      }
+    }
+  } catch {
+    // ignore
+  }
+  // Migrate legacy single due date
+  const legacyDueDate = safeGetItem(StorageKeys.BABY_DUE_DATE);
+  if (legacyDueDate) {
+    const child: ChildProfile = { id: generateId(), name: 'Baby', dueDate: legacyDueDate };
+    // Save as children list
+    const existing = loadAllChildren();
+    const updated = [...existing, child];
+    safeSetItem(StorageKeys.CHILDREN_LIST, JSON.stringify(updated));
+    return [child];
+  }
+  return [];
+}
+
+function loadAllChildren(): any[] {
+  try {
+    const raw = safeGetItem(StorageKeys.CHILDREN_LIST);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {
+    // ignore
+  }
+  return [];
+}
+
+function saveAllChildren(children: any[]): void {
+  safeSetItem(StorageKeys.CHILDREN_LIST, JSON.stringify(children));
+  eventBus.publish(AppEvents.CHILDREN_LIST_CHANGED);
+}
 
 function calculateGestationalAge(dueDateStr: string): {
   weeks: number;
@@ -51,7 +111,7 @@ function calculateGestationalAge(dueDateStr: string): {
   const daysUntilDue = Math.round(
     (dueDate.getTime() - today.getTime()) / msPerDay,
   );
-  const totalDays = 280 - daysUntilDue; // 40 weeks = 280 days
+  const totalDays = 280 - daysUntilDue;
   const weeks = Math.floor(totalDays / 7);
   const days = totalDays % 7;
   return { weeks, days, totalDays };
@@ -73,7 +133,6 @@ function getDayOfYear(): number {
   );
 }
 
-/** Format a Date to YYYY-MM-DD */
 function toDateString(d: Date): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -81,7 +140,6 @@ function toDateString(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-/** Format a YYYY-MM-DD string to a locale-friendly display string */
 function formatDisplayDate(dateStr: string): string {
   try {
     const d = new Date(dateStr + 'T00:00:00');
@@ -96,6 +154,66 @@ function formatDisplayDate(dateStr: string): string {
 }
 
 // ---------------------------------------------------------------------------
+// Child Selector
+// ---------------------------------------------------------------------------
+
+function ChildSelector({
+  children,
+  selectedId,
+  onSelect,
+  onAdd,
+}: {
+  children: ChildProfile[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  onAdd: () => void;
+}) {
+  const { t } = useTranslation();
+
+  return (
+    <View className="flex-row flex-wrap gap-2 mb-4" accessibilityLabel={t('children.selectChild' as any)}>
+      {children.map((child) => {
+        const isSelected = child.id === selectedId;
+        return (
+          <Pressable
+            key={child.id}
+            onPress={() => onSelect(child.id)}
+            accessibilityRole="button"
+            accessibilityLabel={child.name}
+            accessibilityState={{ selected: isSelected }}
+            className={`px-4 py-2 rounded-full min-h-[44px] items-center justify-center ${
+              isSelected
+                ? 'bg-pink-500 dark:bg-pink-600'
+                : 'bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
+            }`}
+          >
+            <Text
+              className={`text-sm font-medium ${
+                isSelected
+                  ? 'text-white'
+                  : 'text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              {child.name}
+            </Text>
+          </Pressable>
+        );
+      })}
+      <Pressable
+        onPress={onAdd}
+        accessibilityRole="button"
+        accessibilityLabel={t('children.addChild' as any)}
+        className="px-4 py-2 rounded-full min-h-[44px] items-center justify-center border border-dashed border-pink-300 dark:border-pink-700"
+      >
+        <Text className="text-sm font-medium text-pink-500 dark:text-pink-400">
+          + {t('children.add' as any)}
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -103,8 +221,25 @@ export default function BabyTrackerScreen() {
   const { t } = useTranslation();
   const router = useRouter();
 
-  // ---- Due date state ----
-  const [dueDate, setDueDate] = useState<string>('');
+  // ---- Multi-child state ----
+  const [babyChildren, setBabyChildren] = useState<ChildProfile[]>(() => loadBabyChildren());
+  const [selectedId, setSelectedId] = useState<string | null>(
+    () => babyChildren.length > 0 ? babyChildren[0].id : null,
+  );
+  const [isAddingChild, setIsAddingChild] = useState(false);
+  const [inputChildName, setInputChildName] = useState('');
+  const [inputChildDueDate, setInputChildDueDate] = useState('');
+  const [showChildDatePicker, setShowChildDatePicker] = useState(false);
+
+  const selectedChild = useMemo(
+    () => babyChildren.find((c) => c.id === selectedId) ?? null,
+    [babyChildren, selectedId],
+  );
+
+  // The effective due date
+  const dueDate = selectedChild?.dueDate ?? '';
+
+  // ---- Due date picker state ----
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [pickerDate, setPickerDate] = useState<Date>(new Date());
   const [compareCategory, setCompareCategory] =
@@ -136,27 +271,35 @@ export default function BabyTrackerScreen() {
     });
   }, []);
 
-  // ---- Load due date from storage on mount ----
+  // ---- Sync pickerDate with selected child ----
   useEffect(() => {
-    const stored = safeGetItem(StorageKeys.BABY_DUE_DATE);
-    if (stored) {
-      setDueDate(stored);
-      setPickerDate(new Date(stored + 'T00:00:00'));
+    if (selectedChild?.dueDate) {
+      setPickerDate(new Date(selectedChild.dueDate + 'T00:00:00'));
     }
-  }, []);
+  }, [selectedChild?.id, selectedChild?.dueDate]);
 
-  // ---- Listen for external changes (e.g. Firestore restore on sign-in) ----
+  // ---- Listen for external changes ----
+  useEffect(() => {
+    const unsub = eventBus.subscribe(
+      AppEvents.CHILDREN_LIST_CHANGED,
+      () => {
+        const loaded = loadBabyChildren();
+        setBabyChildren(loaded);
+        if (loaded.length > 0 && !loaded.find((c) => c.id === selectedId)) {
+          setSelectedId(loaded[0].id);
+        }
+      },
+    );
+    return unsub;
+  }, [selectedId]);
+
+  // Also listen for legacy due date changes
   useEffect(() => {
     const unsub = eventBus.subscribe(
       AppEvents.BABY_DUE_DATE_CHANGED,
       () => {
-        const stored = safeGetItem(StorageKeys.BABY_DUE_DATE);
-        if (stored) {
-          setDueDate(stored);
-          setPickerDate(new Date(stored + 'T00:00:00'));
-        } else {
-          setDueDate('');
-        }
+        const loaded = loadBabyChildren();
+        setBabyChildren(loaded);
       },
     );
     return unsub;
@@ -165,44 +308,103 @@ export default function BabyTrackerScreen() {
   // ---- Date picker handlers ----
   const onDatePickerChange = useCallback(
     (event: DateTimePickerEvent, selectedDate?: Date) => {
-      // On Android the picker is dismissed on any action
       if (Platform.OS === 'android') {
         setShowDatePicker(false);
       }
-      if (event.type === 'set' && selectedDate) {
+      if (event.type === 'set' && selectedDate && selectedChild) {
         const dateStr = toDateString(selectedDate);
         setPickerDate(selectedDate);
-        setDueDate(dateStr);
-        safeSetItem(StorageKeys.BABY_DUE_DATE, dateStr);
-        eventBus.publish(AppEvents.BABY_DUE_DATE_CHANGED);
+        // Update the child's dueDate
+        const all = loadAllChildren();
+        const updated = all.map((c: any) =>
+          c.id === selectedChild.id ? { ...c, dueDate: dateStr } : c,
+        );
+        saveAllChildren(updated);
+        setBabyChildren(loadBabyChildren());
+      }
+    },
+    [selectedChild],
+  );
+
+  const confirmIOSDate = useCallback(() => {
+    if (!selectedChild) return;
+    const dateStr = toDateString(pickerDate);
+    const all = loadAllChildren();
+    const updated = all.map((c: any) =>
+      c.id === selectedChild.id ? { ...c, dueDate: dateStr } : c,
+    );
+    saveAllChildren(updated);
+    setBabyChildren(loadBabyChildren());
+    setShowDatePicker(false);
+  }, [pickerDate, selectedChild]);
+
+  const clearDueDate = useCallback(() => {
+    if (!selectedChild) return;
+    const all = loadAllChildren();
+    const updated = all.filter((c: any) => c.id !== selectedChild.id);
+    saveAllChildren(updated);
+    setBabyChildren(loadBabyChildren());
+    safeRemoveItem(StorageKeys.BABY_DUE_DATE);
+    eventBus.publish(AppEvents.BABY_DUE_DATE_CHANGED);
+  }, [selectedChild]);
+
+  // ---- Add child handlers ----
+  const onChildDateChange = useCallback(
+    (_event: any, selectedDate?: Date) => {
+      if (Platform.OS === 'android') {
+        setShowChildDatePicker(false);
+      }
+      if (selectedDate) {
+        setInputChildDueDate(toDateString(selectedDate));
       }
     },
     [],
   );
 
-  const confirmIOSDate = useCallback(() => {
-    const dateStr = toDateString(pickerDate);
-    setDueDate(dateStr);
-    safeSetItem(StorageKeys.BABY_DUE_DATE, dateStr);
-    eventBus.publish(AppEvents.BABY_DUE_DATE_CHANGED);
-    setShowDatePicker(false);
-  }, [pickerDate]);
+  const addChild = useCallback(() => {
+    if (!inputChildName.trim() || !inputChildDueDate) return;
+    const newChild: ChildProfile = {
+      id: generateId(),
+      name: inputChildName.trim(),
+      dueDate: inputChildDueDate,
+    };
+    const all = loadAllChildren();
+    const updated = [...all, newChild];
+    saveAllChildren(updated);
+    setBabyChildren(loadBabyChildren());
+    setSelectedId(newChild.id);
+    setInputChildName('');
+    setInputChildDueDate('');
+    setIsAddingChild(false);
+  }, [inputChildName, inputChildDueDate]);
 
-  const clearDueDate = useCallback(() => {
-    safeRemoveItem(StorageKeys.BABY_DUE_DATE);
-    setDueDate('');
-    eventBus.publish(AppEvents.BABY_DUE_DATE_CHANGED);
-  }, []);
+  const deleteChild = useCallback(() => {
+    if (!selectedChild) return;
+    Alert.alert(
+      t('children.deleteChild' as any),
+      t('children.deleteConfirm' as any).replace('{name}', selectedChild.name),
+      [
+        { text: t('children.cancel' as any), style: 'cancel' },
+        {
+          text: t('children.deleteChild' as any),
+          style: 'destructive',
+          onPress: () => {
+            const all = loadAllChildren();
+            const updated = all.filter((c: any) => c.id !== selectedChild.id);
+            saveAllChildren(updated);
+            const babies = loadBabyChildren();
+            setBabyChildren(babies);
+            setSelectedId(babies.length > 0 ? babies[0].id : null);
+          },
+        },
+      ],
+    );
+  }, [selectedChild, t]);
 
   // ---- Pull-to-refresh ----
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // Re-read storage in case of external changes
-    const stored = safeGetItem(StorageKeys.BABY_DUE_DATE);
-    if (stored) {
-      setDueDate(stored);
-      setPickerDate(new Date(stored + 'T00:00:00'));
-    }
+    setBabyChildren(loadBabyChildren());
     setTimeout(() => setRefreshing(false), 400);
   }, []);
 
@@ -238,14 +440,12 @@ export default function BabyTrackerScreen() {
           ? t('baby.trimester3')
           : '';
 
-  // Edge case states
   const isPastDue = weeksRemaining !== null && weeksRemaining < 0;
   const isDueToday = weeksRemaining === 0;
   const isNotPregnantYet = currentWeek !== null && currentWeek < 0;
   const isValidPregnancy =
     currentWeek !== null && currentWeek >= 1 && currentWeek <= 40;
 
-  // ---- External link handler ----
   const openLink = useCallback(async (url: string) => {
     await WebBrowser.openBrowserAsync(url);
   }, []);
@@ -257,6 +457,136 @@ export default function BabyTrackerScreen() {
       return 'https://www.whattoexpect.com/second-trimester-of-pregnancy.aspx';
     return 'https://www.whattoexpect.com/third-trimester-of-pregnancy.aspx';
   }, [trimester]);
+
+  const childDatePickerValue = useMemo(() => {
+    if (inputChildDueDate) return new Date(inputChildDueDate + 'T00:00:00');
+    return new Date();
+  }, [inputChildDueDate]);
+
+  // ---- Add Child Form ----
+  if (isAddingChild) {
+    return (
+      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+        {/* Header */}
+        <View className="flex-row items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <Pressable
+            onPress={() => setIsAddingChild(false)}
+            className="w-11 h-11 items-center justify-center rounded-full active:bg-gray-100 dark:active:bg-gray-800"
+            accessibilityRole="button"
+            accessibilityLabel={t('children.cancel' as any)}
+          >
+            <Ionicons name="arrow-back" size={24} color="#ec4899" />
+          </Pressable>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-white ml-2">
+            {t('children.addChild' as any)}
+          </Text>
+        </View>
+
+        <ScrollView className="flex-1 px-4 pt-6">
+          <View className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <View className="gap-4">
+              <View>
+                <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {t('children.name' as any)}
+                </Text>
+                <TextInput
+                  value={inputChildName}
+                  onChangeText={setInputChildName}
+                  placeholder={t('children.namePlaceholder' as any)}
+                  placeholderTextColor="#9CA3AF"
+                  accessibilityLabel={t('children.name' as any)}
+                  className="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </View>
+
+              <View>
+                <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {t('children.dueDate' as any)}
+                </Text>
+                <Pressable
+                  onPress={() => setShowChildDatePicker(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.dueDate' as any)}
+                  className="w-full px-3 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 min-h-[44px] justify-center"
+                >
+                  <Text
+                    className={
+                      inputChildDueDate
+                        ? 'text-gray-900 dark:text-white'
+                        : 'text-gray-400 dark:text-gray-500'
+                    }
+                  >
+                    {inputChildDueDate
+                      ? formatDisplayDate(inputChildDueDate)
+                      : t('baby.dueDatePlaceholder')}
+                  </Text>
+                </Pressable>
+
+                {showChildDatePicker && (
+                  <View className="mt-3">
+                    <DateTimePicker
+                      value={childDatePickerValue}
+                      mode="date"
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      minimumDate={new Date()}
+                      maximumDate={
+                        new Date(
+                          new Date().getFullYear() + 1,
+                          new Date().getMonth(),
+                          new Date().getDate(),
+                        )
+                      }
+                      onChange={onChildDateChange}
+                    />
+                    {Platform.OS === 'ios' && (
+                      <Pressable
+                        onPress={() => setShowChildDatePicker(false)}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('children.save' as any)}
+                        className="mt-2 py-2 items-center min-h-[44px] justify-center"
+                      >
+                        <Text className="text-pink-600 dark:text-pink-400 font-medium">
+                          {t('children.save' as any)}
+                        </Text>
+                      </Pressable>
+                    )}
+                  </View>
+                )}
+              </View>
+
+              <View className="flex-row gap-2">
+                <Pressable
+                  onPress={addChild}
+                  disabled={!inputChildName.trim() || !inputChildDueDate}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.save' as any)}
+                  className={`flex-1 py-3 px-4 rounded-lg min-h-[44px] items-center justify-center ${
+                    !inputChildName.trim() || !inputChildDueDate
+                      ? 'bg-gray-300 dark:bg-gray-600'
+                      : 'bg-pink-500 dark:bg-pink-600'
+                  }`}
+                >
+                  <Text className="text-white font-medium">
+                    {t('children.save' as any)}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setIsAddingChild(false)}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('children.cancel' as any)}
+                  className="py-3 px-4 bg-gray-200 dark:bg-gray-600 rounded-lg min-h-[44px] items-center justify-center"
+                >
+                  <Text className="font-medium text-gray-700 dark:text-gray-200">
+                    {t('children.cancel' as any)}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
@@ -299,6 +629,36 @@ export default function BabyTrackerScreen() {
           {t('baby.subtitle')}
         </Text>
 
+        {/* Child Selector */}
+        {babyChildren.length > 0 && (
+          <ChildSelector
+            children={babyChildren}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onAdd={() => {
+              setInputChildName('');
+              setInputChildDueDate('');
+              setIsAddingChild(true);
+            }}
+          />
+        )}
+
+        {/* Selected child actions */}
+        {selectedChild && (
+          <View className="flex-row justify-end mb-2">
+            <Pressable
+              onPress={deleteChild}
+              accessibilityRole="button"
+              accessibilityLabel={t('children.deleteChild' as any)}
+              className="px-3 py-2 min-h-[44px] items-center justify-center"
+            >
+              <Text className="text-sm text-red-600 dark:text-red-400">
+                {t('children.deleteChild' as any)}
+              </Text>
+            </Pressable>
+          </View>
+        )}
+
         {/* ---- Verse Section ---- */}
         <View className="bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-5 mb-4 border border-pink-200 dark:border-pink-800">
           <View className="flex-row items-start justify-between">
@@ -333,30 +693,22 @@ export default function BabyTrackerScreen() {
         </View>
 
         {/* ---- Due Date Section ---- */}
-        <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-            {t('baby.dueDate')}
-          </Text>
-          <View className="flex-row items-center">
-            <Pressable
-              onPress={() => setShowDatePicker(true)}
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 min-h-[44px] justify-center"
-              accessibilityRole="button"
-              accessibilityLabel={t('baby.dueDatePlaceholder')}
-            >
-              <Text
-                className={
-                  dueDate
-                    ? 'text-gray-900 dark:text-white'
-                    : 'text-gray-400 dark:text-gray-500'
-                }
+        {selectedChild ? (
+          <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+            <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+              {t('baby.dueDate')}
+            </Text>
+            <View className="flex-row items-center">
+              <Pressable
+                onPress={() => setShowDatePicker(true)}
+                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 min-h-[44px] justify-center"
+                accessibilityRole="button"
+                accessibilityLabel={t('baby.dueDatePlaceholder')}
               >
-                {dueDate
-                  ? formatDisplayDate(dueDate)
-                  : t('baby.dueDatePlaceholder')}
-              </Text>
-            </Pressable>
-            {dueDate ? (
+                <Text className="text-gray-900 dark:text-white">
+                  {formatDisplayDate(dueDate)}
+                </Text>
+              </Pressable>
               <Pressable
                 onPress={clearDueDate}
                 className="ml-3 px-4 py-3 bg-gray-200 dark:bg-gray-600 rounded-lg min-h-[44px] justify-center"
@@ -367,66 +719,82 @@ export default function BabyTrackerScreen() {
                   {t('baby.clear')}
                 </Text>
               </Pressable>
-            ) : null}
-          </View>
-
-          {/* Date picker (iOS shows inline, Android shows modal) */}
-          {showDatePicker && (
-            <View className="mt-3">
-              <DateTimePicker
-                value={pickerDate}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={onDatePickerChange}
-                minimumDate={new Date()}
-                maximumDate={
-                  new Date(
-                    new Date().getFullYear() + 1,
-                    new Date().getMonth(),
-                    new Date().getDate(),
-                  )
-                }
-              />
-              {Platform.OS === 'ios' && (
-                <View className="flex-row justify-end mt-2">
-                  <Pressable
-                    onPress={() => setShowDatePicker(false)}
-                    className="px-4 py-2 mr-2 rounded-lg min-h-[44px] justify-center"
-                    accessibilityRole="button"
-                    accessibilityLabel={t('baby.clear')}
-                  >
-                    <Text className="text-gray-500 dark:text-gray-400 font-medium">
-                      {t('baby.clear')}
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={confirmIOSDate}
-                    className="px-4 py-2 bg-pink-500 dark:bg-pink-600 rounded-lg min-h-[44px] justify-center"
-                    accessibilityRole="button"
-                    accessibilityLabel={t('baby.save')}
-                  >
-                    <Text className="text-white font-medium">
-                      {t('baby.save')}
-                    </Text>
-                  </Pressable>
-                </View>
-              )}
             </View>
-          )}
-        </View>
 
-        {/* ---- No Due Date ---- */}
-        {!dueDate && (
-          <View className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 mb-4 items-center border border-gray-200 dark:border-gray-700">
-            <Ionicons
-              name="heart-outline"
-              size={48}
-              color="#f9a8d4"
-              style={{ marginBottom: 12 }}
-            />
-            <Text className="text-gray-500 dark:text-gray-400 text-center">
-              {t('baby.noDueDate')}
+            {showDatePicker && (
+              <View className="mt-3">
+                <DateTimePicker
+                  value={pickerDate}
+                  mode="date"
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  onChange={onDatePickerChange}
+                  minimumDate={new Date()}
+                  maximumDate={
+                    new Date(
+                      new Date().getFullYear() + 1,
+                      new Date().getMonth(),
+                      new Date().getDate(),
+                    )
+                  }
+                />
+                {Platform.OS === 'ios' && (
+                  <View className="flex-row justify-end mt-2">
+                    <Pressable
+                      onPress={() => setShowDatePicker(false)}
+                      className="px-4 py-2 mr-2 rounded-lg min-h-[44px] justify-center"
+                      accessibilityRole="button"
+                      accessibilityLabel={t('baby.clear')}
+                    >
+                      <Text className="text-gray-500 dark:text-gray-400 font-medium">
+                        {t('baby.clear')}
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      onPress={confirmIOSDate}
+                      className="px-4 py-2 bg-pink-500 dark:bg-pink-600 rounded-lg min-h-[44px] justify-center"
+                      accessibilityRole="button"
+                      accessibilityLabel={t('baby.save')}
+                    >
+                      <Text className="text-white font-medium">
+                        {t('baby.save')}
+                      </Text>
+                    </Pressable>
+                  </View>
+                )}
+              </View>
+            )}
+          </View>
+        ) : (
+          /* No children yet - show add prompt */
+          <View className="bg-white dark:bg-gray-800 rounded-2xl p-5 mb-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+            <Text className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+              {t('baby.dueDate')}
             </Text>
+            <View className="items-center py-4">
+              <Ionicons
+                name="heart-outline"
+                size={48}
+                color="#f9a8d4"
+                style={{ marginBottom: 12 }}
+              />
+              <Text className="text-gray-500 dark:text-gray-400 text-center mb-4">
+                {t('baby.noDueDate')}
+              </Text>
+              <Pressable
+                onPress={() => {
+                  setInputChildName('');
+                  setInputChildDueDate('');
+                  setIsAddingChild(true);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={t('children.addChild' as any)}
+                className="px-6 py-3 bg-pink-500 dark:bg-pink-600 rounded-lg min-h-[44px] items-center justify-center"
+              >
+                <Text className="text-white font-medium">
+                  {t('children.addChild' as any)}
+                </Text>
+              </Pressable>
+            </View>
           </View>
         )}
 
@@ -527,7 +895,6 @@ export default function BabyTrackerScreen() {
               <Text className="text-gray-600 dark:text-gray-300 text-sm mb-2">
                 {t('baby.size')}
               </Text>
-              {/* Category toggle buttons */}
               <View
                 className="flex-row justify-center mb-3"
                 accessibilityRole="radiogroup"
@@ -609,7 +976,6 @@ export default function BabyTrackerScreen() {
                 {t('baby.developmentTimeline')}
               </Text>
               <View className="relative">
-                {/* Vertical line */}
                 <View className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700" />
 
                 {developmentStages.map((stage) => {
@@ -623,7 +989,6 @@ export default function BabyTrackerScreen() {
                       key={stage.id}
                       className="relative flex-row items-start mb-4"
                     >
-                      {/* Timeline dot */}
                       <View
                         className={`z-10 w-8 h-8 rounded-full items-center justify-center ${
                           isCompleted
@@ -644,7 +1009,6 @@ export default function BabyTrackerScreen() {
                         )}
                       </View>
 
-                      {/* Content */}
                       <View
                         className="flex-1 ml-3"
                         style={isUpcoming ? { opacity: 0.5 } : undefined}

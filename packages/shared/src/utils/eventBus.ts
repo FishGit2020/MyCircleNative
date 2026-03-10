@@ -34,6 +34,7 @@ export const AppEvents = {
   PUBLIC_NOTES_CHANGED: 'public-notes-changed',
   BABY_DUE_DATE_CHANGED: 'baby-due-date-changed',
   CHILD_DATA_CHANGED: 'child-data-changed',
+  CHILDREN_LIST_CHANGED: 'children-list-changed',
   NOTIFICATION_ALERTS_CHANGED: 'notification-alerts-changed',
   BIBLE_BOOKMARKS_CHANGED: 'bible-bookmarks-changed',
   CHINESE_CHARACTERS_CHANGED: 'chinese-characters-changed',
@@ -108,6 +109,8 @@ export const StorageKeys = {
   FAMILY_GAMES_CACHE: 'family-games-cache',
   DOC_SCANNER_CACHE: 'doc-scanner-cache',
   HIKING_ROUTES_CACHE: 'hiking-routes-cache',
+  CHILDREN_LIST: 'children-list',
+  CHECKED_MILESTONES: 'checked-milestones',
 } as const;
 
 export interface CitySelectedEvent {
