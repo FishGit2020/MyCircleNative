@@ -99,7 +99,7 @@ const serverTimestamp = () => firestore.FieldValue.serverTimestamp();
 async function ensureUserProfile(user: FirebaseAuthTypes.User) {
   const ref = userDoc(user.uid);
   const snap = await ref.get();
-  if (!snap.exists) {
+  if (!snap.exists()) {
     await ref.set({
       uid: user.uid,
       email: user.email,
@@ -118,7 +118,7 @@ async function ensureUserProfile(user: FirebaseAuthTypes.User) {
 
 async function getUserProfile(uid: string): Promise<UserProfile | null> {
   const snap = await userDoc(uid).get();
-  if (snap.exists) return snap.data() as UserProfile;
+  if (snap.exists()) return snap.data() as UserProfile;
   return null;
 }
 
@@ -140,7 +140,7 @@ async function updateUserSpeedUnit(uid: string, speedUnit: 'ms' | 'mph' | 'kmh')
 
 async function addRecentCity(uid: string, city: Omit<RecentCity, 'searchedAt'>) {
   const snap = await userDoc(uid).get();
-  if (snap.exists) {
+  if (snap.exists()) {
     const profile = snap.data() as UserProfile;
     const recentCities = profile.recentCities || [];
     const filtered = recentCities.filter((c) => c.id !== city.id);
@@ -152,7 +152,7 @@ async function addRecentCity(uid: string, city: Omit<RecentCity, 'searchedAt'>) 
 
 async function removeRecentCity(uid: string, cityId: string) {
   const snap = await userDoc(uid).get();
-  if (snap.exists) {
+  if (snap.exists()) {
     const profile = snap.data() as UserProfile;
     const updated = (profile.recentCities || []).filter((c) => c.id !== cityId);
     await userDoc(uid).update({ recentCities: updated, updatedAt: serverTimestamp() });
@@ -165,7 +165,7 @@ async function clearRecentCities(uid: string) {
 
 async function toggleFavoriteCity(uid: string, city: FavoriteCity): Promise<boolean> {
   const snap = await userDoc(uid).get();
-  if (snap.exists) {
+  if (snap.exists()) {
     const profile = snap.data() as UserProfile;
     const favorites = profile.favoriteCities || [];
     const exists = favorites.some((c) => c.id === city.id);
