@@ -1334,36 +1334,7 @@ const en = {
   'flashcards.publishConfirm': 'Publish this card to the shared collection?',
   'flashcards.loading': 'Loading...',
 
-  // Work Tracker
-  'nav.workTracker': 'Work Log',
-  'bottomNav.workTracker': 'Work',
-  'dashboard.workTracker': 'Work Log',
-  'home.quickWorkTrackerDesc': 'Track your daily work activities',
-  'commandPalette.goToWorkTracker': 'Go to Work Log',
-  'shortcuts.goWorkTracker': 'Go to Work Log',
-  'widgets.workTracker': 'Work Log',
-  'widgets.workTrackerDesc': 'Daily work activity log',
-  'widgets.workTrackerEntries': '{count} entries this month',
-  'widgets.noWorkEntries': 'No work entries yet',
-  'workTracker.title': 'Work Log',
-  'workTracker.subtitle': 'Track your daily work activities',
-  'workTracker.addEntry': 'Add Entry',
-  'workTracker.placeholder': 'What did you work on?',
-  'workTracker.save': 'Save',
-  'workTracker.cancel': 'Cancel',
-  'workTracker.delete': 'Delete',
-  'workTracker.deleteConfirm': 'Delete this entry? This cannot be undone.',
-  'workTracker.edit': 'Edit',
-  'workTracker.noEntries': 'No entries yet. Add your first work log entry!',
-  'workTracker.signInRequired': 'Sign in to track your work',
-  'workTracker.timeline': 'Timeline',
-  'workTracker.today': 'Today',
-  'workTracker.yesterday': 'Yesterday',
-  'workTracker.thisMonth': 'This Month',
-  'workTracker.allTime': 'All',
-  'workTracker.entriesCount': '{count} entries',
-  'workTracker.loading': 'Loading entries...',
-
+  // Daily Log
   // Cloud Files
   'cloudFiles.title': 'Cloud Files',
   'cloudFiles.subtitle': 'Store and share files securely',
@@ -2554,6 +2525,10 @@ const en = {
   'recycleBin.type.worship': 'Worship Song',
   'recycleBin.personalSection': 'Personal',
   'recycleBin.publicSection': 'Shared / Public',
+  'recycleBin.subtitle': 'Restore or permanently delete items',
+  'whatsNew.subtitle': 'Latest updates and features',
+  'privacy.subtitle': 'How we handle your data',
+  'terms.subtitle': 'Rules for using MyCircle',
 } as const;
 
 export default en;

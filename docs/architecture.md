@@ -51,7 +51,7 @@ MyCircleNative/
 │   ├── baby-tracker/       # Pregnancy tracking
 │   ├── child-development/  # CDC milestones
 │   ├── flashcards/         # Flashcard learning
-│   ├── work-tracker/       # Daily work log
+│   ├── daily-log/          # Daily work log
 │   ├── city-search/        # City autocomplete
 │   ├── cloud-files/        # File storage
 │   ├── immigration-tracker/# USCIS tracking
