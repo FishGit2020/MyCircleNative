@@ -75,6 +75,14 @@ MyCircleNative/
 | `import.meta.env.PROD` | `__DEV__` global |
 | `btoa`/`atob` | Store plain strings (no base64 needed) |
 
+## iOS-Specific Rules
+
+- **Safe area in Modals**: Use `useSafeAreaInsets()` with inline `style={{ paddingTop: insets.top }}` — not `SafeAreaView` with `className` (NativeWind breaks it in modals).
+- **No `SafeAreaView` from `react-native`**: Always use `react-native-safe-area-context`. The RN one is deprecated and crashes with NativeWind.
+- **Native module install = rebuild**: After `npx expo install <native-package>`, run `rm -rf ios && npx expo prebuild --platform ios --clean && SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios`.
+- **Build command**: `SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios` (Sentry not yet configured).
+- **See [iOS Development Setup](./docs/ios-development-setup.md)** for full guide (App Check, device setup, troubleshooting).
+
 ## Test Gotchas
 
 - Use `jest-expo` preset, not plain Jest
@@ -95,3 +103,4 @@ Also: remove i18n keys from all 3 locales, remove feature package from `packages
 ## Docs
 
 - [README](./README.md) — Project overview, setup, features
+- [iOS Development Setup](./docs/ios-development-setup.md) — Build, App Check, device setup, troubleshooting

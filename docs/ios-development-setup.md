@@ -101,6 +101,53 @@ This project uses `expo-build-properties` with:
 
 These settings are in `app.json` under the `expo-build-properties` plugin and are applied automatically by `npx expo prebuild`.
 
+## iOS-Specific Patterns
+
+### Safe Area (Notch / Dynamic Island)
+
+On iOS, content must respect the status bar, Dynamic Island, and home indicator areas. Follow these rules:
+
+**For regular screens:** Expo Router's `Stack` handles safe areas automatically — no action needed.
+
+**For `<Modal>` components:** Modals render outside the navigation tree, so you must handle safe areas manually. Use `useSafeAreaInsets()` with inline styles:
+
+```tsx
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+function MyModal() {
+  const insets = useSafeAreaInsets();
+  return (
+    <Modal visible animationType="slide" presentationStyle="fullScreen">
+      <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
+        {/* content */}
+      </View>
+    </Modal>
+  );
+}
+```
+
+**Do NOT use:**
+- `SafeAreaView` from `react-native` — deprecated, triggers NativeWind navigation context crash
+- `SafeAreaView` from `react-native-safe-area-context` with `className` — NativeWind may not apply styles correctly inside modals
+- Bare `<View>` without insets inside a `<Modal>` — content will render behind the notch
+
+### Native Module Changes Require Rebuild
+
+When you install a package with native code (e.g. `react-native-webview`, `@react-native-firebase/*`), a Metro reload is **not enough**. You must rebuild:
+
+```bash
+rm -rf ios && npx expo prebuild --platform ios --clean && SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios
+```
+
+JS-only changes (editing `.tsx` files) work with hot reload — no rebuild needed.
+
+### Nested FlatList / ScrollView
+
+Never nest a `FlatList` inside a `ScrollView` with the same scroll direction. Either:
+- Set `scrollEnabled={false} nestedScrollEnabled` on the inner FlatList
+- Or restructure to use `FlatList` with `ListHeaderComponent` for the outer content
+
 ## Troubleshooting
 
 ### `auth/internal-error` on sign in
@@ -111,6 +158,12 @@ Run a clean prebuild: `rm -rf ios && npx expo prebuild --platform ios --clean`
 
 ### `Cannot read property 'displayName' of undefined`
 Apollo Client v4 is incompatible with Hermes. Use v3: `npm install @apollo/client@3.12.11`
+
+### `RNCWebViewModule could not be found`
+Native module not in the binary. Rebuild: `rm -rf ios && npx expo prebuild --platform ios --clean && SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios`
+
+### `Couldn't find a navigation context` (NativeWind)
+Replace `SafeAreaView` from `react-native` with `useSafeAreaInsets()` from `react-native-safe-area-context`. See "Safe Area" section above.
 
 ### Sentry upload fails during build
 Set `SENTRY_DISABLE_AUTO_UPLOAD=true` before the build command until Sentry org/project is configured.
