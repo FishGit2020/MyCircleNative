@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTranslation } from '@mycircle/shared';
 import type { WorkEntry } from '../types';
 import EntryForm from './EntryForm';
@@ -9,6 +10,7 @@ interface DayNodeProps {
   entries: WorkEntry[];
   onUpdate: (id: string, content: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
+  onMove?: (id: string, newDate: string) => Promise<void>;
 }
 
 function formatDate(dateStr: string): string {
@@ -32,9 +34,11 @@ function isYesterday(dateStr: string): boolean {
   return dateStr === yesterday.toISOString().split('T')[0];
 }
 
-export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodeProps) {
+export default function DayNode({ date, entries, onUpdate, onDelete, onMove }: DayNodeProps) {
   const { t } = useTranslation();
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [movingEntryId, setMovingEntryId] = useState<string | null>(null);
+  const [moveDate, setMoveDate] = useState(new Date());
 
   const dayLabel = isToday(date)
     ? t('dailyLog.today')
@@ -89,8 +93,16 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
       {/* Entry cards */}
       <View className="mb-6 gap-2">
         {entries.map((entry) => (
-          <View
+          <TouchableOpacity
             key={entry.id}
+            activeOpacity={0.8}
+            onLongPress={() => {
+              if (onMove) {
+                setMovingEntryId(entry.id);
+                setMoveDate(new Date(entry.date + 'T00:00:00'));
+              }
+            }}
+            accessibilityLabel={entry.content}
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3"
           >
             {editingId === entry.id ? (
@@ -108,6 +120,21 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
                   {entry.content}
                 </Text>
                 <View className="flex-row gap-1 flex-shrink-0">
+                  {onMove && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setMovingEntryId(entry.id);
+                        setMoveDate(new Date(entry.date + 'T00:00:00'));
+                      }}
+                      className="p-2 min-w-[44px] min-h-[44px] items-center justify-center"
+                      accessibilityLabel={t('dailyLog.moveToDate')}
+                      accessibilityRole="button"
+                    >
+                      <Text className="text-purple-500 dark:text-purple-400 text-xs font-medium">
+                        {t('dailyLog.moveDate')}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                   <TouchableOpacity
                     onPress={() => setEditingId(entry.id)}
                     className="p-2 min-w-[44px] min-h-[44px] items-center justify-center"
@@ -131,8 +158,70 @@ export default function DayNode({ date, entries, onUpdate, onDelete }: DayNodePr
                 </View>
               </View>
             )}
-          </View>
+          </TouchableOpacity>
         ))}
+
+        {/* Date picker for move entry */}
+        {movingEntryId && (
+          <View className="bg-white dark:bg-gray-800 rounded-xl border border-purple-200 dark:border-purple-700 p-3">
+            <Text className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('dailyLog.moveDatePicker')}
+            </Text>
+            <DateTimePicker
+              value={moveDate}
+              mode="date"
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              onChange={async (_event: any, selectedDate?: Date) => {
+                if (Platform.OS === 'android') {
+                  // Android dismisses on selection
+                  if (!selectedDate) {
+                    setMovingEntryId(null);
+                    return;
+                  }
+                  const newDateStr = selectedDate.toISOString().split('T')[0];
+                  if (onMove && movingEntryId) {
+                    await onMove(movingEntryId, newDateStr);
+                  }
+                  setMovingEntryId(null);
+                } else {
+                  if (selectedDate) {
+                    setMoveDate(selectedDate);
+                  }
+                }
+              }}
+            />
+            {Platform.OS === 'ios' && (
+              <View className="flex-row justify-end gap-2 mt-2">
+                <TouchableOpacity
+                  onPress={() => setMovingEntryId(null)}
+                  className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg min-h-[44px] justify-center"
+                  accessibilityLabel={t('dailyLog.cancel')}
+                  accessibilityRole="button"
+                >
+                  <Text className="text-sm text-gray-700 dark:text-gray-300">
+                    {t('dailyLog.cancel')}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    const newDateStr = moveDate.toISOString().split('T')[0];
+                    if (onMove && movingEntryId) {
+                      await onMove(movingEntryId, newDateStr);
+                    }
+                    setMovingEntryId(null);
+                  }}
+                  className="px-3 py-2 bg-purple-500 dark:bg-purple-600 rounded-lg min-h-[44px] justify-center"
+                  accessibilityLabel={t('dailyLog.moveDate')}
+                  accessibilityRole="button"
+                >
+                  <Text className="text-sm text-white font-medium">
+                    {t('dailyLog.moveDate')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );

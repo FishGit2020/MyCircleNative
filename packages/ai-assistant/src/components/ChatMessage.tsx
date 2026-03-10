@@ -1,5 +1,5 @@
-import { useState, useCallback, Fragment } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { useState, useCallback, Fragment, useEffect, useRef } from 'react';
+import { View, Text, Pressable, Animated } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { useTranslation } from '@mycircle/shared';
 import ToolCallDisplay from './ToolCallDisplay';
@@ -10,6 +10,48 @@ import type { ChatMessage as ChatMessageType } from '../hooks/useAiChat';
 interface ChatMessageProps {
   message: ChatMessageType;
   debugMode?: boolean;
+  /** The content string to actually render (may be truncated for typewriter). */
+  displayedContent?: string;
+  /** Whether this message is currently being typewriter-animated. */
+  isTyping?: boolean;
+  /** Callback to skip the typewriter animation. */
+  onSkipTypewriter?: () => void;
+}
+
+/* ── Blinking cursor component ───────────────────────────── */
+
+function BlinkingCursor() {
+  const { t } = useTranslation();
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const blink = Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    blink.start();
+    return () => blink.stop();
+  }, [opacity]);
+
+  return (
+    <Animated.Text
+      style={{ opacity }}
+      className="text-sm text-blue-500 dark:text-blue-400 font-bold"
+      accessibilityLabel={t('ai.typewriterCursor')}
+    >
+      {'\u2588'}
+    </Animated.Text>
+  );
 }
 
 /* ── Lightweight markdown renderer ────────────────────────── */
@@ -152,10 +194,19 @@ function MarkdownText({ content }: { content: string }) {
 
 /* ── ChatMessage component ────────────────────────────────── */
 
-export default function ChatMessage({ message, debugMode }: ChatMessageProps) {
+export default function ChatMessage({
+  message,
+  debugMode,
+  displayedContent,
+  isTyping = false,
+  onSkipTypewriter,
+}: ChatMessageProps) {
   const { t } = useTranslation();
   const isUser = message.role === 'user';
   const [copied, setCopied] = useState(false);
+
+  // Use displayedContent if provided (typewriter), else full content
+  const contentToRender = displayedContent ?? message.content;
 
   const handleCopy = useCallback(async () => {
     try {
@@ -178,27 +229,56 @@ export default function ChatMessage({ message, debugMode }: ChatMessageProps) {
       >
         {/* Role label + copy button */}
         <View className="flex-row items-center justify-between gap-2 mb-1">
-          <Text
-            className={`text-xs font-medium ${
-              isUser
-                ? 'text-white/70'
-                : 'text-gray-500 dark:text-gray-400'
-            }`}
-          >
-            {isUser ? t('ai.you') : t('ai.assistant')}
-          </Text>
-          {!isUser && (
-            <Pressable
-              onPress={handleCopy}
-              accessibilityLabel={copied ? t('ai.copied') : t('ai.copyMessage')}
-              accessibilityRole="button"
-              className="p-1"
-              style={{ minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' }}
+          <View className="flex-row items-center gap-1.5">
+            <Text
+              className={`text-xs font-medium ${
+                isUser
+                  ? 'text-white/70'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
             >
-              <Text className="text-xs text-gray-400 dark:text-gray-500">
-                {copied ? '\u2705' : '\uD83D\uDCCB'}
-              </Text>
-            </Pressable>
+              {isUser ? t('ai.you') : t('ai.assistant')}
+            </Text>
+
+            {/* Streaming badge while typewriting */}
+            {isTyping && !isUser && (
+              <View className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40">
+                <Text className="text-[10px] font-semibold text-blue-600 dark:text-blue-300">
+                  {t('ai.streamingBadge')}
+                </Text>
+              </View>
+            )}
+          </View>
+
+          {!isUser && (
+            <View className="flex-row items-center gap-1">
+              {/* Skip typewriter button */}
+              {isTyping && onSkipTypewriter && (
+                <Pressable
+                  onPress={onSkipTypewriter}
+                  accessibilityLabel={t('ai.stop')}
+                  accessibilityRole="button"
+                  className="p-1"
+                  style={{ minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' }}
+                >
+                  <Text className="text-xs text-gray-400 dark:text-gray-500">
+                    {'\u25A0'}
+                  </Text>
+                </Pressable>
+              )}
+              {/* Copy button */}
+              <Pressable
+                onPress={handleCopy}
+                accessibilityLabel={copied ? t('ai.copied') : t('ai.copyMessage')}
+                accessibilityRole="button"
+                className="p-1"
+                style={{ minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' }}
+              >
+                <Text className="text-xs text-gray-400 dark:text-gray-500">
+                  {copied ? '\u2705' : '\uD83D\uDCCB'}
+                </Text>
+              </Pressable>
+            </View>
           )}
         </View>
 
@@ -206,11 +286,15 @@ export default function ChatMessage({ message, debugMode }: ChatMessageProps) {
         {isUser ? (
           <Text className="text-sm text-white">{message.content}</Text>
         ) : (
-          <MarkdownText content={message.content} />
+          <View>
+            <MarkdownText content={contentToRender} />
+            {/* Blinking cursor at end while typewriting */}
+            {isTyping && <BlinkingCursor />}
+          </View>
         )}
 
-        {/* Tool calls */}
-        {message.toolCalls && message.toolCalls.length > 0 && (
+        {/* Tool calls — only show when not mid-typewriter or always if present */}
+        {!isTyping && message.toolCalls && message.toolCalls.length > 0 && (
           <ToolCallDisplay toolCalls={message.toolCalls} debugMode={debugMode} />
         )}
       </View>

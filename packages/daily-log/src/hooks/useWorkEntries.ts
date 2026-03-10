@@ -103,6 +103,22 @@ export function useWorkEntries() {
     await ref.delete();
   }, []);
 
+  const moveEntry = useCallback(async (id: string, newDate: string) => {
+    const user = auth().currentUser;
+    if (!user) throw new Error('Not authenticated');
+
+    const ref = firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('workEntries')
+      .doc(id);
+
+    await ref.update({
+      date: newDate,
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+    });
+  }, []);
+
   return {
     entries,
     loading,
@@ -111,5 +127,6 @@ export function useWorkEntries() {
     addEntry,
     updateEntry,
     deleteEntry,
+    moveEntry,
   };
 }
