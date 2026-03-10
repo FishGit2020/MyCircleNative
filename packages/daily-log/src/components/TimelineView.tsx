@@ -8,6 +8,7 @@ interface TimelineViewProps {
   entries: WorkEntry[];
   onUpdate: (id: string, content: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
+  onMove?: (id: string, newDate: string) => Promise<void>;
 }
 
 function groupByDate(entries: WorkEntry[]): Map<string, WorkEntry[]> {
@@ -23,7 +24,7 @@ function groupByDate(entries: WorkEntry[]): Map<string, WorkEntry[]> {
   );
 }
 
-export default function TimelineView({ entries, onUpdate, onDelete }: TimelineViewProps) {
+export default function TimelineView({ entries, onUpdate, onDelete, onMove }: TimelineViewProps) {
   const { t } = useTranslation();
 
   if (entries.length === 0) {
@@ -45,6 +46,7 @@ export default function TimelineView({ entries, onUpdate, onDelete }: TimelineVi
           entries={dayEntries}
           onUpdate={onUpdate}
           onDelete={onDelete}
+          onMove={onMove}
         />
       ))}
     </View>

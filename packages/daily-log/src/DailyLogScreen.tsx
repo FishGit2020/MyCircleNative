@@ -23,6 +23,7 @@ export default function DailyLogScreen() {
     addEntry,
     updateEntry,
     deleteEntry,
+    moveEntry,
   } = useWorkEntries();
   const [filter, setFilter] = useState<TimeFilter>('all');
 
@@ -163,6 +164,7 @@ export default function DailyLogScreen() {
           entries={filteredEntries}
           onUpdate={updateEntry}
           onDelete={deleteEntry}
+          onMove={moveEntry}
         />
       </ScrollView>
     </View>
