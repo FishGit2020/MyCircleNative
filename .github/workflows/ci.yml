@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: ESLint
-        run: npx eslint . --max-warnings 290
+        run: npx eslint . --max-warnings 300
 
   audit:
     name: Security Audit

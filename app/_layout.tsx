@@ -136,6 +136,7 @@ export default function RootLayout() {
                   <Stack.Screen name="privacy" options={{ title: 'Privacy Policy' }} />
                   <Stack.Screen name="profile" options={{ title: 'Profile' }} />
                   <Stack.Screen name="radio" options={{ title: 'Radio Station' }} />
+                  <Stack.Screen name="search" options={{ title: 'Search', presentation: 'modal' }} />
                   <Stack.Screen name="settings" options={{ title: 'Settings' }} />
                   <Stack.Screen name="terms" options={{ title: 'Terms of Service' }} />
                   <Stack.Screen name="trash" options={{ title: 'Recycle Bin' }} />
