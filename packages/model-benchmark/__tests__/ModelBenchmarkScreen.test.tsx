@@ -11,6 +11,7 @@ jest.mock('@mycircle/shared', () => ({
   safeGetItem: jest.fn(() => null),
   StorageKeys: {
     BENCHMARK_HISTORY_CACHE: 'benchmark-history-cache',
+    BENCHMARK_ENDPOINTS: 'benchmark-endpoints',
   },
   eventBus: {
     subscribe: jest.fn(() => jest.fn()),
@@ -39,13 +40,9 @@ describe('ModelBenchmarkScreen', () => {
 
   it('renders tabs', () => {
     const { getByText } = render(<ModelBenchmarkScreen />);
-    expect(getByText('benchmark.results')).toBeTruthy();
-    expect(getByText('benchmark.history')).toBeTruthy();
-  });
-
-  it('renders endpoint selection', () => {
-    const { getByText } = render(<ModelBenchmarkScreen />);
-    expect(getByText('benchmark.selectEndpoints')).toBeTruthy();
+    expect(getByText('benchmark.tabs.run')).toBeTruthy();
+    expect(getByText('benchmark.tabs.endpoints')).toBeTruthy();
+    expect(getByText('benchmark.tabs.history')).toBeTruthy();
   });
 
   it('renders run button', () => {
@@ -55,7 +52,13 @@ describe('ModelBenchmarkScreen', () => {
 
   it('switches to history tab', () => {
     const { getByText } = render(<ModelBenchmarkScreen />);
-    fireEvent.press(getByText('benchmark.history'));
+    fireEvent.press(getByText('benchmark.tabs.history'));
     expect(getByText('benchmark.noHistory')).toBeTruthy();
+  });
+
+  it('switches to endpoints tab', () => {
+    const { getByText } = render(<ModelBenchmarkScreen />);
+    fireEvent.press(getByText('benchmark.tabs.endpoints'));
+    expect(getByText('benchmark.endpoints.title')).toBeTruthy();
   });
 });

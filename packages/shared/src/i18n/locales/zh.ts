@@ -2039,6 +2039,13 @@ const zh: Record<TranslationKey, string> = {
   'benchmark.results.quality': '\u8d28\u91cf',
   'benchmark.results.qualityJudge': '\u8bc4\u5ba1',
   'benchmark.signInRequired': '\u767b\u5f55\u540e\u4f7f\u7528\u6027\u80fd\u6d4b\u8bd5',
+  'benchmark.results.bestPerformer': '\u6700\u4f73\u8868\u73b0\u8005',
+  'benchmark.results.averageTps': '\u5e73\u5747 Tokens/\u79d2',
+  'benchmark.results.summary': '\u6458\u8981',
+  'benchmark.results.saved': '\u7ed3\u679c\u5df2\u4fdd\u5b58',
+  'benchmark.endpoints.urlLabel': '\u7aef\u70b9 URL',
+  'benchmark.endpoints.modelPlaceholder': '\u4f8b\u5982 llama3, mistral',
+  'benchmark.endpoints.provider': '\u63d0\u4f9b\u5546',
   'endpoints.sourceChat': '\u804a\u5929',
   'endpoints.sourceBenchmark': '\u6027\u80fd\u6d4b\u8bd5',
   'bottomNav.immigration': '\u79fb\u6c11',
@@ -2545,6 +2552,19 @@ const zh: Record<TranslationKey, string> = {
   'whatsNew.subtitle': '\u6700\u65b0\u66f4\u65b0\u548c\u529f\u80fd',
   'privacy.subtitle': '\u6211\u4eec\u5982\u4f55\u5904\u7406\u60a8\u7684\u6570\u636e',
   'terms.subtitle': '\u4f7f\u7528 MyCircle \u7684\u89c4\u5219',
+
+  // Weather Comparison
+  'compare.temperature': '\u6e29\u5ea6',
+  'compare.conditions': '\u5929\u6c14\u72b6\u51b5',
+  'compare.noCity': '\u672a\u9009\u62e9\u57ce\u5e02',
+  'compare.selectCityPrompt': '\u641c\u7d22\u5e76\u9009\u62e9\u4e00\u4e2a\u57ce\u5e02\u8fdb\u884c\u5bf9\u6bd4',
+  'compare.hide': '\u9690\u85cf\u5bf9\u6bd4',
+
+  // Immigration auto-fetch
+  'immigration.fetchingAllCases': '\u6b63\u5728\u68c0\u67e5\u6240\u6709\u6848\u4ef6...',
+
+  // Cloud Files auth wall
+  'cloudFiles.signInToAccess': '\u767b\u5f55\u4ee5\u8bbf\u95ee\u60a8\u7684\u6587\u4ef6',
 };
 
 export default zh;

@@ -31,6 +31,7 @@ import {
   ActivitySuggestions,
   HistoricalWeather,
   HourlyChart,
+  WeatherComparison,
 } from './components';
 
 interface WeatherResponse {
@@ -185,6 +186,9 @@ export default function WeatherScreen() {
         <Text className="mb-4 text-2xl font-bold text-gray-800 dark:text-white">
           {city.name}
         </Text>
+
+        {/* Weather Comparison */}
+        <WeatherComparison currentCity={city} />
 
         {/* Weather Alerts */}
         {current && <WeatherAlerts current={current} />}

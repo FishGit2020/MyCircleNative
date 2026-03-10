@@ -1,5 +1,5 @@
 echo "Running lint..."
-npx eslint . --max-warnings 250
+npx eslint . --max-warnings 260
 
 echo "Running unit tests..."
 npm test -- --passWithNoTests

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  TextInput,
 } from 'react-native';
 import {
   useTranslation,
@@ -15,7 +16,7 @@ import {
   safeSetItem,
 } from '@mycircle/shared';
 
-type GameType = 'trivia' | 'math' | 'word' | 'memory' | 'reaction' | 'simon';
+type GameType = 'trivia' | 'math' | 'word' | 'memory' | 'reaction' | 'simon' | 'headsup' | 'sequence' | 'colormatch' | 'maze' | 'anagram';
 
 interface ScoreEntry {
   game: GameType;
@@ -768,6 +769,966 @@ function SimonGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
   );
 }
 
+// ─── Heads Up ────────────────────────────────────────────────────
+const HEADS_UP_WORDS = [
+  'elephant', 'pizza', 'airplane', 'basketball', 'guitar',
+  'butterfly', 'volcano', 'penguin', 'rainbow', 'dinosaur',
+  'pirate', 'robot', 'mermaid', 'astronaut', 'ninja',
+  'tornado', 'unicorn', 'zombie', 'dragon', 'wizard',
+  'surfing', 'karate', 'ballet', 'juggling', 'skiing',
+  'banana', 'popcorn', 'hamburger', 'spaghetti', 'chocolate',
+  'camera', 'telescope', 'bicycle', 'helicopter', 'submarine',
+  'fireworks', 'snowman', 'castle', 'lighthouse', 'waterfall',
+  'monkey', 'octopus', 'kangaroo', 'dolphin', 'parrot',
+  'cowboy', 'superhero', 'clown', 'detective', 'chef',
+];
+
+const HEADS_UP_DURATION = 60;
+
+function HeadsUpGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const { t } = useTranslation();
+  const [phase, setPhase] = useState<'menu' | 'playing' | 'over'>('menu');
+  const [words, setWords] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [skipped, setSkipped] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(HEADS_UP_DURATION);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+  }, []);
+
+  useEffect(() => { return () => stopTimer(); }, [stopTimer]);
+
+  const startRound = useCallback(() => {
+    const shuffled = [...HEADS_UP_WORDS];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setWords(shuffled);
+    setCurrentIndex(0);
+    setScore(0);
+    setSkipped(0);
+    setTimeLeft(HEADS_UP_DURATION);
+    setPhase('playing');
+    const start = Date.now();
+    timerRef.current = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const left = Math.max(0, HEADS_UP_DURATION - elapsed);
+      setTimeLeft(left);
+      if (left <= 0) {
+        clearInterval(timerRef.current!);
+        timerRef.current = null;
+        setPhase('over');
+      }
+    }, 250);
+  }, []);
+
+  const advance = useCallback(() => {
+    if (currentIndex + 1 >= words.length) {
+      stopTimer();
+      setPhase('over');
+    } else {
+      setCurrentIndex((i) => i + 1);
+    }
+  }, [currentIndex, words.length, stopTimer]);
+
+  const handleGotIt = useCallback(() => {
+    setScore((s) => s + 1);
+    advance();
+  }, [advance]);
+
+  const handlePass = useCallback(() => {
+    setSkipped((s) => s + 1);
+    advance();
+  }, [advance]);
+
+  useEffect(() => {
+    if (phase === 'over') onScore(score);
+  }, [phase, score, onScore]);
+
+  if (phase === 'over') {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+          {t('games.score')}: {score}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          {t('games.skipWord')}: {skipped}
+        </Text>
+        <TouchableOpacity
+          onPress={startRound}
+          className="px-6 py-3 bg-fuchsia-500 dark:bg-fuchsia-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.newGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{t('games.newGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-blue-500 dark:text-blue-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (phase === 'menu') {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+          {t('games.headsUp')}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center">
+          {t('games.holdUp')}
+        </Text>
+        <TouchableOpacity
+          onPress={startRound}
+          className="px-8 py-4 bg-fuchsia-500 dark:bg-fuchsia-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.startGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-bold text-lg">{t('games.startGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-gray-500 dark:text-gray-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const currentWord = words[currentIndex] || '';
+  const isLow = timeLeft <= 10;
+
+  return (
+    <View className="flex-1 items-center justify-center p-6">
+      <Text className={`text-5xl font-bold mb-6 ${isLow ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}`}>
+        {timeLeft}
+      </Text>
+      <View className="bg-fuchsia-500 dark:bg-fuchsia-600 rounded-3xl px-12 py-16 min-w-[280px] items-center mb-8">
+        <Text className="text-4xl font-bold text-white uppercase tracking-wide text-center">
+          {currentWord}
+        </Text>
+      </View>
+      <View className="flex-row gap-4 w-full max-w-[300px]">
+        <TouchableOpacity
+          onPress={handlePass}
+          className="flex-1 py-4 bg-red-100 dark:bg-red-900/30 rounded-xl min-h-[44px] items-center justify-center"
+          accessibilityLabel={t('games.pass')}
+          accessibilityRole="button"
+        >
+          <Text className="text-red-600 dark:text-red-400 font-bold text-lg">{t('games.pass')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleGotIt}
+          className="flex-1 py-4 bg-green-100 dark:bg-green-900/30 rounded-xl min-h-[44px] items-center justify-center"
+          accessibilityLabel={t('games.gotIt')}
+          accessibilityRole="button"
+        >
+          <Text className="text-green-600 dark:text-green-400 font-bold text-lg">{t('games.gotIt')}</Text>
+        </TouchableOpacity>
+      </View>
+      <Text className="text-xs text-gray-400 dark:text-gray-500 mt-4">
+        {t('games.score')}: {score} {'\u00B7'} {t('games.skipWord')}: {skipped}
+      </Text>
+    </View>
+  );
+}
+
+// ─── Number Sequence ─────────────────────────────────────────────
+interface SequencePuzzle {
+  sequence: number[];
+  answer: number;
+}
+
+function generateSequencePuzzle(level: number): SequencePuzzle {
+  const type = Math.floor(Math.random() * 4);
+  const len = Math.min(4 + Math.floor(level / 3), 7);
+
+  if (type === 0) {
+    // Arithmetic: a, a+d, a+2d, ...
+    const a = Math.floor(Math.random() * 20) + 1;
+    const d = Math.floor(Math.random() * 10) + 2;
+    const seq = Array.from({ length: len }, (_, i) => a + i * d);
+    return { sequence: seq.slice(0, -1), answer: seq[seq.length - 1] };
+  } else if (type === 1) {
+    // Geometric: a, a*r, a*r^2, ...
+    const a = Math.floor(Math.random() * 5) + 2;
+    const r = Math.floor(Math.random() * 3) + 2;
+    const seq = Array.from({ length: len }, (_, i) => a * Math.pow(r, i));
+    return { sequence: seq.slice(0, -1), answer: seq[seq.length - 1] };
+  } else if (type === 2) {
+    // Add-increasing: +1, +2, +3, ...
+    let val = Math.floor(Math.random() * 10) + 1;
+    const seq = [val];
+    for (let i = 1; i < len; i++) { val += i; seq.push(val); }
+    return { sequence: seq.slice(0, -1), answer: seq[seq.length - 1] };
+  } else {
+    // Squares: 1, 4, 9, 16, ...
+    const offset = Math.floor(Math.random() * 5);
+    const seq = Array.from({ length: len }, (_, i) => (i + 1 + offset) * (i + 1 + offset));
+    return { sequence: seq.slice(0, -1), answer: seq[seq.length - 1] };
+  }
+}
+
+const SEQUENCE_TOTAL = 10;
+
+function SequenceGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const { t } = useTranslation();
+  const [puzzle, setPuzzle] = useState<SequencePuzzle | null>(null);
+  const [input, setInput] = useState('');
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(0);
+  const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
+  const [isFinished, setIsFinished] = useState(false);
+
+  const nextPuzzle = useCallback((lvl: number) => {
+    setPuzzle(generateSequencePuzzle(lvl));
+    setInput('');
+    setFeedback(null);
+  }, []);
+
+  useEffect(() => { nextPuzzle(0); }, [nextPuzzle]);
+
+  const handleSubmit = useCallback(() => {
+    if (!puzzle || !input.trim()) return;
+    const userAnswer = parseInt(input, 10);
+    if (userAnswer === puzzle.answer) {
+      const newScore = score + (10 + level * 5);
+      const newLevel = level + 1;
+      setScore(newScore);
+      setLevel(newLevel);
+      setFeedback('correct');
+      if (newLevel >= SEQUENCE_TOTAL) {
+        setTimeout(() => setIsFinished(true), 800);
+      } else {
+        setTimeout(() => nextPuzzle(newLevel), 800);
+      }
+    } else {
+      setFeedback('incorrect');
+      setTimeout(() => { setFeedback(null); setInput(''); }, 800);
+    }
+  }, [puzzle, input, score, level, nextPuzzle]);
+
+  useEffect(() => {
+    if (isFinished) onScore(score);
+  }, [isFinished, score, onScore]);
+
+  if (isFinished) {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          {t('games.score')}: {score}
+        </Text>
+        <TouchableOpacity
+          onPress={() => { setLevel(0); setScore(0); setIsFinished(false); nextPuzzle(0); }}
+          className="px-6 py-3 bg-teal-500 dark:bg-teal-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.newGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{t('games.newGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-blue-500 dark:text-blue-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 p-4 items-center justify-center">
+      <Text className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        {level + 1}/{SEQUENCE_TOTAL} {'\u00B7'} {t('games.score')}: {score}
+      </Text>
+      {puzzle && (
+        <>
+          <View className="flex-row items-center gap-2 mb-6">
+            {puzzle.sequence.map((n, i) => (
+              <Text key={i} className="text-2xl font-bold text-gray-800 dark:text-white">
+                {n}{i < puzzle.sequence.length - 1 ? ',' : ''}
+              </Text>
+            ))}
+            <Text className="text-2xl font-bold text-teal-500">, ?</Text>
+          </View>
+          <View className={`border rounded-xl px-4 py-3 min-w-[120px] mb-4 ${
+            feedback === 'correct' ? 'border-green-500 bg-green-50 dark:bg-green-900/20' :
+            feedback === 'incorrect' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
+            'border-gray-300 dark:border-gray-600'
+          }`}>
+            <Text className={`text-center text-2xl font-bold ${
+              feedback === 'correct' ? 'text-green-700 dark:text-green-300' :
+              feedback === 'incorrect' ? 'text-red-700 dark:text-red-300' :
+              'text-gray-800 dark:text-white'
+            }`}>
+              {input || '_'}
+            </Text>
+          </View>
+          {/* Number pad */}
+          <View className="flex-row flex-wrap justify-center gap-2 max-w-[200px]">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((n) => (
+              <TouchableOpacity
+                key={n}
+                onPress={() => setInput((a) => a + String(n))}
+                className="w-14 h-12 bg-gray-100 dark:bg-gray-700 rounded-lg items-center justify-center"
+                accessibilityLabel={String(n)}
+                accessibilityRole="button"
+              >
+                <Text className="text-lg font-medium text-gray-800 dark:text-white">{n}</Text>
+              </TouchableOpacity>
+            ))}
+            <TouchableOpacity
+              onPress={() => setInput('')}
+              className="w-14 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg items-center justify-center"
+              accessibilityLabel="Clear"
+              accessibilityRole="button"
+            >
+              <Text className="text-lg font-medium text-red-600 dark:text-red-400">C</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleSubmit}
+              disabled={!input}
+              className={`w-14 h-12 rounded-lg items-center justify-center ${
+                input ? 'bg-teal-500 dark:bg-teal-600' : 'bg-gray-300 dark:bg-gray-700'
+              }`}
+              accessibilityLabel={t('games.play')}
+              accessibilityRole="button"
+            >
+              <Text className="text-white font-bold">=</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+      <TouchableOpacity
+        onPress={onBack}
+        className="mt-6 px-3 py-2 min-h-[44px] justify-center"
+        accessibilityLabel={t('games.back')}
+        accessibilityRole="button"
+      >
+        <Text className="text-gray-500 dark:text-gray-400">{'\u2190'} {t('games.back')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+// ─── Color Match (Stroop) ────────────────────────────────────────
+const CM_COLORS = ['red', 'green', 'blue', 'yellow'] as const;
+type CMColorName = typeof CM_COLORS[number];
+
+const CM_COLOR_HEX: Record<CMColorName, string> = {
+  red: '#ef4444',
+  green: '#22c55e',
+  blue: '#3b82f6',
+  yellow: '#eab308',
+};
+
+const CM_LABEL_KEYS: Record<CMColorName, string> = {
+  red: 'games.colorRed',
+  green: 'games.colorGreen',
+  blue: 'games.colorBlue',
+  yellow: 'games.colorYellow',
+};
+
+const CM_ROUND_TIME = 30;
+
+function ColorMatchGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const { t } = useTranslation();
+  const [phase, setPhase] = useState<'menu' | 'playing' | 'over'>('menu');
+  const [word, setWord] = useState<CMColorName>('red');
+  const [displayColor, setDisplayColor] = useState<CMColorName>('blue');
+  const [score, setScore] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(CM_ROUND_TIME);
+  const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const generateChallenge = useCallback(() => {
+    const w = CM_COLORS[Math.floor(Math.random() * CM_COLORS.length)];
+    const mismatch = Math.random() < 0.6;
+    let dc = w;
+    if (mismatch) {
+      const others = CM_COLORS.filter((c) => c !== w);
+      dc = others[Math.floor(Math.random() * others.length)];
+    }
+    setWord(w);
+    setDisplayColor(dc);
+  }, []);
+
+  const startGame = useCallback(() => {
+    setScore(0);
+    setTotal(0);
+    setTimeLeft(CM_ROUND_TIME);
+    setFeedback(null);
+    generateChallenge();
+    setPhase('playing');
+    const start = Date.now();
+    timerRef.current = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const left = Math.max(0, CM_ROUND_TIME - elapsed);
+      setTimeLeft(left);
+      if (left <= 0) {
+        clearInterval(timerRef.current!);
+        timerRef.current = null;
+        setPhase('over');
+      }
+    }, 250);
+  }, [generateChallenge]);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  const handleAnswer = useCallback((color: CMColorName) => {
+    if (phase !== 'playing') return;
+    setTotal((n) => n + 1);
+    if (color === displayColor) {
+      setScore((s) => s + 1);
+      setFeedback('correct');
+    } else {
+      setFeedback('incorrect');
+    }
+    setTimeout(() => {
+      setFeedback(null);
+      generateChallenge();
+    }, 300);
+  }, [phase, displayColor, generateChallenge]);
+
+  useEffect(() => {
+    if (phase === 'over') onScore(score * 10);
+  }, [phase, score, onScore]);
+
+  if (phase === 'over') {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+          {t('games.score')}: {score * 10}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          {score}/{total} {t('games.correct').toLowerCase()}
+        </Text>
+        <TouchableOpacity
+          onPress={startGame}
+          className="px-6 py-3 bg-rose-500 dark:bg-rose-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.newGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{t('games.newGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-blue-500 dark:text-blue-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (phase === 'menu') {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+          {t('games.colorMatch')}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center">
+          {t('games.colorMatchDesc')}
+        </Text>
+        <TouchableOpacity
+          onPress={startGame}
+          className="px-8 py-4 bg-rose-500 dark:bg-rose-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.startGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-bold text-lg">{t('games.startGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-gray-500 dark:text-gray-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 items-center justify-center p-6">
+      <View className="flex-row justify-between w-full max-w-[280px] mb-4">
+        <Text className="text-sm text-gray-500 dark:text-gray-400">
+          {t('games.score')}: {score}/{total}
+        </Text>
+        <Text className={`text-sm font-bold ${timeLeft <= 5 ? 'text-red-500' : 'text-gray-500 dark:text-gray-400'}`}>
+          {timeLeft}s
+        </Text>
+      </View>
+      <View className={`py-8 px-12 rounded-2xl items-center mb-2 ${
+        feedback === 'correct' ? 'bg-green-50 dark:bg-green-900/20' :
+        feedback === 'incorrect' ? 'bg-red-50 dark:bg-red-900/20' :
+        'bg-gray-50 dark:bg-gray-800'
+      }`}>
+        <Text style={{ color: CM_COLOR_HEX[displayColor], fontSize: 48, fontWeight: '900' }}>
+          {t(CM_LABEL_KEYS[word] as any)}
+        </Text>
+      </View>
+      <Text className="text-xs text-gray-400 dark:text-gray-500 mb-6">
+        {t('games.colorMatchHint')}
+      </Text>
+      <View className="flex-row flex-wrap justify-center gap-3 max-w-[280px]">
+        {CM_COLORS.map((color) => (
+          <TouchableOpacity
+            key={color}
+            onPress={() => handleAnswer(color)}
+            style={{ backgroundColor: CM_COLOR_HEX[color] }}
+            className="w-[130px] py-4 rounded-xl items-center justify-center min-h-[44px]"
+            accessibilityLabel={t(CM_LABEL_KEYS[color] as any)}
+            accessibilityRole="button"
+          >
+            <Text className="text-white font-bold text-sm">{t(CM_LABEL_KEYS[color] as any)}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// ─── Maze ────────────────────────────────────────────────────────
+type MazeCell = { top: boolean; right: boolean; bottom: boolean; left: boolean; visited: boolean };
+
+function generateMaze(rows: number, cols: number): MazeCell[][] {
+  const grid: MazeCell[][] = Array.from({ length: rows }, () =>
+    Array.from({ length: cols }, () => ({ top: true, right: true, bottom: true, left: true, visited: false }))
+  );
+  const stack: [number, number][] = [];
+  grid[0][0].visited = true;
+  stack.push([0, 0]);
+
+  while (stack.length > 0) {
+    const [r, c] = stack[stack.length - 1];
+    const neighbors: [number, number, 'top' | 'right' | 'bottom' | 'left', 'top' | 'right' | 'bottom' | 'left'][] = [];
+    if (r > 0 && !grid[r - 1][c].visited) neighbors.push([r - 1, c, 'top', 'bottom']);
+    if (c < cols - 1 && !grid[r][c + 1].visited) neighbors.push([r, c + 1, 'right', 'left']);
+    if (r < rows - 1 && !grid[r + 1][c].visited) neighbors.push([r + 1, c, 'bottom', 'top']);
+    if (c > 0 && !grid[r][c - 1].visited) neighbors.push([r, c - 1, 'left', 'right']);
+
+    if (neighbors.length === 0) {
+      stack.pop();
+    } else {
+      const [nr, nc, wall, opposite] = neighbors[Math.floor(Math.random() * neighbors.length)];
+      grid[r][c][wall] = false;
+      grid[nr][nc][opposite] = false;
+      grid[nr][nc].visited = true;
+      stack.push([nr, nc]);
+    }
+  }
+  return grid;
+}
+
+const MAZE_SIZE = 8;
+
+function MazeGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const { t } = useTranslation();
+  const [maze, setMaze] = useState<MazeCell[][] | null>(null);
+  const [pos, setPos] = useState<[number, number]>([0, 0]);
+  const [moves, setMoves] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+  const startRef = useRef(Date.now());
+
+  const initMaze = useCallback(() => {
+    setMaze(generateMaze(MAZE_SIZE, MAZE_SIZE));
+    setPos([0, 0]);
+    setMoves(0);
+    setIsFinished(false);
+    startRef.current = Date.now();
+  }, []);
+
+  useEffect(() => { initMaze(); }, [initMaze]);
+
+  const movePlayer = useCallback((dr: number, dc: number) => {
+    if (!maze || isFinished) return;
+    const [r, c] = pos;
+    const cell = maze[r][c];
+    if (dr === -1 && cell.top) return;
+    if (dr === 1 && cell.bottom) return;
+    if (dc === -1 && cell.left) return;
+    if (dc === 1 && cell.right) return;
+    const nr = r + dr;
+    const nc = c + dc;
+    if (nr < 0 || nr >= MAZE_SIZE || nc < 0 || nc >= MAZE_SIZE) return;
+    setPos([nr, nc]);
+    setMoves((m) => m + 1);
+    if (nr === MAZE_SIZE - 1 && nc === MAZE_SIZE - 1) {
+      setIsFinished(true);
+    }
+  }, [maze, pos, isFinished]);
+
+  useEffect(() => {
+    if (isFinished) {
+      const elapsed = Date.now() - startRef.current;
+      const optimalMoves = (MAZE_SIZE - 1) * 2;
+      const efficiency = Math.max(0, 1 - (moves - optimalMoves) / (optimalMoves * 3));
+      const timeBonus = Math.max(0, 120000 - elapsed) / 1000;
+      const finalScore = Math.round(efficiency * 500 + timeBonus * 5);
+      onScore(finalScore);
+    }
+  }, [isFinished, moves, onScore]);
+
+  if (isFinished) {
+    const elapsed = Date.now() - startRef.current;
+    const optimalMoves = (MAZE_SIZE - 1) * 2;
+    const efficiency = Math.max(0, 1 - (moves - optimalMoves) / (optimalMoves * 3));
+    const timeBonus = Math.max(0, 120000 - elapsed) / 1000;
+    const finalScore = Math.round(efficiency * 500 + timeBonus * 5);
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+          {t('games.score')}: {finalScore}
+        </Text>
+        <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          {moves} moves
+        </Text>
+        <TouchableOpacity
+          onPress={initMaze}
+          className="px-6 py-3 bg-emerald-500 dark:bg-emerald-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.newGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{t('games.newGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-blue-500 dark:text-blue-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const cellSize = 32;
+  const wallWidth = 2;
+  const wallColor = '#9ca3af';
+
+  return (
+    <View className="flex-1 items-center justify-center p-4">
+      <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        {t('games.mazeRunner')} {'\u00B7'} {moves} moves
+      </Text>
+      {/* Maze grid */}
+      <View style={{ borderWidth: wallWidth, borderColor: wallColor }}>
+        {maze?.map((row, r) => (
+          <View key={r} className="flex-row">
+            {row.map((cell, c) => (
+              <View
+                key={`${r}-${c}`}
+                style={{
+                  width: cellSize,
+                  height: cellSize,
+                  borderTopWidth: cell.top ? wallWidth : 0,
+                  borderRightWidth: cell.right ? wallWidth : 0,
+                  borderBottomWidth: cell.bottom ? wallWidth : 0,
+                  borderLeftWidth: cell.left ? wallWidth : 0,
+                  borderColor: wallColor,
+                }}
+                className={`items-center justify-center ${
+                  r === 0 && c === 0 ? 'bg-green-100 dark:bg-green-900/30' :
+                  r === MAZE_SIZE - 1 && c === MAZE_SIZE - 1 ? 'bg-red-100 dark:bg-red-900/30' : ''
+                }`}
+              >
+                {pos[0] === r && pos[1] === c && (
+                  <View className="w-5 h-5 rounded-full bg-emerald-500" />
+                )}
+                {r === MAZE_SIZE - 1 && c === MAZE_SIZE - 1 && !(pos[0] === r && pos[1] === c) && (
+                  <Text className="text-xs">{'\u{1F3C1}'}</Text>
+                )}
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+      {/* D-pad controls */}
+      <View className="mt-6 items-center">
+        <TouchableOpacity
+          onPress={() => movePlayer(-1, 0)}
+          className="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-xl items-center justify-center mb-1"
+          accessibilityLabel="Up"
+          accessibilityRole="button"
+        >
+          <Text className="text-xl text-gray-800 dark:text-white">{'\u25B2'}</Text>
+        </TouchableOpacity>
+        <View className="flex-row gap-1">
+          <TouchableOpacity
+            onPress={() => movePlayer(0, -1)}
+            className="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-xl items-center justify-center"
+            accessibilityLabel="Left"
+            accessibilityRole="button"
+          >
+            <Text className="text-xl text-gray-800 dark:text-white">{'\u25C0'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => movePlayer(1, 0)}
+            className="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-xl items-center justify-center"
+            accessibilityLabel="Down"
+            accessibilityRole="button"
+          >
+            <Text className="text-xl text-gray-800 dark:text-white">{'\u25BC'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => movePlayer(0, 1)}
+            className="w-14 h-14 bg-gray-200 dark:bg-gray-700 rounded-xl items-center justify-center"
+            accessibilityLabel="Right"
+            accessibilityRole="button"
+          >
+            <Text className="text-xl text-gray-800 dark:text-white">{'\u25B6'}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <TouchableOpacity
+        onPress={onBack}
+        className="mt-4 px-3 py-2 min-h-[44px] justify-center"
+        accessibilityLabel={t('games.back')}
+        accessibilityRole="button"
+      >
+        <Text className="text-gray-500 dark:text-gray-400">{'\u2190'} {t('games.back')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+// ─── Anagram ─────────────────────────────────────────────────────
+const ANAGRAM_WORDS = [
+  'apple', 'brain', 'chair', 'dance', 'eagle', 'flame', 'grape', 'house',
+  'image', 'juice', 'knife', 'lemon', 'music', 'night', 'ocean', 'piano',
+  'queen', 'river', 'stone', 'tiger', 'uncle', 'voice', 'water', 'youth',
+  'beach', 'cloud', 'dream', 'earth', 'frost', 'giant', 'heart', 'light',
+  'magic', 'noble', 'pearl', 'royal', 'shine', 'train', 'world', 'blaze',
+];
+
+const ANAGRAM_TOTAL = 10;
+const ANAGRAM_HINT_PENALTY = 30;
+
+function scrambleWord(word: string): string {
+  const arr = word.split('');
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  const result = arr.join('');
+  return result === word ? scrambleWord(word) : result;
+}
+
+function AnagramGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const { t } = useTranslation();
+  const [words, setWords] = useState<string[]>([]);
+  const [round, setRound] = useState(0);
+  const [scrambled, setScrambled] = useState('');
+  const [guess, setGuess] = useState('');
+  const [score, setScore] = useState(0);
+  const [hints, setHints] = useState(0);
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
+  const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
+  const [isFinished, setIsFinished] = useState(false);
+  const roundStartRef = useRef(Date.now());
+
+  const startGame = useCallback(() => {
+    const shuffled = [...ANAGRAM_WORDS].sort(() => Math.random() - 0.5).slice(0, ANAGRAM_TOTAL);
+    setWords(shuffled);
+    setRound(0);
+    setScore(0);
+    setHints(0);
+    setGuess('');
+    setRevealed(new Set());
+    setFeedback(null);
+    setIsFinished(false);
+    setScrambled(scrambleWord(shuffled[0]));
+    roundStartRef.current = Date.now();
+  }, []);
+
+  useEffect(() => { startGame(); }, [startGame]);
+
+  const currentWord = words[round] || '';
+
+  const handleSubmit = useCallback(() => {
+    if (!guess.trim()) return;
+    if (guess.trim().toLowerCase() === currentWord) {
+      const speed = Math.max(0, 15000 - (Date.now() - roundStartRef.current)) / 1000;
+      const pts = Math.round(100 + speed * 5 - hints * ANAGRAM_HINT_PENALTY);
+      setScore((s) => s + Math.max(10, pts));
+      setFeedback('correct');
+      const nextRound = round + 1;
+      if (nextRound >= ANAGRAM_TOTAL) {
+        setTimeout(() => setIsFinished(true), 800);
+      } else {
+        setTimeout(() => {
+          setRound(nextRound);
+          setGuess('');
+          setRevealed(new Set());
+          setHints(0);
+          setFeedback(null);
+          setScrambled(scrambleWord(words[nextRound]));
+          roundStartRef.current = Date.now();
+        }, 800);
+      }
+    } else {
+      setFeedback('incorrect');
+      setTimeout(() => { setFeedback(null); setGuess(''); }, 600);
+    }
+  }, [guess, currentWord, round, hints, words]);
+
+  const revealHint = useCallback(() => {
+    const unrevealed = currentWord.split('').map((_, i) => i).filter((i) => !revealed.has(i));
+    if (unrevealed.length <= 1) return;
+    const idx = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+    setRevealed((prev) => new Set(prev).add(idx));
+    setHints((h) => h + 1);
+  }, [currentWord, revealed]);
+
+  useEffect(() => {
+    if (isFinished) onScore(score);
+  }, [isFinished, score, onScore]);
+
+  if (isFinished) {
+    return (
+      <View className="flex-1 items-center justify-center p-6">
+        <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          {t('games.score')}: {score}
+        </Text>
+        <TouchableOpacity
+          onPress={startGame}
+          className="px-6 py-3 bg-sky-500 dark:bg-sky-600 rounded-xl min-h-[44px] justify-center mb-3"
+          accessibilityLabel={t('games.newGame')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{t('games.newGame')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onBack}
+          className="px-6 py-3 min-h-[44px] justify-center"
+          accessibilityLabel={t('games.back')}
+          accessibilityRole="button"
+        >
+          <Text className="text-blue-500 dark:text-blue-400">{t('games.back')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 p-4 items-center justify-center">
+      <Text className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        {round + 1}/{ANAGRAM_TOTAL} {'\u00B7'} {t('games.score')}: {score}
+      </Text>
+      {/* Scrambled letters */}
+      <View className="flex-row gap-2 mb-6">
+        {scrambled.split('').map((letter, i) => (
+          <View
+            key={i}
+            className="w-12 h-12 rounded-lg bg-sky-100 dark:bg-sky-900/30 items-center justify-center"
+          >
+            <Text className="text-xl font-bold text-sky-700 dark:text-sky-300 uppercase">{letter}</Text>
+          </View>
+        ))}
+      </View>
+      {/* Hint display */}
+      {revealed.size > 0 && (
+        <View className="flex-row gap-1 mb-4">
+          {currentWord.split('').map((letter, i) => (
+            <Text key={i} className="w-8 text-center text-sm font-bold text-gray-800 dark:text-white uppercase border-b-2 border-gray-300 dark:border-gray-600">
+              {revealed.has(i) ? letter : '_'}
+            </Text>
+          ))}
+        </View>
+      )}
+      {/* Input area */}
+      <View className={`border rounded-xl px-4 py-3 min-w-[200px] mb-4 ${
+        feedback === 'correct' ? 'border-green-500 bg-green-50 dark:bg-green-900/20' :
+        feedback === 'incorrect' ? 'border-red-500 bg-red-50 dark:bg-red-900/20' :
+        'border-gray-300 dark:border-gray-600'
+      }`}>
+        <Text className={`text-center text-xl font-bold uppercase tracking-widest ${
+          feedback === 'correct' ? 'text-green-700 dark:text-green-300' :
+          feedback === 'incorrect' ? 'text-red-700 dark:text-red-300' :
+          'text-gray-800 dark:text-white'
+        }`}>
+          {guess || '...'}
+        </Text>
+      </View>
+      {/* Letter keyboard */}
+      <View className="flex-row flex-wrap justify-center gap-1 max-w-[320px] mb-4">
+        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((ch) => (
+          <TouchableOpacity
+            key={ch}
+            onPress={() => setGuess((g) => g + ch)}
+            className="w-9 h-9 bg-gray-100 dark:bg-gray-700 rounded items-center justify-center"
+            accessibilityLabel={ch}
+            accessibilityRole="button"
+          >
+            <Text className="text-sm font-medium text-gray-800 dark:text-white">{ch}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View className="flex-row gap-3 mb-3">
+        <TouchableOpacity
+          onPress={() => setGuess((g) => g.slice(0, -1))}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-600 rounded-lg min-h-[44px] justify-center"
+          accessibilityLabel="Delete"
+          accessibilityRole="button"
+        >
+          <Text className="text-gray-700 dark:text-gray-300">{'\u232B'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          disabled={!guess}
+          className={`px-6 py-2 rounded-lg min-h-[44px] justify-center ${
+            guess ? 'bg-sky-500 dark:bg-sky-600' : 'bg-gray-300 dark:bg-gray-700'
+          }`}
+          accessibilityLabel={t('games.play')}
+          accessibilityRole="button"
+        >
+          <Text className="text-white font-medium">{'\u2713'}</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity
+        onPress={revealHint}
+        className="mb-3 min-h-[44px] justify-center"
+        accessibilityLabel={t('games.anagramHint')}
+        accessibilityRole="button"
+      >
+        <Text className="text-xs text-sky-600 dark:text-sky-400">
+          {t('games.anagramHint')} (-{ANAGRAM_HINT_PENALTY} pts)
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={onBack}
+        className="px-3 py-2 min-h-[44px] justify-center"
+        accessibilityLabel={t('games.back')}
+        accessibilityRole="button"
+      >
+        <Text className="text-gray-500 dark:text-gray-400">{'\u2190'} {t('games.back')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 // ─── Game Menu & Scoreboard ──────────────────────────────────────
 const GAME_CONFIGS: { type: GameType; titleKey: string; color: string; emoji: string }[] = [
   { type: 'trivia', titleKey: 'games.trivia', color: 'bg-purple-500 dark:bg-purple-600', emoji: '\u2753' },
@@ -776,6 +1737,11 @@ const GAME_CONFIGS: { type: GameType; titleKey: string; color: string; emoji: st
   { type: 'memory', titleKey: 'games.memory', color: 'bg-orange-500 dark:bg-orange-600', emoji: '\u{1F9E0}' },
   { type: 'reaction', titleKey: 'games.reaction', color: 'bg-red-500 dark:bg-red-600', emoji: '\u26A1' },
   { type: 'simon', titleKey: 'games.simon', color: 'bg-yellow-500 dark:bg-yellow-600', emoji: '\u{1F3B5}' },
+  { type: 'headsup', titleKey: 'games.headsUp', color: 'bg-fuchsia-500 dark:bg-fuchsia-600', emoji: '\u{1F64B}' },
+  { type: 'sequence', titleKey: 'games.numberSequence', color: 'bg-teal-500 dark:bg-teal-600', emoji: '\u{1F522}' },
+  { type: 'colormatch', titleKey: 'games.colorMatch', color: 'bg-rose-500 dark:bg-rose-600', emoji: '\u{1F3A8}' },
+  { type: 'maze', titleKey: 'games.mazeRunner', color: 'bg-emerald-500 dark:bg-emerald-600', emoji: '\u{1F9E9}' },
+  { type: 'anagram', titleKey: 'games.anagram', color: 'bg-sky-500 dark:bg-sky-600', emoji: '\u{1F524}' },
 ];
 
 export default function FamilyGamesScreen() {
@@ -829,6 +1795,11 @@ export default function FamilyGamesScreen() {
       case 'memory': return <MemoryGame {...props} />;
       case 'reaction': return <ReactionGame {...props} />;
       case 'simon': return <SimonGame {...props} />;
+      case 'headsup': return <HeadsUpGame {...props} />;
+      case 'sequence': return <SequenceGame {...props} />;
+      case 'colormatch': return <ColorMatchGame {...props} />;
+      case 'maze': return <MazeGame {...props} />;
+      case 'anagram': return <AnagramGame {...props} />;
     }
   }
 

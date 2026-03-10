@@ -1965,6 +1965,13 @@ const en = {
   'benchmark.results.quality': 'Quality',
   'benchmark.results.qualityJudge': 'Judged by',
   'benchmark.signInRequired': 'Sign in to use benchmarks',
+  'benchmark.results.bestPerformer': 'Best Performer',
+  'benchmark.results.averageTps': 'Average Tokens/sec',
+  'benchmark.results.summary': 'Summary',
+  'benchmark.results.saved': 'Results saved',
+  'benchmark.endpoints.urlLabel': 'Endpoint URL',
+  'benchmark.endpoints.modelPlaceholder': 'e.g. llama3, mistral',
+  'benchmark.endpoints.provider': 'Provider',
   'endpoints.sourceChat': 'Chat',
   'endpoints.sourceBenchmark': 'Benchmark',
   'bottomNav.immigration': 'Immigration',
@@ -2543,6 +2550,19 @@ const en = {
   'whatsNew.subtitle': 'Latest updates and features',
   'privacy.subtitle': 'How we handle your data',
   'terms.subtitle': 'Rules for using MyCircle',
+
+  // Weather Comparison
+  'compare.temperature': 'Temperature',
+  'compare.conditions': 'Conditions',
+  'compare.noCity': 'No city selected',
+  'compare.selectCityPrompt': 'Search and select a city to compare',
+  'compare.hide': 'Hide comparison',
+
+  // Immigration auto-fetch
+  'immigration.fetchingAllCases': 'Checking all cases...',
+
+  // Cloud Files auth wall
+  'cloudFiles.signInToAccess': 'Sign in to access your files',
 } as const;
 
 export default en;
