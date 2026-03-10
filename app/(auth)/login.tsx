@@ -28,6 +28,7 @@ export default function LoginScreen() {
   const [error, setError] = useState('');
 
   function getErrorMessage(err: any): string {
+    console.error('Auth error:', JSON.stringify(err, null, 2), 'code:', err?.code, 'message:', err?.message);
     const code = err?.code || '';
     switch (code) {
       case 'auth/user-not-found':
