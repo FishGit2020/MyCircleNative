@@ -77,8 +77,10 @@ MyCircleNative/
 
 ## iOS-Specific Rules
 
-- **Safe area in Modals**: Use `useSafeAreaInsets()` with inline `style={{ paddingTop: insets.top }}` — not `SafeAreaView` with `className` (NativeWind breaks it in modals).
-- **No `SafeAreaView` anywhere**: NativeWind wraps `SafeAreaView` (from both `react-native` and `react-native-safe-area-context`) and triggers "Couldn't find a navigation context" crashes. For screens inside Expo Router, use plain `<View>` — the router handles safe areas. For `<Modal>`, use `useSafeAreaInsets()` with inline `style={{ paddingTop: insets.top }}`.
+- **No `SafeAreaView` component**: NativeWind wraps `SafeAreaView` and triggers navigation context crashes. Use `useSafeAreaInsets()` with inline styles instead. Safe area is handled at three levels:
+  - **Tab/Auth screens**: `(tabs)/_layout.tsx` and `(auth)/_layout.tsx` apply `paddingTop: insets.top` — individual screens don't need it.
+  - **Stack screens**: `headerShown: true` (default) provides safe area via the header.
+  - **Modals**: Use `useSafeAreaInsets()` with `paddingTop: insets.top` and `paddingBottom: insets.bottom` directly.
 - **Native module install = rebuild**: After `npx expo install <native-package>`, run `rm -rf ios && npx expo prebuild --platform ios --clean && SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios`.
 - **Build command**: `SENTRY_DISABLE_AUTO_UPLOAD=true npx expo run:ios` (Sentry not yet configured).
 - **See [iOS Development Setup](./docs/ios-development-setup.md)** for full guide (App Check, device setup, troubleshooting).
