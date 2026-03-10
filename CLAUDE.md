@@ -1,14 +1,14 @@
 # MyCircleNative — Agent Rules
 
-npm workspaces monorepo · Expo SDK 54 · React Native · NativeWind v4 · TypeScript
+pnpm workspaces monorepo · Expo SDK 54 · React Native · NativeWind v4 · TypeScript
 
 ## Workflow
 
 ```
 git checkout -b feat/my-feature
 # implement (honor rules below)
-npm test --workspaces --if-present
-npx tsc --noEmit
+pnpm test
+pnpm exec tsc --noEmit
 git add <files> && git commit --no-verify -m "feat: description"
 git push -u origin HEAD
 gh pr create --title "feat: description" --body "summary"

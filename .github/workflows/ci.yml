@@ -14,16 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: ESLint
-        run: npx eslint . --max-warnings 300
+        run: pnpm exec eslint . --max-warnings 300
 
   audit:
     name: Security Audit
@@ -33,16 +35,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: npm audit
-        run: npm audit --audit-level=high
+      - name: pnpm audit
+        run: pnpm audit --audit-level=high
 
   test:
     name: Unit Tests
@@ -51,16 +55,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Unit tests
-        run: npm test -- --ci --coverage --maxWorkers=2
+        run: pnpm test -- --ci --coverage --maxWorkers=2
 
       - name: Upload coverage
         if: always()
@@ -79,13 +85,15 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: pnpm exec tsc --noEmit
