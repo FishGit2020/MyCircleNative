@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
-import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
+import { useState, useCallback, useEffect } from 'react';
+import { View, Text, ScrollView, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
+import auth from '@react-native-firebase/auth';
 import { useTranslation } from '@mycircle/shared';
 import { useCloudFiles } from './hooks/useCloudFiles';
 import FileList from './components/FileList';
@@ -12,6 +13,16 @@ export default function CloudFilesScreen() {
   const { t } = useTranslation();
   const { myFiles, sharedFiles, loading, uploadFile, deleteFile, toggleShare } = useCloudFiles();
   const [activeTab, setActiveTab] = useState<'my' | 'shared'>('my');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+      setAuthChecked(true);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleUpload = useCallback(async () => {
     try {
@@ -50,6 +61,36 @@ export default function CloudFilesScreen() {
     },
     [deleteFile, t],
   );
+
+  // Loading auth state
+  if (!authChecked) {
+    return (
+      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#3b82f6" />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Auth wall — show sign-in message if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+        <View className="px-4 pt-4 flex-1">
+          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {t('cloudFiles.title')}
+          </Text>
+          <View className="flex-1 justify-center items-center">
+            <Ionicons name="lock-closed-outline" size={48} color="#9ca3af" />
+            <Text className="text-gray-500 dark:text-gray-400 text-center mt-4">
+              {t('cloudFiles.signInToAccess')}
+            </Text>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">

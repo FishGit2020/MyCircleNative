@@ -2023,6 +2023,13 @@ const es: Record<TranslationKey, string> = {
   'benchmark.results.quality': 'Calidad',
   'benchmark.results.qualityJudge': 'Evaluado por',
   'benchmark.signInRequired': 'Inicia sesi\u00f3n para usar benchmarks',
+  'benchmark.results.bestPerformer': 'Mejor Rendimiento',
+  'benchmark.results.averageTps': 'Tokens/seg Promedio',
+  'benchmark.results.summary': 'Resumen',
+  'benchmark.results.saved': 'Resultados guardados',
+  'benchmark.endpoints.urlLabel': 'URL del Endpoint',
+  'benchmark.endpoints.modelPlaceholder': 'ej. llama3, mistral',
+  'benchmark.endpoints.provider': 'Proveedor',
   'endpoints.sourceChat': 'Chat',
   'endpoints.sourceBenchmark': 'Benchmark',
   'bottomNav.immigration': 'Inmigraci\u00f3n',
@@ -2545,6 +2552,19 @@ const es: Record<TranslationKey, string> = {
   'whatsNew.subtitle': '\u00daltimas actualizaciones y funciones',
   'privacy.subtitle': 'C\u00f3mo manejamos sus datos',
   'terms.subtitle': 'Reglas para usar MyCircle',
+
+  // Weather Comparison
+  'compare.temperature': 'Temperatura',
+  'compare.conditions': 'Condiciones',
+  'compare.noCity': 'Ninguna ciudad seleccionada',
+  'compare.selectCityPrompt': 'Busca y selecciona una ciudad para comparar',
+  'compare.hide': 'Ocultar comparaci\u00f3n',
+
+  // Immigration auto-fetch
+  'immigration.fetchingAllCases': 'Verificando todos los casos...',
+
+  // Cloud Files auth wall
+  'cloudFiles.signInToAccess': 'Inicia sesi\u00f3n para acceder a tus archivos',
 };
 
 export default es;

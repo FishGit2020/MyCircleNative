@@ -8,3 +8,4 @@ export { default as WeatherAlerts } from './WeatherAlerts';
 export { default as ActivitySuggestions } from './ActivitySuggestions';
 export { default as HistoricalWeather } from './HistoricalWeather';
 export { default as HourlyChart } from './HourlyChart';
+export { default as WeatherComparison } from './WeatherComparison';
