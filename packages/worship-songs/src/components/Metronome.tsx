@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { Audio } from 'expo-av';
+import { useAudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { useTranslation } from '@mycircle/shared';
 
@@ -19,44 +19,18 @@ export default function Metronome({ initialBpm = 120 }: MetronomeProps) {
   const [playing, setPlaying] = useState(false);
   const [beat, setBeat] = useState(false);
 
-  const soundRef = useRef<Audio.Sound | null>(null);
+  const player = useAudioPlayer(require('../../assets/click.wav'));
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const tapTimesRef = useRef<number[]>([]);
 
-  // Preload click sound
+  // Cleanup on unmount
   useEffect(() => {
-    let mounted = true;
-
-    async function loadSound() {
-      try {
-        await Audio.setAudioModeAsync({
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: false,
-        });
-        const { sound } = await Audio.Sound.createAsync(
-          require('../../assets/click.wav'),
-          { shouldPlay: false },
-        );
-        if (mounted) {
-          soundRef.current = sound;
-        } else {
-          sound.unloadAsync();
-        }
-      } catch {
-        // Sound asset not available — haptic-only fallback
-      }
-    }
-
-    loadSound();
-
     return () => {
-      mounted = false;
       if (timerRef.current) clearInterval(timerRef.current);
-      soundRef.current?.unloadAsync();
     };
   }, []);
 
-  const playClick = useCallback(async () => {
+  const playClick = useCallback(() => {
     // Haptic feedback
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -66,10 +40,8 @@ export default function Metronome({ initialBpm = 120 }: MetronomeProps) {
 
     // Audio click
     try {
-      if (soundRef.current) {
-        await soundRef.current.setPositionAsync(0);
-        await soundRef.current.playAsync();
-      }
+      player.seekTo(0);
+      player.play();
     } catch {
       /* ignore */
     }
@@ -77,7 +49,7 @@ export default function Metronome({ initialBpm = 120 }: MetronomeProps) {
     // Flash beat indicator
     setBeat(true);
     setTimeout(() => setBeat(false), 80);
-  }, []);
+  }, [player]);
 
   const startMetronome = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
