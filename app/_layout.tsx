@@ -134,10 +134,10 @@ export default function RootLayout() {
                   <Stack.Screen name="notebook" options={{ title: 'Notebook' }} />
                   <Stack.Screen name="polls" options={{ title: 'Polls' }} />
                   <Stack.Screen name="privacy" options={{ title: 'Privacy Policy' }} />
-                  <Stack.Screen name="profile" options={{ title: 'Profile' }} />
+                  <Stack.Screen name="profile" options={{ headerShown: false }} />
                   <Stack.Screen name="radio" options={{ title: 'Radio Station' }} />
                   <Stack.Screen name="search" options={{ title: 'Search', presentation: 'modal' }} />
-                  <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+                  <Stack.Screen name="settings" options={{ headerShown: false }} />
                   <Stack.Screen name="terms" options={{ title: 'Terms of Service' }} />
                   <Stack.Screen name="trash" options={{ title: 'Recycle Bin' }} />
                   <Stack.Screen name="trip-planner" options={{ title: 'Trip Planner' }} />
