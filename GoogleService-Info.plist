@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CLIENT_ID</key>
+    <string>441498720264-i6g8e1lg9djmmrdcm8s1c3mejnmu5dlk.apps.googleusercontent.com</string>
+    <key>REVERSED_CLIENT_ID</key>
+    <string>com.googleusercontent.apps.441498720264-i6g8e1lg9djmmrdcm8s1c3mejnmu5dlk</string>
+    <key>API_KEY</key>
+    <string>AIzaSyAUOYCVZsXv_sE2CVrn9oUGPy19uRZZskE</string>
+    <key>GCM_SENDER_ID</key>
+    <string>441498720264</string>
+    <key>PLIST_VERSION</key>
+    <string>1</string>
+    <key>BUNDLE_ID</key>
+    <string>com.mycircle.app</string>
+    <key>PROJECT_ID</key>
+    <string>mycircle-dash</string>
+    <key>STORAGE_BUCKET</key>
+    <string>mycircle-dash.firebasestorage.app</string>
+    <key>IS_ADS_ENABLED</key>
+    <false></false>
+    <key>IS_ANALYTICS_ENABLED</key>
+    <false></false>
+    <key>IS_APPINVITE_ENABLED</key>
+    <true></true>
+    <key>IS_GCM_ENABLED</key>
+    <true></true>
+    <key>IS_SIGNIN_ENABLED</key>
+    <true></true>
+    <key>GOOGLE_APP_ID</key>
+    <string>1:441498720264:ios:c3a3bc0887f26be78c59bd</string>
+</dict>
+</plist>

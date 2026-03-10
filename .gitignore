@@ -42,9 +42,9 @@ yarn-error.*
 /ios
 /android
 
-# Firebase config (contains sensitive data)
-GoogleService-Info.plist
-google-services.json
+# Firebase config (public keys only, safe to commit)
+# GoogleService-Info.plist
+# google-services.json
 
 # Google Play service account key
 play-store-key.json
