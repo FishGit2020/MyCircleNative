@@ -53,9 +53,18 @@ function formatDate(timestamp: number): string {
   });
 }
 
-/** Strip all HTML tags, return plain text */
+/** Strip HTML tags for plain text display (no DOMParser in RN) */
 function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ').trim();
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 export default function EpisodeList({

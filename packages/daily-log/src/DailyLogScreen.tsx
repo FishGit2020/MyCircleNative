@@ -11,7 +11,7 @@ import { useTranslation } from '@mycircle/shared';
 import { useWorkEntries } from './hooks/useWorkEntries';
 import { EntryForm, TimelineView } from './components';
 
-type TimeFilter = 'today' | 'thisMonth' | 'all';
+type TimeFilter = 'today' | 'thisMonth' | 'all' | 'weekdays' | 'weekends';
 
 export default function DailyLogScreen() {
   const { t } = useTranslation();
@@ -35,6 +35,18 @@ export default function DailyLogScreen() {
         return entries.filter((e) => e.date === today);
       case 'thisMonth':
         return entries.filter((e) => e.date.startsWith(currentMonth));
+      case 'weekdays': {
+        return entries.filter((e) => {
+          const day = new Date(e.date).getDay();
+          return day >= 1 && day <= 5;
+        });
+      }
+      case 'weekends': {
+        return entries.filter((e) => {
+          const day = new Date(e.date).getDay();
+          return day === 0 || day === 6;
+        });
+      }
       default:
         return entries;
     }
@@ -83,6 +95,8 @@ export default function DailyLogScreen() {
   const filterChips: { key: TimeFilter; label: string }[] = [
     { key: 'today', label: t('dailyLog.today') },
     { key: 'thisMonth', label: t('dailyLog.thisMonth') },
+    { key: 'weekdays', label: t('dailyLog.weekdays') },
+    { key: 'weekends', label: t('dailyLog.weekends') },
     { key: 'all', label: t('dailyLog.allTime') },
   ];
 

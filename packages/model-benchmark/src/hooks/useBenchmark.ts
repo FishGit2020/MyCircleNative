@@ -5,17 +5,12 @@ import {
   StorageKeys,
 } from '@mycircle/shared';
 import type { BenchmarkRun, BenchmarkResult, BenchmarkEndpoint } from '@mycircle/shared';
-
-const DEFAULT_ENDPOINTS: BenchmarkEndpoint[] = [
-  { id: 'openai-gpt4', name: 'GPT-4o', url: 'https://api.openai.com/v1', model: 'gpt-4o', provider: 'openai' },
-  { id: 'anthropic-claude', name: 'Claude Sonnet', url: 'https://api.anthropic.com/v1', model: 'claude-sonnet-4-5-20250929', provider: 'anthropic' },
-  { id: 'ollama-llama', name: 'Llama 3 (Local)', url: 'http://localhost:11434', model: 'llama3', provider: 'ollama' },
-];
+import { useEndpoints } from './useEndpoints';
 
 export function useBenchmark() {
-  const [endpoints] = useState<BenchmarkEndpoint[]>(DEFAULT_ENDPOINTS);
+  const { endpoints } = useEndpoints();
   const [selectedEndpoints, setSelectedEndpoints] = useState<Set<string>>(
-    new Set(DEFAULT_ENDPOINTS.map((e) => e.id)),
+    () => new Set(endpoints.map((e) => e.id)),
   );
   const [results, setResults] = useState<BenchmarkResult[]>([]);
   const [running, setRunning] = useState(false);

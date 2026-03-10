@@ -102,6 +102,8 @@ export const StorageKeys = {
   CLOUD_FILES_CACHE: 'cloud-files-cache',
   IMMIGRATION_CASES_CACHE: 'immigration-cases-cache',
   BENCHMARK_HISTORY_CACHE: 'benchmark-history-cache',
+  BENCHMARK_ENDPOINTS: 'benchmark-endpoints',
+  BENCHMARK_RESULTS: 'benchmark-results',
   RADIO_FAVORITES: 'radio-favorites',
   POLL_CACHE: 'poll-cache',
   TRIP_CACHE: 'trip-cache',
