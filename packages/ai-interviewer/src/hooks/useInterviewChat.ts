@@ -1,0 +1,293 @@
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { AI_CHAT, safeGetItem, safeSetItem, safeRemoveItem } from '@mycircle/shared';
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+}
+
+interface PersistedState {
+  messages: ChatMessage[];
+  question: string;
+  document: string;
+  sessionId: string;
+}
+
+const STORAGE_KEY = 'interview-chat-history';
+
+const SYSTEM_PROMPT = `You are an experienced coding interviewer conducting a technical interview. Your role:
+- Act as a professional, encouraging but rigorous interviewer
+- Do NOT give the answer directly. Guide the candidate through hints and Socratic questions
+- Ask clarifying questions about their approach before they start coding
+- When they share code or pseudocode, review it for correctness, edge cases, and time/space complexity
+- Probe their understanding: "What's the time complexity?" "What happens with empty input?"
+- If they're stuck, provide incremental hints rather than full solutions
+- Evaluate both their communication skills and technical ability
+- Reference specific lines from the candidate's working document when giving feedback
+
+When the candidate asks to end the interview, provide a structured rubric assessment:
+
+**Coding Ability: Score: X/4**
+Justification: [Reference specific lines, variable names, boundary checks, algorithmic correctness]
+
+**Problem-Solving: Score: X/4**
+Justification: [Evaluate approach exploration, optimization attempts, edge case identification, debugging]
+
+**Communication: Score: X/4**
+Justification: [Assess clarity of explanation, ability to walk through examples, complexity analysis accuracy]
+
+**Overall Feedback:**
+[2-4 sentences: performance summary, key strengths, specific areas for improvement with line references]
+
+Scores can be integers or half-points (e.g., 3.5/4). Be specific and honest.
+Respond concisely (under 200 words) unless giving an end-of-interview assessment.`;
+
+function generateId(): string {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function generateSessionId(): string {
+  return `session-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function loadPersistedState(): PersistedState | null {
+  try {
+    const raw = safeGetItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch { /* */ }
+  return null;
+}
+
+function persistState(state: PersistedState) {
+  try {
+    safeSetItem(STORAGE_KEY, JSON.stringify(state));
+  } catch { /* */ }
+}
+
+function clearPersistedState() {
+  try { safeRemoveItem(STORAGE_KEY); } catch { /* */ }
+}
+
+function buildUserMessage(question: string, document: string, message: string): string {
+  return `[Coding Problem]
+${question || 'No question provided yet'}
+
+[Candidate's Working Document]
+${document || 'Empty'}
+
+[Candidate's Message]
+${message}`;
+}
+
+interface InterviewChatState {
+  messages: ChatMessage[];
+  loading: boolean;
+  error: string | null;
+}
+
+export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+
+export interface InterviewSession {
+  id: string;
+  questionPreview: string;
+  messageCount: number;
+  updatedAt: number | null;
+  createdAt: number | null;
+}
+
+export function useInterviewChat() {
+  const persisted = loadPersistedState();
+  const [state, setState] = useState<InterviewChatState>({
+    messages: persisted?.messages ?? [],
+    loading: false,
+    error: null,
+  });
+  const questionRef = useRef<string>(persisted?.question ?? '');
+  const documentRef = useRef<string>(persisted?.document ?? '');
+  const sessionIdRef = useRef<string>(persisted?.sessionId ?? generateSessionId());
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [sessions] = useState<InterviewSession[]>([]);
+
+  // Persist to AsyncStorage whenever messages change
+  useEffect(() => {
+    if (state.messages.length > 0 && questionRef.current) {
+      persistState({
+        messages: state.messages,
+        question: questionRef.current,
+        document: documentRef.current,
+        sessionId: sessionIdRef.current,
+      });
+    }
+  }, [state.messages]);
+
+  const [aiChatMutation] = useMutation(AI_CHAT);
+
+  // Auto-save indicator (debounced)
+  useEffect(() => {
+    if (state.messages.length > 0) {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+      setSaveStatus('saving');
+      saveTimerRef.current = setTimeout(() => {
+        setSaveStatus('saved');
+      }, 2000);
+    }
+    return () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, [state.messages]);
+
+  const setQuestion = useCallback((q: string) => {
+    questionRef.current = q;
+  }, []);
+
+  const setDocument = useCallback((d: string) => {
+    documentRef.current = d;
+    if (state.messages.length > 0) {
+      persistState({
+        messages: state.messages,
+        question: questionRef.current,
+        document: documentRef.current,
+        sessionId: sessionIdRef.current,
+      });
+    }
+  }, [state.messages]);
+
+  const sendRawMessage = useCallback(async (content: string, endpointId?: string, model?: string) => {
+    const userMessage: ChatMessage = {
+      id: generateId(),
+      role: 'user',
+      content,
+      timestamp: Date.now(),
+    };
+
+    setState(prev => ({
+      ...prev,
+      messages: [...prev.messages, userMessage],
+      loading: true,
+      error: null,
+    }));
+
+    try {
+      const history = state.messages.map(m => ({
+        role: m.role,
+        content: m.content,
+      }));
+
+      const dynamicMessage = buildUserMessage(
+        questionRef.current,
+        documentRef.current,
+        content,
+      );
+
+      const { data, errors } = await aiChatMutation({
+        variables: {
+          message: dynamicMessage,
+          history,
+          model,
+          endpointId,
+          systemPrompt: SYSTEM_PROMPT,
+        },
+      });
+
+      if (errors && errors.length > 0) {
+        throw new Error(errors[0].message);
+      }
+
+      const result = data?.aiChat;
+      if (!result) {
+        throw new Error('No response from AI');
+      }
+
+      const assistantMessage: ChatMessage = {
+        id: generateId(),
+        role: 'assistant',
+        content: result.response,
+        timestamp: Date.now(),
+      };
+
+      setState(prev => ({
+        ...prev,
+        messages: [...prev.messages, assistantMessage],
+        loading: false,
+      }));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to get response';
+      setState(prev => ({ ...prev, loading: false, error: message }));
+    }
+  }, [state.messages, aiChatMutation]);
+
+  const startInterview = useCallback((question: string, endpointId?: string, model?: string) => {
+    questionRef.current = question;
+    sessionIdRef.current = generateSessionId();
+    setState({ messages: [], loading: false, error: null });
+    setTimeout(() => {
+      sendRawMessage(
+        "I'm ready to start the interview. Please begin.",
+        endpointId,
+        model,
+      );
+    }, 0);
+  }, [sendRawMessage]);
+
+  const sendMessage = useCallback((text: string, endpointId?: string, model?: string) => {
+    sendRawMessage(text, endpointId, model);
+  }, [sendRawMessage]);
+
+  const repeatQuestion = useCallback((endpointId?: string, model?: string) => {
+    sendRawMessage(
+      `Here is the problem again:\n\n${questionRef.current}`,
+      endpointId,
+      model,
+    );
+  }, [sendRawMessage]);
+
+  const requestHint = useCallback((endpointId?: string, model?: string) => {
+    sendRawMessage(
+      "I'm stuck. Can you give me a hint without revealing the full answer?",
+      endpointId,
+      model,
+    );
+  }, [sendRawMessage]);
+
+  const endInterview = useCallback((endpointId?: string, model?: string) => {
+    sendRawMessage(
+      "Let's end the interview. Please provide your detailed rubric assessment of my performance including Coding Ability, Problem-Solving, and Communication scores out of 4, with specific justifications referencing my code and responses.",
+      endpointId,
+      model,
+    );
+  }, [sendRawMessage]);
+
+  const clearChat = useCallback(() => {
+    questionRef.current = '';
+    documentRef.current = '';
+    sessionIdRef.current = generateSessionId();
+    setState({ messages: [], loading: false, error: null });
+    clearPersistedState();
+    setSaveStatus('idle');
+  }, []);
+
+  const hasPersistedSession = persisted !== null && persisted.messages.length > 0;
+
+  return {
+    messages: state.messages,
+    loading: state.loading,
+    error: state.error,
+    question: questionRef.current,
+    document: documentRef.current,
+    hasPersistedSession,
+    saveStatus,
+    sessions,
+    setQuestion,
+    setDocument,
+    sendMessage,
+    startInterview,
+    repeatQuestion,
+    requestHint,
+    endInterview,
+    clearChat,
+  };
+}
