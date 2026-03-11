@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mycircle.app",
+      "bundleIdentifier": "com.youpenghuang.mycircle",
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "MyCircle uses your location to show local weather and city search.",
