@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { useMutation, AI_CHAT, safeGetItem, safeSetItem, safeRemoveItem } from '@mycircle/shared';
+import { useMutation } from '@apollo/client';
+import { AI_CHAT, safeGetItem, safeSetItem, safeRemoveItem } from '@mycircle/shared';
 
 export interface ChatMessage {
   id: string;

@@ -4,6 +4,7 @@
   "private": true,
   "main": "src/index.ts",
   "dependencies": {
+    "@apollo/client": "^3.12.11",
     "@mycircle/shared": "workspace:*"
   }
 }
