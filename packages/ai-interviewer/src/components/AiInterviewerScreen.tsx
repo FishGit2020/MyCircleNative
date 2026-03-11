@@ -38,6 +38,7 @@ export default function AiInterviewerScreen() {
     repeatQuestion,
     requestHint,
     endInterview,
+    retry,
     clearChat,
   } = useInterviewChat();
 
@@ -240,9 +241,19 @@ export default function AiInterviewerScreen() {
         )}
 
         {error && (
-          <Text className="text-center text-red-500 dark:text-red-400 text-sm py-1">
-            {error}
-          </Text>
+          <View className="items-center gap-1.5 py-1">
+            <Text className="text-red-500 dark:text-red-400 text-sm">{error}</Text>
+            <Pressable
+              onPress={retry}
+              className="min-h-[44px] items-center justify-center px-3"
+              accessibilityRole="button"
+              accessibilityLabel={t('aiInterviewer.retry' as any)}
+            >
+              <Text className="text-xs text-blue-600 dark:text-blue-400 underline">
+                {t('aiInterviewer.retry' as any)}
+              </Text>
+            </Pressable>
+          </View>
         )}
       </ScrollView>
 

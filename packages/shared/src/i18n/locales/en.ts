@@ -2629,6 +2629,8 @@ const en = {
   'aiInterviewer.model': 'Model',
   'aiInterviewer.selectEndpoint': 'Select endpoint',
   'aiInterviewer.selectModel': 'Select model',
+  'aiInterviewer.retry': 'Retry',
+  'aiInterviewer.selectModelFirst': 'Select an endpoint and model first',
   'nav.interview': 'Interview',
 } as const;
 
