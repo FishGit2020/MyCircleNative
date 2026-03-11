@@ -14,6 +14,78 @@ importers:
       '@expo/vector-icons':
         specifier: ^15.0.3
         version: 15.1.1(expo-font@55.0.4)(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))(react@19.2.0)
+      '@mycircle/ai-assistant':
+        specifier: workspace:*
+        version: link:packages/ai-assistant
+      '@mycircle/ai-interviewer':
+        specifier: workspace:*
+        version: link:packages/ai-interviewer
+      '@mycircle/baby-tracker':
+        specifier: workspace:*
+        version: link:packages/baby-tracker
+      '@mycircle/bible-reader':
+        specifier: workspace:*
+        version: link:packages/bible-reader
+      '@mycircle/child-development':
+        specifier: workspace:*
+        version: link:packages/child-development
+      '@mycircle/city-search':
+        specifier: workspace:*
+        version: link:packages/city-search
+      '@mycircle/cloud-files':
+        specifier: workspace:*
+        version: link:packages/cloud-files
+      '@mycircle/daily-log':
+        specifier: workspace:*
+        version: link:packages/daily-log
+      '@mycircle/digital-library':
+        specifier: workspace:*
+        version: link:packages/digital-library
+      '@mycircle/doc-scanner':
+        specifier: workspace:*
+        version: link:packages/doc-scanner
+      '@mycircle/family-games':
+        specifier: workspace:*
+        version: link:packages/family-games
+      '@mycircle/flashcards':
+        specifier: workspace:*
+        version: link:packages/flashcards
+      '@mycircle/hiking-map':
+        specifier: workspace:*
+        version: link:packages/hiking-map
+      '@mycircle/immigration-tracker':
+        specifier: workspace:*
+        version: link:packages/immigration-tracker
+      '@mycircle/model-benchmark':
+        specifier: workspace:*
+        version: link:packages/model-benchmark
+      '@mycircle/notebook':
+        specifier: workspace:*
+        version: link:packages/notebook
+      '@mycircle/podcasts':
+        specifier: workspace:*
+        version: link:packages/podcasts
+      '@mycircle/poll-system':
+        specifier: workspace:*
+        version: link:packages/poll-system
+      '@mycircle/radio-station':
+        specifier: workspace:*
+        version: link:packages/radio-station
+      '@mycircle/shared':
+        specifier: workspace:*
+        version: link:packages/shared
+      '@mycircle/stocks':
+        specifier: workspace:*
+        version: link:packages/stocks
+      '@mycircle/trip-planner':
+        specifier: workspace:*
+        version: link:packages/trip-planner
+      '@mycircle/weather':
+        specifier: workspace:*
+        version: link:packages/weather
+      '@mycircle/worship-songs':
+        specifier: workspace:*
+        version: link:packages/worship-songs
       '@react-native-async-storage/async-storage':
         specifier: ^2.1.0
         version: 2.2.0(react-native@0.83.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.0))

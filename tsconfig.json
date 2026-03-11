@@ -27,7 +27,8 @@
       "@mycircle/digital-library": ["./packages/digital-library/src"],
       "@mycircle/family-games": ["./packages/family-games/src"],
       "@mycircle/doc-scanner": ["./packages/doc-scanner/src"],
-      "@mycircle/hiking-map": ["./packages/hiking-map/src"]
+      "@mycircle/hiking-map": ["./packages/hiking-map/src"],
+      "@mycircle/ai-interviewer": ["./packages/ai-interviewer/src"]
     }
   },
   "include": [
