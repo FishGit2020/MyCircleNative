@@ -11,6 +11,23 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
+import appCheck from '@react-native-firebase/app-check';
+
+// Initialize App Check with a known debug token for development
+if (__DEV__) {
+  const rnfbProvider = appCheck().newReactNativeFirebaseAppCheckProvider();
+  rnfbProvider.configure({
+    apple: {
+      provider: 'debug',
+      debugToken: process.env.EXPO_PUBLIC_APP_CHECK_DEBUG_TOKEN,
+    },
+    android: {
+      provider: 'debug',
+      debugToken: process.env.EXPO_PUBLIC_APP_CHECK_DEBUG_TOKEN,
+    },
+  });
+  appCheck().initializeAppCheck({ provider: rnfbProvider, isTokenAutoRefreshEnabled: true });
+}
 
 export { auth, firestore, messaging };
 export type { FirebaseAuthTypes };
