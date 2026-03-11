@@ -26,6 +26,12 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'chatbubble-ellipses-outline',
   },
   {
+    route: '/ai-interviewer',
+    titleKey: 'aiInterviewer.title',
+    descriptionKey: 'aiInterviewer.startPrompt',
+    icon: 'code-slash-outline',
+  },
+  {
     route: '/worship',
     titleKey: 'worship.title',
     descriptionKey: 'home.quickWorshipDesc',
