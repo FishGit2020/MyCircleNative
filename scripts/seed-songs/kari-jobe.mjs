@@ -353,6 +353,222 @@ The Lord turn His [G]face toward you
     bpm: 64,
     tags: ["worship","hope","healing","testimony"],
   },
+  {
+    title: "Savior's Here",
+    artist: "Kari Jobe",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]I can hear You [F]calling my name
+[Gm]I can feel You [Eb]right here in this place
+[Bb]Every burden is [F]lifted
+[Gm]Every chain falls [Eb]away
+
+[Bb]The Savior's [F]here
+[Gm]The Savior's [Eb]here
+[Bb]Open your eyes the [F]Savior's here
+[Gm]He's right here in this [Eb]place`,
+    notes: "Presence-focused worship. Great for altar moments.",
+    bpm: 70,
+    tags: ["worship","presence","savior"],
+  },
+  {
+    title: "Only Your Love",
+    artist: "Kari Jobe",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Only Your love can [D]satisfy
+[Em]Only Your love could [C]fill this heart of mine
+[G]I've tried the [D]world and all its ways
+[Em]But only Your love can [C]save
+
+[G]Only Your love, [D]only Your grace
+[Em]Could take someone [C]like me
+[G]And make me [D]whole a[C]gain`,
+    notes: "Personal testimony of sufficiency in God. Piano-led.",
+    bpm: 68,
+    tags: ["worship","love","sufficiency"],
+  },
+  {
+    title: "Holy Spirit (Kari Jobe)",
+    artist: "Kari Jobe",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Holy Spirit [A]You are welcome here
+[Bm]Come flood this place and [G]fill the atmosphere
+[D]Your glory God is [A]what our hearts long for
+[Bm]To be overcome by [G]Your presence Lord
+
+[D]Holy [A]Spirit
+[Bm]You are welcome [G]here
+[D]Come flood this [A]place and fill the atmo[G]sphere
+
+[D]Let us become more [A]aware of Your presence
+[Bm]Let us experience the [G]glory of Your goodness`,
+    notes: "With Bryan & Katie Torwalt. Atmospheric and invitational.",
+    bpm: 66,
+    tags: ["worship","spirit","presence"],
+  },
+  {
+    title: "No Sweeter Name",
+    artist: "Kari Jobe",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]No sweeter name than the [E]name of Jesus
+[F#m]No sweeter name have I [D]ever known
+[A]No sweeter name than the [E]name of Jesus
+[F#m]You are the [D]risen King
+
+[A]You are the [E]Prince of Peace
+[F#m]Wonderful Coun[D]selor
+[A]You are the [E]mighty God [D]`,
+    notes: "Early Kari Jobe worship classic. Adoration of the name.",
+    bpm: 72,
+    tags: ["worship","name","adoration"],
+  },
+  {
+    title: "Here (Kari Jobe)",
+    artist: "Kari Jobe",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Come and be [G]near
+[Am]Draw close as we [F]sing
+[C]There's nowhere we'd [G]rather be
+[Am]Than here in Your [F]presence
+
+[C]Here, [G]here
+[Am]We are [F]here
+[C]In the place where [G]heaven meets earth
+[Am]We are [F]here with You`,
+    notes: "Simple presence declaration. Great set opener.",
+    bpm: 68,
+    tags: ["worship","presence","gathering"],
+  },
+  {
+    title: "Majestic (Kari Jobe)",
+    artist: "Kari Jobe",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]O Lord our Lord how [A]majestic
+[Bm]Is Your name in [G]all the earth
+[D]You have set Your [A]glory
+[Bm]Above the [G]heavens
+
+[D]Majestic, [A]majestic
+[Bm]Your name is [G]high above all
+[D]Majestic [A]Lord [G]`,
+    notes: "Psalm 8:1. Grand and declarative. Full band arrangement.",
+    bpm: 76,
+    tags: ["worship","majesty","psalm"],
+  },
+  {
+    title: "Look Upon the Lord",
+    artist: "Kari Jobe",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Look upon the [B]Lord
+[C#m]And be radi[A]ant
+[E]Let no shame cover [B]your face
+[C#m]He's the lifter of [A]your head
+
+[E]Look upon the [B]Lord
+[C#m]Gaze into His [A]eyes
+[E]And see the love that [B]never ends
+[C#m]Look upon the [A]Lord`,
+    notes: "Psalm 34:5. Encountering God face to face.",
+    bpm: 62,
+    tags: ["worship","gaze","encounter"],
+  },
+  {
+    title: "I Need You (Kari Jobe)",
+    artist: "Kari Jobe",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I need You, [D]oh I need You
+[Em]Every hour I [C]need You
+[G]My one defense, my [D]righteousness
+[Em]Oh God how I [C]need You
+
+[G]Where sin runs [D]deep Your grace is more
+[Em]Where grace is found is [C]where You are
+[G]And where You are Lord [D]I am free
+[Em]Holiness is [C]Christ in me`,
+    notes: "Hymn meets modern worship. Matt Maher co-write.",
+    bpm: 70,
+    tags: ["worship","need","grace"],
+  },
+  {
+    title: "Exhale",
+    artist: "Kari Jobe",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Breathe in, breathe [F]out
+[Gm]Let the Spirit of [Eb]God breathe through you
+[Bb]Breathe in, breathe [F]out
+[Gm]Let go of every [Eb]worry
+
+[Bb]Exhale, [F]exhale
+[Gm]Cast your cares on [Eb]Him
+[Bb]Exhale and [F]breathe Him in [Eb]`,
+    notes: "Soaking worship. Slow and meditative. 1 Peter 5:7.",
+    bpm: 56,
+    tags: ["worship","rest","peace"],
+  },
+  {
+    title: "Embers",
+    artist: "Kari Jobe",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Fan the flame inside of [A]me
+[Bm]Don't let this fire burn [G]out
+[D]What was once an [A]ember
+[Bm]Is now a raging [G]fire
+
+[D]Let the embers [A]glow
+[Bm]Let the fire [G]grow
+[D]Holy Spirit [A]come
+[Bm]Set my heart a[G]blaze for [D]You`,
+    notes: "2 Timothy 1:6. Stirring up the gifts. Builds in intensity.",
+    bpm: 74,
+    tags: ["worship","fire","revival"],
+  },
+  {
+    title: "Love Came Down",
+    artist: "Kari Jobe",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]If my heart is over[B]whelmed
+[C#m]And I cannot hear Your [A]voice
+[E]I'll hold on to what is [B]true
+[C#m]Though I cannot see [A]
+
+[E]Love came [B]down
+[C#m]And rescued [A]me
+[E]Love came [B]down
+[C#m]And set me [A]free
+[E]I am Yours, [B]Lord [A]forever I am Yours`,
+    notes: "Brian Johnson co-write. Bethel meets Kari. Anthem of rescue.",
+    bpm: 72,
+    tags: ["worship","love","rescue"],
+  },
+  {
+    title: "The More I Seek You",
+    artist: "Kari Jobe",
+    originalKey: "Eb",
+    format: "chordpro",
+    content: `[Eb]The more I seek [Bb]You
+[Cm]The more I find [Ab]You
+[Eb]The more I find [Bb]You
+[Cm]The more I love [Ab]You
+
+[Eb]I want to sit at Your [Bb]feet
+[Cm]Drink from the cup in Your [Ab]hand
+[Eb]Lay back against [Bb]You and breathe
+[Cm]Feel Your heart[Ab]beat
+[Eb]This love is so [Bb]deep it's more than [Ab]I can stand`,
+    notes: "Gateway classic. Intimate soaking worship. Let it breathe.",
+    bpm: 58,
+    tags: ["worship","intimacy","seeking"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

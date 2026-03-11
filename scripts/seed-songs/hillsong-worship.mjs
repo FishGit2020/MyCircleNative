@@ -474,6 +474,459 @@ Oh [Am]may I then in [F]Him be found
     bpm: 72,
     tags: ["worship","baptism","new life"],
   },
+  {
+    title: "Transfiguration",
+    artist: "Hillsong Worship",
+    originalKey: "B",
+    format: "chordpro",
+    content: `[B]You outshine the [E]sun
+[G#m]You outlast the [F#]stars
+[B]Brighter than the [E]brightest morning
+[G#m]Glorious, You [F#]are
+
+[B]Transfiguration, [E]full revelation
+[G#m]We can see You [F#]face to face
+[B]You are the wonder, [E]pulling us under
+[G#m]Waves of Your [F#]glory and grace`,
+    notes: "Ethereal atmosphere, builds to a powerful climax. Keys-driven.",
+    bpm: 72,
+    tags: ["worship","glory","revelation"],
+  },
+  {
+    title: "You Said",
+    artist: "Hillsong Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]You said, ask and you'll re[D]ceive
+[Em]Anything in [C]My name
+[G]You said, seek and you'll [D]find
+[Em]Knock and the door [C]will open wide
+
+[G]So I come before You [D]now
+[Em]With a humble [C]heart
+[G]I reach my hands to [D]heaven
+[Em]You said I could [C]come`,
+    notes: "Simple prayer-based song, good for intimate worship moments.",
+    bpm: 70,
+    tags: ["worship","prayer","promises"],
+  },
+  {
+    title: "Anchor",
+    artist: "Hillsong Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]I have this [Am]hope
+[F]As an anchor for my [G]soul
+[C]Through every [Am]storm
+[F]I will hold to [G]You
+
+[Am]With every breath [F]I'll praise You
+[C]In every cir[G]cumstance
+[Am]I'll lift my eyes and [F]see beyond
+[C]My anchor [G]holds
+
+[C]I will not be [Am]shaken
+[F]My anchor holds for[G]ever
+[C]Built on a firm foun[Am]dation
+[F]You will not be [G]moved`,
+    notes: "Steady and confident, builds with layered vocals on chorus.",
+    bpm: 74,
+    tags: ["worship","hope","anchor","trust"],
+  },
+  {
+    title: "What a Beautiful Name (Death Was Arrested Bridge)",
+    artist: "Hillsong Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Death could not hold You, the [A]veil tore before You
+[Bm]You silence the boast [G]of sin and grave
+[D]The heavens are roaring the [A]praise of Your glory
+[Bm]For You are raised to [G]life again
+
+[D]You have no rival, You [A]have no equal
+[Bm]Now and forever God [G]You reign
+[D]Yours is the kingdom, [A]Yours is the glory
+[Bm]Yours is the Name a[G]bove all names
+
+[D]What a powerful [A]Name it is
+[Bm]What a powerful [G]Name it is
+[D]The Name of [A]Jesus Christ my [Bm]King
+[G]What a powerful [D]Name it is
+[A]Nothing can stand a[Bm]gainst
+[G]What a powerful [D]Name it is
+The Name of [A]Jesus`,
+    notes: "Extended bridge arrangement of What a Beautiful Name. High energy declaration.",
+    bpm: 68,
+    tags: ["worship","Jesus","name","victory"],
+  },
+  {
+    title: "Seasons",
+    artist: "Hillsong Worship",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Though the seasons [F]change
+[Gm]Your love re[Eb]mains
+[Bb]Though I walk through [F]the valley
+[Gm]You are with [Eb]me still
+
+[Bb]Like the winter turns to [F]spring
+[Gm]Like the dawn replaces [Eb]night
+[Bb]Even when I cannot [F]see
+[Gm]I will trust Your [Eb]faithfulness
+
+[Bb]For everything there [F]is a season
+[Gm]A time for joy, a [Eb]time for tears
+[Bb]In every season [F]I will praise You
+[Gm]Your love endures through [Eb]all my years`,
+    notes: "Reflective and tender, piano-driven. Good for seasons of transition.",
+    bpm: 66,
+    tags: ["worship","seasons","trust","faithfulness"],
+  },
+  {
+    title: "Here I Am to Worship",
+    artist: "Hillsong Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Light of the world
+[A]You stepped down into darkness
+[Em]Opened my eyes [G]let me see
+[D]Beauty that made
+[A]This heart adore You
+[Em]Hope of a life [G]spent with You
+
+[D]Here I am to [A]worship
+[D]Here I am to [G]bow down
+[D]Here I am to [A]say that You're my [G]God
+[D]You're altogether [A]lovely
+[D]Altogether [G]worthy
+[D]Altogether [A]wonderful to [G]me`,
+    notes: "Tim Hughes classic covered by Hillsong. Simple and congregational.",
+    bpm: 76,
+    tags: ["worship","adoration","classic"],
+  },
+  {
+    title: "More Than Anything",
+    artist: "Hillsong Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]More than the air I [D]breathe
+[Em]More than the song I [C]sing
+[G]More than the next heart[D]beat
+[Em]More than any[C]thing
+
+[G]And Lord I want to [D]be more like You
+[Em]Take this heart and [C]make it new
+[G]More than [D]anything
+[Em]I desire [C]You
+
+[Em]There is nothing [D]on this earth
+[C]I desire beside [G]You
+[Em]You are my strength, [D]my shield
+[C]My portion, for[G]ever`,
+    notes: "Devotional and heartfelt, gentle build, acoustic guitar focus.",
+    bpm: 70,
+    tags: ["worship","devotion","desire"],
+  },
+  {
+    title: "Highlands (Song of Ascent)",
+    artist: "Hillsong Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]O how far from [G]home have my footsteps [Am]taken me
+[F]Running from the [C]arms that are [G]wide enough
+[C]How far from [G]home has my restless [Am]heart taken me
+[F]Far from where my [C]home and rest [G]is found
+
+[C]I will go [G]to the highlands
+[Am]Where the mountains [F]cry
+[C]The water and the [G]wind
+[Am]As they pass me [F]by still I will sing
+[C]Oh come what [G]may
+[Am]In the [F]highlands
+
+[C]Whatever I walk [G]through wherever [Am]I am
+[F]Your love has a [C]reach that I [G]cannot outrun
+[C]So in the shadow of [G]the valley I will [Am]not fear
+[F]I belong to [C]the highlands [G]now`,
+    notes: "Long-form worship journey. Spacious arrangement, builds gradually.",
+    bpm: 62,
+    tags: ["worship","journey","trust","psalm"],
+  },
+  {
+    title: "Upper Room",
+    artist: "Hillsong Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]In the upper [E]room with You
+[F#m]Poured out like [D]wine
+[A]I just want to [E]be with You
+[F#m]Here in this [D]moment
+
+[A]Send Your fire, [E]send Your rain
+[F#m]Fill this place with [D]heaven's sound
+[A]Upper room, [E]upper room
+[F#m]Let Your Spirit [D]come down
+
+[A]Set this heart a[E]blaze again
+[F#m]Like the day of [D]Pentecost
+[A]Tongues of fire and [E]rushing wind
+[F#m]Fill us with Your [D]holy love`,
+    notes: "Pentecost theme, prayer-focused, builds with intensity.",
+    bpm: 68,
+    tags: ["worship","Holy Spirit","prayer","fire"],
+  },
+  {
+    title: "Lead Me to the Cross",
+    artist: "Hillsong Worship",
+    originalKey: "F",
+    format: "chordpro",
+    content: `[F]Savior I come, [C]quiet my soul
+[Dm]Remem[Bb]ber redemption's hill
+[F]Where Your blood was [C]spilled
+[Dm]For my [Bb]ransom
+
+[F]Lead me to the [C]cross
+[Dm]Where Your love poured [Bb]out
+[F]Bring me to my [C]knees
+[Dm]Lord I lay me [Bb]down
+[F]Rid me of my[C]self, I belong to [Dm]You
+[Bb]Lead me, lead me to the [F]cross
+
+[F]You were as I, [C]tempted and tried
+[Dm]Hu[Bb]man
+[F]The word became [C]flesh
+[Dm]Bore my sin and [Bb]death
+Now You're ri[F]sen`,
+    notes: "Brooke Fraser classic. Quiet devotion, beautiful for communion.",
+    bpm: 72,
+    tags: ["worship","cross","surrender","communion"],
+  },
+  {
+    title: "None Other",
+    artist: "Hillsong Worship",
+    originalKey: "Eb",
+    format: "chordpro",
+    content: `[Eb]There is none other [Bb]God but You
+[Cm]None who can do what [Ab]You can do
+[Eb]From the rising sun [Bb]to the setting same
+[Cm]There is none [Ab]like You
+
+[Eb]None other, [Bb]none other
+[Cm]Worthy of all my [Ab]praise
+[Eb]None other, [Bb]none other
+[Cm]Glorious in all Your [Ab]ways
+
+[Eb]Mountains bow at Your [Bb]name
+[Cm]Oceans roar Your [Ab]fame
+[Eb]Every knee will bow [Bb]every tongue confess
+[Cm]Jesus, You are [Ab]Lord`,
+    notes: "Declarative anthem, full band from chorus. Strong opener.",
+    bpm: 76,
+    tags: ["worship","declaration","sovereignty"],
+  },
+  {
+    title: "Glorious Ruins",
+    artist: "Hillsong Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Oh Your cross, it [E]changes everything
+[F#m]There You showed me [D]I am loved
+[A]In the midst of [E]pain and suffering
+[F#m]I believe there [D]is still hope
+
+[A]We have seen [E]glorious ruins
+[F#m]Where You tore the [D]veil in two
+[A]We have seen [E]glorious ruins
+[F#m]Breathing life where [D]life was through
+
+[A]All these broken [E]pieces fit together
+[F#m]To tell a story [D]I could never write myself
+[A]Beauty from [E]ashes
+[F#m]Glory from this [D]pain`,
+    notes: "Redemptive theme, builds from reflective verse to anthemic chorus.",
+    bpm: 130,
+    tags: ["worship","restoration","cross","hope"],
+  },
+  {
+    title: "Still",
+    artist: "Hillsong Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Hide me now [Am]under Your wings
+[F]Cover me [G]within Your mighty hand
+[C]When the oceans [Am]rise and thunders storm
+[F]I will soar with [G]You above the storm
+
+[C]Father You are [Am]King over the flood
+[F]I will be still and [G]know You are God
+
+[C]Find rest my soul [Am]in Christ alone
+[F]Know His power [G]in quietness and trust
+[C]When the oceans [Am]rise and thunders storm
+[F]I will soar with [G]You above the storm`,
+    notes: "Reuben Morgan classic. Peaceful and meditative. Great for prayer.",
+    bpm: 63,
+    tags: ["worship","peace","trust","psalm"],
+  },
+  {
+    title: "Running to You",
+    artist: "Hillsong Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]In the morning [D]light I see You
+[Em]In the shadow [C]You are there
+[G]Every moment [D]every heartbeat
+[Em]You are closer [C]than the air
+
+[G]I'm running to You, [D]running to You
+[Em]No place I'd rather [C]be
+[G]I'm running to You, [D]running to You
+[Em]Your arms are all [C]I need
+
+[Em]When the world grows [D]cold and dark
+[C]Your love is my [G]compass
+[Em]Through the valleys [D]through the night
+[C]I will run to [G]You`,
+    notes: "Energetic pursuit anthem, driving beat, good for opening worship.",
+    bpm: 138,
+    tags: ["worship","pursuit","devotion","joy"],
+  },
+  {
+    title: "Christ Is Enough",
+    artist: "Hillsong Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Christ is my [E]reward and all of my [F#m]devotion
+[D]Now there's nothing in this [A]world that could ever [E]satisfy
+[F#m]Through every [D]trial my soul will sing
+[A]No turning [E]back I've been set [F#m]free[D]
+
+[A]Christ is e[E]nough for me
+[F#m]Christ is e[D]nough for me
+[A]Everything I [E]need is in [F#m]You
+[D]Everything I [A]need
+
+[A]I have de[E]cided to follow [F#m]Jesus[D]
+[A]No turning [E]back, no turning [F#m]back[D]`,
+    notes: "Declaration of sufficiency in Christ. Rend Collective co-write feel.",
+    bpm: 72,
+    tags: ["worship","contentment","devotion","declaration"],
+  },
+  {
+    title: "Man of Sorrows",
+    artist: "Hillsong Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Man of Sorrows, [G]Lamb of God
+[Bm]By His own be[A]trayed
+[D]The sin of man and [G]wrath of God
+[Bm]Has been on Jesus [A]laid
+
+[D]Silent as He [G]stood accused
+[Bm]Beaten, mocked and [A]scorned
+[D]Bowing His head [G]to death on a cross
+[Bm]As helpless ones looked [A]on
+
+[D]Oh that rugged [G]cross, my salvation
+[Bm]Where Your love poured [A]out over me
+[D]Now my soul cries [G]out hallelujah
+[Bm]Praise and honor [A]unto Thee`,
+    notes: "Good Friday hymn. Reverent, builds to triumphant final chorus.",
+    bpm: 64,
+    tags: ["worship","cross","atonement","hymn"],
+  },
+  {
+    title: "With All I Am",
+    artist: "Hillsong Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Into Your [D]hand I commit again
+[Em]With all I [C]am for You Lord
+[G]You hold my [D]world in the palm of Your hand
+[Em]And I am [C]Yours forever
+
+[G]Jesus I be[D]lieve in You
+[Em]Jesus I be[C]long to You
+[G]You're the reason that I [D]live
+[Em]The reason that I [C]sing
+[G]With all I [D]am
+
+[Em]I'll walk with [D]You wherever You [C]lead
+[Em]Through it all [D]I'll cling to [C]You`,
+    notes: "Heartfelt commitment song. Acoustic-driven, intimate worship.",
+    bpm: 68,
+    tags: ["worship","commitment","devotion"],
+  },
+  {
+    title: "Light of the World",
+    artist: "Hillsong Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]The world waits for a [E]miracle
+[F#m]The heart longs for a [D]little bit of hope
+[A]O come, O come Em[E]manuel
+[F#m]A child, a son, [D]given to us all
+
+[A]Light of the world, [E]You stepped down into darkness
+[F#m]Opened my eyes [D]let me see
+[A]Glory above, [E]revealed in a manger
+[F#m]Here in Your [D]presence
+
+[A]Joy to the world, [E]the Lord has come
+[F#m]Hope for the weary, [D]peace for the broken
+[A]Light of the world, [E]shine on us
+[F#m]You are the Light [D]of the world`,
+    notes: "Advent/Christmas theme, warm and inviting, orchestral arrangement.",
+    bpm: 72,
+    tags: ["worship","advent","light","Christmas"],
+  },
+  {
+    title: "Saviour King",
+    artist: "Hillsong Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Let now the [A]weak say I have strength
+[Bm]By the Spirit of [G]power that raised Christ from the dead
+[D]Let now the [A]poor stand and confess
+[Bm]That my portion is [G]Him and I'm more than blessed
+
+[D]Let now our [A]hearts burn with a flame
+[Bm]A fire consuming [G]all for Your Son's holy name
+[D]And with the [A]heavens we declare
+[Bm]You are our [G]King
+
+[D]We love You Lord, [A]we worship You
+[Bm]You are our God, [G]You alone are good
+[D]You asked Your Son to [A]carry this
+[Bm]The heavy cross our [G]weight of sin
+[D]Saviour [A]King`,
+    notes: "Marty Sampson classic. Strong declaration, great for full worship set.",
+    bpm: 76,
+    tags: ["worship","declaration","kingship"],
+  },
+  {
+    title: "Spirit Lead Me",
+    artist: "Hillsong Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Breathe on me [G]breath of God
+[Am]Fill me with [F]life anew
+[C]That I may love the [G]things You love
+[Am]And do what [F]You would do
+
+[C]Spirit lead me [G]where my trust is without borders
+[Am]Let me walk upon the [F]waters
+[C]Wherever You would [G]call me
+[Am]Take me deeper than my [F]feet could ever wander
+
+[C]Spirit lead me, [G]Spirit lead me
+[Am]Spirit lead me to the [F]place where I belong
+[C]Where Your power meets my [G]weakness
+[Am]I find my [F]strength in You alone`,
+    notes: "Prayer for Holy Spirit guidance, gentle build, atmospheric pads.",
+    bpm: 66,
+    tags: ["worship","Holy Spirit","guidance","prayer"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

@@ -1,34 +1,84 @@
 # Worship Songs Seed Scripts
 
-One-time scripts to populate the Firestore `worshipSongs` collection.
+Scripts to populate the Firestore `worshipSongs` collection with ChordPro chord charts.
 
-## Usage
+## Seeding a New Database
 
 ```bash
-# Set your Firebase service account key
+# 1. Install firebase-admin (if not already installed)
+pnpm add -D firebase-admin
+
+# 2. Set your Firebase service account key
+#    Download from: Firebase Console > Project Settings > Service Accounts > Generate New Private Key
 export GOOGLE_APPLICATION_CREDENTIALS=./path/to/serviceAccountKey.json
 
-# Run any per-artist script (--skip-existing prevents duplicates)
+# 3. Seed ALL songs (run every artist script with --skip-existing)
+for f in scripts/seed-songs/*.mjs; do
+  echo "=== $(basename $f) ==="
+  node "$f" --skip-existing
+done
+
+# Or seed a single artist:
 node scripts/seed-songs/bethel-music.mjs --skip-existing
 ```
 
-Requires `firebase-admin` (`pnpm add -D firebase-admin`).
+The `--skip-existing` flag checks Firestore for duplicates (by title + artist) before inserting.
+
+## Reverting / Removing Seeded Songs
+
+```bash
+# Remove ALL seed-script songs from Firestore:
+GOOGLE_APPLICATION_CREDENTIALS=./path/to/key.json node -e "
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+initializeApp({ credential: applicationDefault() });
+const db = getFirestore();
+const col = db.collection('worshipSongs');
+const snap = await col.where('createdBy', '==', 'seed-script').get();
+console.log('Deleting ' + snap.size + ' seeded songs...');
+let batch = db.batch();
+let i = 0;
+for (const doc of snap.docs) {
+  batch.delete(doc.ref);
+  i++;
+  if (i % 450 === 0) { await batch.commit(); batch = db.batch(); }
+}
+if (i % 450 !== 0) await batch.commit();
+console.log('Done. Removed ' + snap.size + ' songs.');
+" --input-type=module
+
+# Remove songs from a specific artist:
+GOOGLE_APPLICATION_CREDENTIALS=./path/to/key.json node -e "
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+initializeApp({ credential: applicationDefault() });
+const db = getFirestore();
+const snap = await db.collection('worshipSongs').where('artist', '==', 'ARTIST_NAME_HERE').get();
+console.log('Deleting ' + snap.size + ' songs by ARTIST_NAME_HERE...');
+const batch = db.batch();
+snap.docs.forEach(d => batch.delete(d.ref));
+await batch.commit();
+console.log('Done.');
+" --input-type=module
+```
+
+All seeded songs have `createdBy: 'seed-script'`, so they can be cleanly separated from user-created songs.
 
 ## Per-Artist Scripts
 
 | Script | Songs | Artist(s) |
 |--------|------:|-----------|
-| `bethel-music.mjs` | 35 | Bethel Music |
-| `elevation-worship.mjs` | 34 | Elevation Worship |
-| `chris-tomlin.mjs` | 29 | Chris Tomlin |
-| `jesus-culture.mjs` | 24 | Jesus Culture |
-| `hillsong-worship.mjs` | 21 | Hillsong Worship |
-| `brandon-lake.mjs` | 21 | Brandon Lake |
-| `upperroom.mjs` | 20 | UPPERROOM |
-| `vineyard-worship.mjs` | 20 | Vineyard Worship |
-| `brooke-ligertwood.mjs` | 19 | Brooke Ligertwood |
-| `kari-jobe.mjs` | 18 | Kari Jobe |
-| `hillsong-united.mjs` | 15 | Hillsong UNITED |
+| `bethel-music.mjs` | 60 | Bethel Music |
+| `elevation-worship.mjs` | 59 | Elevation Worship |
+| `chris-tomlin.mjs` | 50 | Chris Tomlin |
+| `hillsong-worship.mjs` | 41 | Hillsong Worship |
+| `jesus-culture.mjs` | 39 | Jesus Culture |
+| `brandon-lake.mjs` | 36 | Brandon Lake |
+| `hillsong-united.mjs` | 35 | Hillsong UNITED |
+| `upperroom.mjs` | 35 | UPPERROOM |
+| `vineyard-worship.mjs` | 35 | Vineyard Worship |
+| `kari-jobe.mjs` | 30 | Kari Jobe |
+| `brooke-ligertwood.mjs` | 29 | Brooke Ligertwood |
 | `jeremy-riddle.mjs` | 15 | Jeremy Riddle |
 | `maverick-city-music.mjs` | 12 | Maverick City Music |
 | `traditional-modern.mjs` | 11 | Traditional (Modern) |
@@ -68,75 +118,6 @@ Requires `firebase-admin` (`pnpm add -D firebase-admin`).
 | `forrest-frank.mjs` | 4 | Forrest Frank |
 | `tim-hughes.mjs` | 4 | Tim Hughes |
 | `darlene-zschech.mjs` | 4 | Darlene Zschech |
-| `other-artists.mjs` | 22 | Passion (3), Anne Wilson (3), Amanda Cook (3), Lauren Daigle (2), CityAlight (2), Cory Asbury (1), Leeland (1), Vertical Worship (1), Zach Williams (1), Sean Feucht (1), Various (Spanish) (1), Marcos Witt (1), Danilo Montero (1), David Crowder (1) |
+| `other-artists.mjs` | 22 | Passion, Anne Wilson, Amanda Cook, Lauren Daigle, CityAlight, and others |
 
-**Total: 518 songs across 51 scripts**
-
-## Songs by Artist
-
-| Artist | Songs |
-|--------|------:|
-| Bethel Music | 35 |
-| Elevation Worship | 34 |
-| Chris Tomlin | 29 |
-| Jesus Culture | 24 |
-| Hillsong Worship | 21 |
-| Brandon Lake | 21 |
-| UPPERROOM | 20 |
-| Vineyard Worship | 20 |
-| Brooke Ligertwood | 19 |
-| Kari Jobe | 18 |
-| Hillsong UNITED | 15 |
-| Jeremy Riddle | 15 |
-| Maverick City Music | 12 |
-| Traditional (Modern) | 11 |
-| Phil Wickham | 9 |
-| Casting Crowns | 9 |
-| Matt Redman | 8 |
-| MercyMe | 8 |
-| Keith & Kristyn Getty | 8 |
-| Crowder | 7 |
-| Tauren Wells | 6 |
-| Hillsong Young & Free | 6 |
-| Rend Collective | 6 |
-| We The Kingdom | 6 |
-| Israel Houghton | 6 |
-| Todd Dulaney | 6 |
-| Planetshakers | 6 |
-| Michael W. Smith | 6 |
-| Delirious? | 6 |
-| Third Day | 6 |
-| Shane & Shane | 5 |
-| Matt Maher | 5 |
-| Housefires | 5 |
-| All Sons & Daughters | 5 |
-| Tasha Cobbs Leonard | 5 |
-| William McDowell | 5 |
-| Gateway Worship | 5 |
-| Paul Baloche | 5 |
-| Cody Carnes | 5 |
-| Pat Barrett | 5 |
-| Dante Bowe | 5 |
-| David Crowder Band | 5 |
-| Newsboys | 5 |
-| Stuart Townend | 4 |
-| Charity Gayle | 4 |
-| Naomi Raine | 4 |
-| DOE | 4 |
-| Forrest Frank | 4 |
-| Tim Hughes | 4 |
-| Darlene Zschech | 4 |
-| Passion | 3 |
-| Anne Wilson | 3 |
-| Amanda Cook | 3 |
-| Lauren Daigle | 2 |
-| CityAlight | 2 |
-| Cory Asbury | 1 |
-| Leeland | 1 |
-| Vertical Worship | 1 |
-| Zach Williams | 1 |
-| Sean Feucht | 1 |
-| Various (Spanish) | 1 |
-| Marcos Witt | 1 |
-| Danilo Montero | 1 |
-| David Crowder | 1 |
+**Total: ~720 songs across 51 scripts**

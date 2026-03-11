@@ -396,6 +396,275 @@ const SONGS = [
     bpm: 74,
     tags: ["worship","gratitude","thanksgiving"],
   },
+  {
+    title: "Healing in Your Hands",
+    artist: "Brandon Lake",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]There is healing in Your [D]hands
+[Em]There is power in Your [C]name
+[G]Every sickness has to [D]bow
+[Em]At the sound of Your [C]name
+
+[G]You are the God who [D]heals
+[Em]You are the God who [C]restores
+[G]I believe there's [D]healing in Your hands
+[Em]Nothing is too [C]hard for You`,
+    notes: "Faith declaration for healing. Builds with intensity.",
+    bpm: 76,
+    tags: ["worship","healing","faith"],
+  },
+  {
+    title: "On and On",
+    artist: "Brandon Lake",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Your love goes on and [G]on
+[Am]It never stops, it [F]never ends
+[C]From the beginning to the [G]end
+[Am]Your faithfulness goes [F]on and on
+
+[C]On and on and [G]on
+[Am]Your mercy keeps on [F]running
+[C]On and on and [G]on
+[Am]I'll sing of Your good[F]ness forever`,
+    notes: "Celebratory and upbeat. Great for congregational singing.",
+    bpm: 132,
+    tags: ["worship","faithfulness","joy"],
+  },
+  {
+    title: "Greater Still",
+    artist: "Brandon Lake",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Greater still than [E]any mountain
+[F#m]Greater still than [D]any sea
+[A]Greater still than [E]all my failures
+[F#m]Is the One who [D]lives in me
+
+[A]Greater still, [E]greater still
+[F#m]Your love is greater [D]still
+[A]Nothing compares to [E]who You are
+[F#m]You are greater [D]still`,
+    notes: "Bold declaration of God's greatness. Big sound, full energy.",
+    bpm: 78,
+    tags: ["worship","greatness","declaration"],
+  },
+  {
+    title: "Mind to Flesh",
+    artist: "Brandon Lake",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]You became mind to [B]flesh
+[C#m]Heaven's King took human [A]breath
+[E]Wrapped in frailty, [B]full of grace
+[C#m]Love came down to [A]take my place
+
+[E]From the throne to a [B]manger
+[C#m]From the glory to the [A]grave
+[E]Mind to flesh, the [B]God who saves
+[C#m]You gave it [A]all`,
+    notes: "Incarnation theme. Reverent and awe-filled.",
+    bpm: 68,
+    tags: ["worship","incarnation","grace"],
+  },
+  {
+    title: "Dwelling Place",
+    artist: "Brandon Lake",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]You are my dwelling [A]place
+[Bm]My refuge and my [G]strength
+[D]In the shadow of Your [A]wings
+[Bm]I find my hiding [G]place
+
+[D]Here in Your [A]presence
+[Bm]I am safe and [G]found
+[D]You are my dwelling [A]place
+[Bm]My feet are on solid [G]ground`,
+    notes: "Psalm 91 theme. Intimate and restful worship.",
+    bpm: 66,
+    tags: ["worship","refuge","peace"],
+  },
+  {
+    title: "The One",
+    artist: "Brandon Lake",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]You're the One my [F]heart is after
+[Gm]You're the One my [Eb]soul adores
+[Bb]Not another, [F]there's no other
+[Gm]You're the One I'm [Eb]living for
+
+[Bb]The One who was and [F]is and is to come
+[Gm]The One who holds it [Eb]all together
+[Bb]You are the [F]One [Eb]`,
+    notes: "Passionate devotion. Focused on the supremacy of Christ.",
+    bpm: 74,
+    tags: ["worship","devotion","Jesus"],
+  },
+  {
+    title: "Dangerous Prayers",
+    artist: "Brandon Lake",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Break me, mold me, [D]fill me, use me
+[Em]These are dangerous [C]prayers
+[G]Search me, know me, [D]try me, lead me
+[Em]Lord, I'm not [C]scared
+
+[G]I'll pray the prayers that [D]scare me
+[Em]I'll say the words that [C]break me
+[G]Whatever it costs, [D]I surrender it all
+[Em]These dangerous [C]prayers`,
+    notes: "Challenging and convicting. Invites bold surrender.",
+    bpm: 82,
+    tags: ["worship","prayer","surrender"],
+  },
+  {
+    title: "All Hail King Jesus (Brandon Lake)",
+    artist: "Brandon Lake",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]All hail King [G]Jesus
+[Am]All hail the Lord of [F]heaven
+[C]Every throne must [G]bow
+[Am]At the sound of Your [F]name
+
+[C]All hail King [G]Jesus
+[Am]We will shout Your [F]praise forever
+[C]Lift your voice and [G]sing
+[Am]All hail the [F]King of kings`,
+    notes: "Royal proclamation. Full-voiced congregational anthem.",
+    bpm: 80,
+    tags: ["worship","kingship","praise"],
+  },
+  {
+    title: "Throne Room (Brandon Lake)",
+    artist: "Brandon Lake",
+    originalKey: "F",
+    format: "chordpro",
+    content: `[F]Take me to the [C]throne room
+[Dm]Where the angels [Bb]cry
+[F]Holy, holy, [C]holy
+[Dm]Is the Lord Most [Bb]High
+
+[F]In the throne room [C]of Your glory
+[Dm]I will bow be[Bb]fore You
+[F]Heaven and earth are [C]filled with Your praise
+[Dm]Holy is the [Bb]Lord`,
+    notes: "Isaiah 6 / Revelation 4 imagery. Weighty and reverent.",
+    bpm: 70,
+    tags: ["worship","holiness","throne"],
+  },
+  {
+    title: "Philippians 1",
+    artist: "Brandon Lake",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]For me to live is [A]Christ
+[Bm]And to die is [G]gain
+[D]He who began a [A]good work
+[Bm]Will be faithful to com[G]plete it
+
+[D]I am confident of [A]this
+[Bm]That He who started [G]it
+[D]Will carry it [A]on
+[Bm]To the day of Christ [G]Jesus`,
+    notes: "Scripture song. Meditative, builds with conviction.",
+    bpm: 72,
+    tags: ["worship","scripture","faith"],
+  },
+  {
+    title: "Mountains",
+    artist: "Brandon Lake",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Move mountains, [E]move mountains
+[F#m]With a word You can [D]move mountains
+[A]Speak and the earth will [E]shake
+[F#m]Nothing stands in [D]Your way
+
+[A]I speak to the [E]mountain
+[F#m]In the name of [D]Jesus, move
+[A]My God is bigger than [E]any mountain
+[F#m]I will not be [D]moved`,
+    notes: "Mark 11:23 faith declaration. Bold and energetic.",
+    bpm: 130,
+    tags: ["worship","faith","declaration"],
+  },
+  {
+    title: "New Season",
+    artist: "Brandon Lake",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I can feel it in the [D]air
+[Em]Something new is [C]happening
+[G]The old is gone, the [D]new has come
+[Em]A brand new [C]season
+
+[G]New season, [D]new sound
+[Em]New anointing [C]coming down
+[G]I step into the [D]new thing
+[Em]You are doing [C]now`,
+    notes: "Isaiah 43:19. Fresh expectation and hope.",
+    bpm: 120,
+    tags: ["worship","new season","hope"],
+  },
+  {
+    title: "Praise Break",
+    artist: "Brandon Lake",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Let the praise [F]break out
+[Gm]Can't hold it [Eb]in
+[Bb]Every chain is [F]breaking
+[Gm]Let the praise be[Eb]gin
+
+[Bb]Praise break, [F]praise break
+[Gm]We give You all the [Eb]glory
+[Bb]When the praises [F]go up
+[Gm]The walls come [Eb]down`,
+    notes: "High energy, explosive praise moment. Full band and congregation.",
+    bpm: 140,
+    tags: ["worship","praise","breakthrough"],
+  },
+  {
+    title: "Holy Ground",
+    artist: "Brandon Lake",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]We are standing on [B]holy ground
+[C#m]And I know that there are [A]angels all around
+[E]Let us praise [B]Jesus now
+[C#m]We are standing in His [A]presence on holy ground
+
+[E]This is holy [B]ground
+[C#m]We're standing on [A]holy ground
+[E]For the Lord is [B]here
+[C#m]And where He is, is [A]holy`,
+    notes: "Reverent and awe-filled. Sense of the sacred.",
+    bpm: 64,
+    tags: ["worship","holiness","presence"],
+  },
+  {
+    title: "Declarations",
+    artist: "Brandon Lake",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]I declare the [G]promises of God
+[Am]Over my life, over my [F]home
+[C]What He said He [G]will do
+[Am]Every word is [F]true
+
+[C]I declare that [G]I am free
+[Am]I declare His [F]victory
+[C]The Word of the Lord [G]stands forever
+[Am]I will speak His [F]declarations`,
+    notes: "Prophetic declaration song. Authoritative and bold.",
+    bpm: 84,
+    tags: ["worship","declaration","faith"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

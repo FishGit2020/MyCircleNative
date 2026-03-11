@@ -560,6 +560,382 @@ Our [Em]God, our [C]God
     bpm: 76,
     tags: ["worship","majesty","hymn","classic"],
   },
+  {
+    title: "Burning Lights",
+    artist: "Chris Tomlin",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]We are the burning [B]lights
+[C#m]We are the city on a [A]hill
+[E]We are the burning [B]lights
+[C#m]Light of the world we [A]shine
+
+[E]Come alive, come a[B]live
+[C#m]Let your glory [A]fall
+[E]We lift our eyes, we [B]lift our eyes
+[C#m]You are Lord of [A]all`,
+    notes: "Title track from 2013 album. High energy anthem with driving beat.",
+    bpm: 130,
+    tags: ["worship","light","anthem"],
+  },
+  {
+    title: "Lay Me Down",
+    artist: "Chris Tomlin",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]With this heart [A]open wide
+[Bm]From the depths, from the [G]heights
+[D]I will bring a [A]sacrifice
+[Bm]Oh [G]Lord
+
+[D]I lay me [A]down
+[Bm]I'm not my [G]own
+[D]I belong to [A]You alone
+[Bm]Lay me down, [G]lay me down`,
+    notes: "Matt Redman co-write. Song of surrender, builds with each verse.",
+    bpm: 72,
+    tags: ["worship","surrender","devotion"],
+  },
+  {
+    title: "Waterfall",
+    artist: "Chris Tomlin",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]O God my God I [B]seek You
+[C#m]I wanna find You [A]in this place
+[E]O God my God I [B]need You
+[C#m]You're everything my [A]heart desires
+
+[E]Your love is like a [B]waterfall, waterfall
+[C#m]Running wild and [A]free
+[E]You hear my heart when [B]I call, when I call
+[C#m]Deep calls to [A]deep`,
+    notes: "From Love Ran Red album. Joyful, flowing worship.",
+    bpm: 128,
+    tags: ["worship","love","joy"],
+  },
+  {
+    title: "Jesus",
+    artist: "Chris Tomlin",
+    originalKey: "B",
+    format: "chordpro",
+    content: `[B]There is a [E]truth older than the [G#m]ages
+[F#]There is a [E]promise of things yet to [B]come
+[B]There is One [E]born for our sal[G#m]vation
+[F#]Jesus [E]
+
+[B]Jesus, [E]bring the rain
+[G#m]Bring the wind and [F#]waves
+[B]Only You can [E]save
+[G#m]Jesus [F#]Jesus`,
+    notes: "From the Never Lose Sight album. Powerful declaration of the name.",
+    bpm: 74,
+    tags: ["worship","Jesus","salvation"],
+  },
+  {
+    title: "Good to Be Alive (Today)",
+    artist: "Chris Tomlin",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I know a God who [B]can
+[C#m]I know a God who [A]can
+[E]He rolled the stone a[B]way
+[C#m]He has made a way [A]for us
+
+[E]It's a good day to be a[B]live
+[C#m]It's a good day to be a[A]live
+[E]Oh what a day, [B]what a day
+[C#m]It's a good good day to be a[A]live`,
+    notes: "Celebratory anthem. High energy, great for opening sets.",
+    bpm: 138,
+    tags: ["worship","celebration","joy","life"],
+  },
+  {
+    title: "Greater",
+    artist: "Chris Tomlin",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Bring your tired [D]and bring your shame
+[Em]Bring your guilt [C]and bring your pain
+[G]Don't you know that's [D]not your name
+[Em]You will always [C]be much more to me
+
+[G]Greater is the [D]One living inside of me
+[Em]Greater is the [C]love, greater is His name
+[G]Greater, [D]greater [C]`,
+    notes: "1 John 4:4. Driving pop worship anthem.",
+    bpm: 130,
+    tags: ["worship","identity","victory"],
+  },
+  {
+    title: "All Bow Down",
+    artist: "Chris Tomlin",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]All bow down, [A]all bow down
+[Bm]Before the King of [G]kings
+[D]All bow down, [A]all bow down
+[Bm]Let heaven and [G]earth proclaim
+
+[D]You are [A]worthy
+[Bm]You are [G]worthy of it all
+[D]Every knee will [A]bow, every tongue con[G]fess`,
+    notes: "Philippians 2:10-11 theme. Majestic and reverent.",
+    bpm: 74,
+    tags: ["worship","reverence","lordship"],
+  },
+  {
+    title: "God Almighty",
+    artist: "Chris Tomlin",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]There is no one like [E]our God
+[F#m]Mighty in strength and [D]power
+[A]There is no one like [E]our God
+[F#m]Faithful for[D]ever
+
+[A]God Almighty, [E]You are holy
+[F#m]God Almighty, [D]You alone
+[A]There's no one like [E]You, no one like [D]You`,
+    notes: "Big anthem. Full band arrangement on the chorus.",
+    bpm: 76,
+    tags: ["worship","power","holiness"],
+  },
+  {
+    title: "Emmanuel (Hallowed Manger Ground)",
+    artist: "Chris Tomlin",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]What hope we hold this [D]starlit night
+[Em]A King is born in [C]Bethlehem
+[G]Our journey long, we [D]seek the light
+[Em]That leads to the [C]hallowed manger ground
+
+[G]Emmanuel, [D]Emmanuel
+[Em]God with us, [C]God with us
+[G]We bow our hearts, we [D]bend our knees
+[Em]O Spirit [C]come`,
+    notes: "Advent/Christmas. Intimate and reverent, acoustic-friendly.",
+    bpm: 68,
+    tags: ["worship","Christmas","incarnation","advent"],
+  },
+  {
+    title: "Jesus Loves Me (Tomlin)",
+    artist: "Chris Tomlin",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Jesus loves me, [B]this I know
+[C#m]For the Bible [A]tells me so
+[E]Little ones to [B]Him belong
+[C#m]They are weak but [A]He is strong
+
+[E]Yes, Jesus loves me, [B]yes, Jesus loves me
+[C#m]Yes, Jesus loves me, the [A]Bible tells me so
+[E]I was lost but [B]He came and found me
+[C#m]He wrapped His arms a[A]round me`,
+    notes: "Classic hymn with Tomlin bridge. Full band singalong.",
+    bpm: 76,
+    tags: ["worship","hymn","love","classic"],
+  },
+  {
+    title: "How Sweet the Sound",
+    artist: "Chris Tomlin",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Oh how sweet the [A]sound of mercy
+[Bm]Calling out to [G]me
+[D]Oh how sweet the [A]grace of Jesus
+[Bm]Covering every[G]thing
+
+[D]How sweet the [A]sound
+[Bm]That saved a [G]wretch like me
+[D]I once was [A]lost but now I'm [G]found`,
+    notes: "Grace-centered anthem with hymn echoes. Tender and powerful.",
+    bpm: 70,
+    tags: ["worship","grace","mercy"],
+  },
+  {
+    title: "Boundless",
+    artist: "Chris Tomlin",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Your love goes [F]further than I can see
+[Gm]Higher than the [Eb]heavens can reach
+[Bb]Deeper than the [F]deepest sea
+[Gm]Your love is [Eb]boundless
+
+[Bb]Boundless, [F]boundless
+[Gm]Your love is bound[Eb]less
+[Bb]From here to for[F]ever
+[Gm]Your love is bound[Eb]less`,
+    notes: "From Holy Roar album. Spacious and expansive sound.",
+    bpm: 72,
+    tags: ["worship","love","infinity"],
+  },
+  {
+    title: "Always",
+    artist: "Chris Tomlin",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]My foes are many, [D]they rise against me
+[Em]But I will hold my [C]ground
+[G]I will not fear the [D]war, I will not fear the [Em]storm
+[C]My help is on the way
+
+[G]God You are always, [D]always, always [Em]there
+[C]You go before me, You're [G]behind me
+[D]You're all a[Em]round me, [C]always`,
+    notes: "Assurance anthem. Great for building confidence in worship.",
+    bpm: 76,
+    tags: ["worship","assurance","protection"],
+  },
+  {
+    title: "O Come All Ye Faithful (Tomlin)",
+    artist: "Chris Tomlin",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]O come all ye [D]faithful
+[Em]Joyful and tri[C]umphant
+[G]O come ye, o [D]come ye to [G]Bethlehem
+[G]Come and be[D]hold Him
+[Em]Born the King of [C]angels
+
+[G]O come let us a[D]dore Him
+[Em]O come let us a[C]dore Him
+[G]O come let us a[D]dore Him
+[C]Christ [D]the [G]Lord`,
+    notes: "Classic Christmas hymn in Tomlin style. Congregational singalong.",
+    bpm: 118,
+    tags: ["worship","Christmas","hymn","classic"],
+  },
+  {
+    title: "Joy to the World (Unspeakable Joy)",
+    artist: "Chris Tomlin",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Joy to the world the [A]Lord is come
+[Bm]Let earth re[G]ceive her King
+[D]Let every heart [A]prepare Him room
+[Bm]And heaven and nature [G]sing
+
+[D]Joy unspeakable [A]joy
+[Bm]An overflowing [G]well
+[D]No tongue can tell, [A]joy unspeakable [G]joy
+[D]It rises in my [A]soul, never lets me [G]go`,
+    notes: "Christmas classic reimagined with the Unspeakable Joy chorus.",
+    bpm: 124,
+    tags: ["worship","Christmas","joy","hymn"],
+  },
+  {
+    title: "Noel (Tomlin)",
+    artist: "Chris Tomlin",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Love incarnate, [A]love divine
+[Bm]Star and angels [G]gave the sign
+[D]Bow to babe on [A]bended knee
+[Bm]The Savior of hu[G]manity
+
+[D]Noel, [A]noel
+[Bm]Come and see what [G]God has done
+[D]Noel, [A]noel
+[Bm]The story of a[G]mazing love
+[D]The light of the [A]world given for [G]us
+[D]No[A]el`,
+    notes: "Lauren Daigle duet. Tender, modern Christmas anthem.",
+    bpm: 66,
+    tags: ["worship","Christmas","incarnation"],
+  },
+  {
+    title: "Famous One",
+    artist: "Chris Tomlin",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]You are the [E]Lord, the famous [F#m]One, famous [D]One
+[A]Great is Your [E]name in all the [F#m]earth [D]
+[A]The heavens de[E]clare You're glori[F#m]ous, glori[D]ous
+[A]Great is Your [E]fame beyond the [D]earth
+
+[A]And for all You've [E]done and yet to do
+[F#m]With every [D]breath I'm praising You
+[A]Desire of [E]nations and every [D]heart
+[A]You alone are [E]God, You alone are [D]God`,
+    notes: "Jesse Reeves co-write. Early Tomlin classic, singable anthem.",
+    bpm: 124,
+    tags: ["worship","praise","fame","classic"],
+  },
+  {
+    title: "Enough",
+    artist: "Chris Tomlin",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]All of You is [G]more than enough for
+[Am]All of me, for [F]every thirst and every need
+[C]You satisfy me [G]with Your love
+[Am]And all I have in [F]You is more than enough
+
+[C]You are my [G]supply, my breath of [Am]life
+[F]Still more awesome [C]than I know
+[C]You are my [G]reward, worth living [Am]for
+[F]Still more awesome [C]than I know`,
+    notes: "Louie Giglio co-write. Simple sufficiency anthem.",
+    bpm: 76,
+    tags: ["worship","sufficiency","devotion","classic"],
+  },
+  {
+    title: "Unchanging",
+    artist: "Chris Tomlin",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Great is Your [E]faithfulness
+[F#m]Great is Your [D]faithfulness
+[A]You never [E]change, You never [F#m]fail, O [D]God
+
+[A]True are Your [E]promises
+[F#m]True are Your [D]promises
+[A]You never [E]change, You never [F#m]fail, O [D]God
+
+[A]So we raise up [E]holy hands
+[F#m]To praise the Holy [D]One
+[A]Who was and is and [E]is to [D]come`,
+    notes: "Early career anthem. Lamentations 3:23 theme.",
+    bpm: 78,
+    tags: ["worship","faithfulness","classic"],
+  },
+  {
+    title: "God's Great Dance Floor",
+    artist: "Chris Tomlin",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I feel alive, I come a[B]live
+[C#m]I am alive on [A]God's great dance floor
+[E]I feel alive, I come a[B]live
+[C#m]I am alive on [A]God's great dance floor
+
+[E]I found my place, [B]I found my way
+[C#m]I found amazing [A]grace
+[E]You picked me up, [B]You turned me around
+[C#m]And placed my feet on [A]higher ground`,
+    notes: "Martin Smith co-write. High energy, celebratory anthem.",
+    bpm: 132,
+    tags: ["worship","celebration","joy","dance"],
+  },
+  {
+    title: "He Shall Reign Forevermore",
+    artist: "Chris Tomlin",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]In the bleak mid[D]winter, all crea[Em]tion groans
+[C]For a world in [G]darkness, frozen [D]like a stone
+[G]Light is breaking [D]in a stable [Em]for a throne
+
+[G]He shall reign for[D]evermore, for[Em]evermore
+[C]And He shall reign for[G]evermore, for[D]evermore
+[Em]He shall reign for[C]evermore`,
+    notes: "Christmas anthem. Builds from quiet verse to triumphant chorus.",
+    bpm: 76,
+    tags: ["worship","Christmas","reign","advent"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

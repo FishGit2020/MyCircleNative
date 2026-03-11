@@ -382,6 +382,272 @@ const SONGS = [
     bpm: 68,
     tags: ["worship","simplicity","devotion"],
   },
+  {
+    title: "Mercy (Vineyard)",
+    artist: "Vineyard Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Lord have mercy on [D]me
+[Em]A sinner in need of [C]grace
+[G]Lord have mercy on [D]me
+[Em]I fall before Your [C]face
+
+[G]Your mercy is [D]new every morning
+[Em]Great is Your faith[C]fulness
+[G]Lord have mercy [D]on [C]me`,
+    notes: "Vineyard mercy prayer. Lamentations 3:22-23 theme.",
+    bpm: 64,
+    tags: ["worship","mercy","prayer"],
+  },
+  {
+    title: "Faithful One",
+    artist: "Vineyard Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Faithful One, so un[A]changing
+[Bm]Ageless One, You're my [G]rock of peace
+[D]Lord of all, I de[A]pend on You
+[Bm]I call out to [G]You again and again
+
+[D]You are my rock in [A]times of trouble
+[Bm]You lift me up when I [G]fall down
+[D]All through the storm Your [A]love is the anchor
+[Bm]My hope is in [G]You a[D]lone`,
+    notes: "Brian Doerksen classic. Steady and reassuring.",
+    bpm: 72,
+    tags: ["worship","faithfulness","classic"],
+  },
+  {
+    title: "Shout to the North",
+    artist: "Vineyard Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Men of faith rise [C]up and sing
+[D]Of the great and [G]glorious King
+[G]You are strong when [C]you feel weak
+[D]In your broken[G]ness complete
+
+[G]Shout to the [C]north and the south
+[D]Sing to the [Em]east and the west
+[G]Jesus is [C]Savior to [D]all
+[Em]Lord of heaven and [C]earth`,
+    notes: "Martin Smith / Delirious song, beloved in Vineyard circles. Triumphant.",
+    bpm: 126,
+    tags: ["worship","praise","declaration"],
+  },
+  {
+    title: "Arms of Love",
+    artist: "Vineyard Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]I sing a simple [A]song of love
+[Bm]To my Savior, [G]to my Jesus
+[D]I'm grateful for the [A]things You've done
+[Bm]My loving Savior, [G]precious Jesus
+
+[D]My heart is glad that [A]You've called me Your own
+[Bm]There's no place I'd rather [G]be
+[D]Than in Your [A]arms of [G]love`,
+    notes: "Craig Musseau classic. Tender Vineyard simplicity.",
+    bpm: 66,
+    tags: ["worship","love","classic"],
+  },
+  {
+    title: "You Are Here (Turn Your Eyes)",
+    artist: "Vineyard Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]You are here, [G]moving in our midst
+[Am]I worship [F]You, I worship You
+[C]You are here, [G]working in this place
+[Am]I worship [F]You, I worship You
+
+[C]Turn your eyes up[G]on the Lord
+[Am]And the things of earth will [F]grow strangely dim
+[C]In the light of [G]His glory and [F]grace`,
+    notes: "Vineyard arrangement with classic hymn bridge. Atmospheric.",
+    bpm: 70,
+    tags: ["worship","presence","classic"],
+  },
+  {
+    title: "Every Move I Make",
+    artist: "Vineyard Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Every move I make I make in [C]You
+[G]You make me move [D]Jesus
+[G]Every breath I take I breathe in [C]You
+[G]Every step I take I take in [D]You
+
+[G]Na na na na na na [C]na
+[G]Na na na na na na [D]na
+[G]Waves of mercy, [C]waves of grace
+[D]Everywhere I look I see Your [G]face`,
+    notes: "David Ruis kids/youth classic. Fun and energetic.",
+    bpm: 132,
+    tags: ["worship","joy","kids"],
+  },
+  {
+    title: "Come and Listen",
+    artist: "Vineyard Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Come and listen, come to the [E]water's edge
+[F#m]All you who know and [D]fear the Lord
+[A]Come and listen, [E]let me tell you what He's done
+[F#m]Come and [D]listen
+
+[A]He has done great [E]things
+[F#m]He has done great [D]things
+[A]Come and [E]listen [D]`,
+    notes: "Psalm 66:16. Testimony and invitation song.",
+    bpm: 78,
+    tags: ["worship","invitation","testimony"],
+  },
+  {
+    title: "All Who Are Thirsty (Vineyard)",
+    artist: "Vineyard Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]All who are [A]thirsty
+[Bm]All who are [G]weak
+[D]Come to the [A]fountain
+[Bm]Dip your heart in the [G]stream of life
+
+[D]Let the pain and the [A]sorrow
+[Bm]Be washed a[G]way
+[D]In the waves of His [A]mercy
+[Bm]As deep cries out to [G]deep
+
+[D]Come Lord [A]Jesus come
+[Bm]Come Lord [G]Jesus come`,
+    notes: "Brenton Brown & Glenn Robertson. Vineyard classic invitation.",
+    bpm: 68,
+    tags: ["worship","thirst","invitation"],
+  },
+  {
+    title: "Dwell",
+    artist: "Vineyard Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Dwell in the midst of [B]us
+[C#m]Come and dwell in the [A]midst of us
+[E]You're worthy, [B]You're worthy
+[C#m]Come and dwell in the [A]midst of us
+
+[E]Here among the [B]broken
+[C#m]Here among the [A]weary
+[E]Come and make Your [B]home with us
+[C#m]Come and dwell in [A]us`,
+    notes: "Psalm 22:3 inhabiting our praise. Intimate and expectant.",
+    bpm: 62,
+    tags: ["worship","presence","dwelling"],
+  },
+  {
+    title: "Over Me",
+    artist: "Vineyard Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Over me, over [D]me
+[Em]Let Your anointing [C]fall over me
+[G]Over me, over [D]me
+[Em]Let the glory of the [C]Lord come over me
+
+[G]I rest beneath the [D]shadow of Your wings
+[Em]I trust in You, my [C]God and King
+[G]Let Your presence [D]come over [C]me`,
+    notes: "Psalm 91:4 imagery. Gentle soaking worship.",
+    bpm: 60,
+    tags: ["worship","anointing","rest"],
+  },
+  {
+    title: "Praise the Lord (Vineyard)",
+    artist: "Vineyard Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Praise the Lord from the [E]heavens
+[F#m]Praise Him in the [D]heights above
+[A]Praise Him all His [E]angels
+[F#m]Praise Him all His [D]heavenly hosts
+
+[A]Let them praise the [E]name of the Lord
+[F#m]For His name a[D]lone is exalted
+[A]His splendor is above the [E]earth and the [D]heavens`,
+    notes: "Psalm 148 setting. Celebratory and majestic.",
+    bpm: 118,
+    tags: ["worship","praise","psalm"],
+  },
+  {
+    title: "Worthy (Vineyard)",
+    artist: "Vineyard Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Worthy, You are [A]worthy
+[Bm]King of kings, Lord of [G]lords You are worthy
+[D]Worthy, You are [A]worthy
+[Bm]King of kings, Lord of [G]lords I worship You
+
+[D]You paid the [A]price for my sin
+[Bm]Once for all You [G]shed Your blood
+[D]I am redeemed by the [A]Lamb of God
+[Bm]Worthy is the [G]Lamb`,
+    notes: "Revelation 5 theme. Simple and powerful declaration.",
+    bpm: 72,
+    tags: ["worship","worthy","adoration"],
+  },
+  {
+    title: "Thank You Lord for Your Presence",
+    artist: "Vineyard Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Thank You Lord for Your [G]presence
+[Am]Thank You Lord for this [F]day
+[C]Thank You Lord for Your [G]Spirit
+[Am]That guides me a[F]long the way
+
+[C]In Your presence there is [G]fullness of joy
+[Am]At Your right hand [F]pleasures evermore
+[C]Thank You [G]Lord [F]`,
+    notes: "Psalm 16:11. Simple gratitude worship song.",
+    bpm: 68,
+    tags: ["worship","gratitude","presence"],
+  },
+  {
+    title: "It's Falling",
+    artist: "Vineyard Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]It's falling, it's [B]falling
+[C#m]The rain of Your [A]love is falling
+[E]My soul cries [B]out
+[C#m]Send Your rain down [A]now
+
+[E]Let it fall on [B]us
+[C#m]Let it rain on [A]us
+[E]Open up the [B]heavens Lord
+[C#m]Let it fall, let it [A]fall`,
+    notes: "Rain metaphor for anointing. Expectant worship prayer.",
+    bpm: 74,
+    tags: ["worship","anointing","prayer"],
+  },
+  {
+    title: "Fire of God",
+    artist: "Vineyard Worship",
+    originalKey: "Em",
+    format: "chordpro",
+    content: `[Em]Fire of God fall [C]fresh on me
+[D]Burn away what [Em]shouldn't be
+[Em]Fire of God fall [C]fresh on me
+[D]Purify my [Em]heart
+
+[Em]Come and consume [C]every part of me
+[D]Holy flame of [Em]love
+[Em]Fire of God come [C]down
+[D]Set this place a[Em]blaze`,
+    notes: "Holy Spirit fire prayer. Acts 2 imagery. Passionate.",
+    bpm: 80,
+    tags: ["worship","fire","holy-spirit"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');
