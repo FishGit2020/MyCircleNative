@@ -86,7 +86,8 @@
       ],
       "@react-native-firebase/app-check",
       "expo-sharing",
-      "expo-audio"
+      "expo-audio",
+      "./plugins/withRemovePushEntitlement"
     ],
     "extra": {
       "eas": {
