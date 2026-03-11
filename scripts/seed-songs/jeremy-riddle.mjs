@@ -1,24 +1,20 @@
 #!/usr/bin/env node
 /**
- * Remove Jeremy Camp songs and add Jeremy Riddle songs.
- *
- * Usage:
- *   GOOGLE_APPLICATION_CREDENTIALS=./path/to/key.json node scripts/seed-songs/07-remove-camp-add-riddle.mjs
+ * Seed Jeremy Riddle worship songs into Firestore.
+ * Usage: GOOGLE_APPLICATION_CREDENTIALS=./key.json node scripts/seed-songs/jeremy-riddle.mjs --skip-existing
  */
-
 import { initializeApp, applicationDefault } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 
 initializeApp({ credential: applicationDefault() });
 const db = getFirestore();
 
-// ── Jeremy Riddle Songs ─────────────────────────────────────
 const SONGS = [
   {
-    title: 'Furious',
-    artist: 'Jeremy Riddle',
-    originalKey: 'G',
-    format: 'chordpro',
+    title: "Furious",
+    artist: "Jeremy Riddle",
+    originalKey: "G",
+    format: "chordpro",
     content: `[G]Nothing can stop Your [Em]love for me
 [C]You delight in [D]showing mercy
 [G]Nothing will ever [Em]take Your place
@@ -30,15 +26,15 @@ const SONGS = [
 [D]And it covers us
 [G]His love is [Em]fierce, His love is [C]strong
 [D]It is furious`,
-    notes: 'Passionate declaration of God\'s fierce love. Medium build.',
+    notes: "Passionate declaration of God's fierce love. Medium build.",
     bpm: 80,
-    tags: ['worship', 'love', 'passion'],
+    tags: ["worship","love","passion"],
   },
   {
-    title: 'Fall Afresh',
-    artist: 'Jeremy Riddle',
-    originalKey: 'E',
-    format: 'chordpro',
+    title: "Fall Afresh",
+    artist: "Jeremy Riddle",
+    originalKey: "E",
+    format: "chordpro",
     content: `[E]Awaken my soul, come [B]awake
 [C#m]To hunger, to [A]seek, to thirst
 [E]Awaken first love, come [B]alive
@@ -49,15 +45,15 @@ const SONGS = [
 [E]Blow through the caverns [B]of my soul
 [C#m]Pour in me to [A]overflow
 [E]To over[B]flow`,
-    notes: 'Intimate prayer song. Let it breathe. Acoustic-led.',
+    notes: "Intimate prayer song. Let it breathe. Acoustic-led.",
     bpm: 66,
-    tags: ['worship', 'prayer', 'Holy Spirit'],
+    tags: ["worship","prayer","Holy Spirit"],
   },
   {
-    title: 'Sweetly Broken',
-    artist: 'Jeremy Riddle',
-    originalKey: 'G',
-    format: 'chordpro',
+    title: "Sweetly Broken",
+    artist: "Jeremy Riddle",
+    originalKey: "G",
+    format: "chordpro",
     content: `[G]To the cross I [D]look, to the cross I [Em]cling
 [C]Of its suffering [D]I do drink
 [G]Of its work I [D]do sing
@@ -73,15 +69,15 @@ const SONGS = [
 [G]What a priceless [D]gift, undeserved [Em]life
 [C]Have I been [D]given
 [G]Through Christ [D]crucified`,
-    notes: 'Communion song. Tender and reverent. Acoustic guitar focus.',
+    notes: "Communion song. Tender and reverent. Acoustic guitar focus.",
     bpm: 70,
-    tags: ['worship', 'communion', 'cross'],
+    tags: ["worship","communion","cross"],
   },
   {
-    title: 'This Is Our God',
-    artist: 'Jeremy Riddle',
-    originalKey: 'D',
-    format: 'chordpro',
+    title: "This Is Our God",
+    artist: "Jeremy Riddle",
+    originalKey: "D",
+    format: "chordpro",
     content: `[D]Your grace is enough, [A]more than enough for me
 [Bm]Your grace is enough, [G]more than enough
 [D]Your name is a strong and [A]mighty tower
@@ -96,15 +92,15 @@ const SONGS = [
 [Bm]So we could have [G]life
 [D]Hope is alive, [A]death is defeated
 [Bm]Our God is [G]risen`,
-    notes: 'Declaration song. Build through the chorus.',
+    notes: "Declaration song. Build through the chorus.",
     bpm: 76,
-    tags: ['praise', 'declaration', 'grace'],
+    tags: ["praise","declaration","grace"],
   },
   {
-    title: 'Christ Is Risen',
-    artist: 'Jeremy Riddle',
-    originalKey: 'A',
-    format: 'chordpro',
+    title: "Christ Is Risen",
+    artist: "Jeremy Riddle",
+    originalKey: "A",
+    format: "chordpro",
     content: `[A]Let no one caught in sin re[E]main
 [F#m]Inside the lie of in[D]ward shame
 [A]But fix our eyes up[E]on the cross
@@ -119,15 +115,15 @@ const SONGS = [
 [F#m]O hell, where is your [D]triumph?
 [A]The grave has been [E]swallowed up by life
 [F#m]The world will know that [D]Christ is risen`,
-    notes: 'Easter anthem. Triumphant and bold. Full band.',
+    notes: "Easter anthem. Triumphant and bold. Full band.",
     bpm: 130,
-    tags: ['praise', 'resurrection', 'Easter'],
+    tags: ["praise","resurrection","Easter"],
   },
   {
-    title: 'Healer',
-    artist: 'Jeremy Riddle',
-    originalKey: 'D',
-    format: 'chordpro',
+    title: "Healer",
+    artist: "Jeremy Riddle",
+    originalKey: "D",
+    format: "chordpro",
     content: `[D]You hold my every [A]moment
 [Bm]You calm my raging [G]seas
 [D]You walk with me through [A]fire
@@ -143,15 +139,15 @@ const SONGS = [
 [Bm]Nothing is im[G]possible for You
 [D]Nothing is im[A]possible for You
 [Bm]You hold my [G]world in Your hands`,
-    notes: 'Healing prayer moment. Tender but confident.',
+    notes: "Healing prayer moment. Tender but confident.",
     bpm: 68,
-    tags: ['worship', 'healing', 'faith'],
+    tags: ["worship","healing","faith"],
   },
   {
-    title: 'More',
-    artist: 'Jeremy Riddle',
-    originalKey: 'G',
-    format: 'chordpro',
+    title: "More",
+    artist: "Jeremy Riddle",
+    originalKey: "G",
+    format: "chordpro",
     content: `[G]I want to know You [D]more
 [Em]I want to know You [C]more
 [G]Not just a Sunday [D]song
@@ -166,15 +162,15 @@ const SONGS = [
 [Em]More than religion, [C]more than devotion
 [G]I want the real [D]thing
 [Em]More of [C]You`,
-    notes: 'Hunger for more of God. Simple and heartfelt.',
+    notes: "Hunger for more of God. Simple and heartfelt.",
     bpm: 72,
-    tags: ['worship', 'hunger', 'prayer'],
+    tags: ["worship","hunger","prayer"],
   },
   {
-    title: 'Prepare the Way',
-    artist: 'Jeremy Riddle',
-    originalKey: 'Em',
-    format: 'chordpro',
+    title: "Prepare the Way",
+    artist: "Jeremy Riddle",
+    originalKey: "Em",
+    format: "chordpro",
     content: `[Em]You have called us [C]out of darkness
 [G]Into Your mar[D]velous light
 [Em]We are Your people, [C]Your possession
@@ -189,15 +185,15 @@ const SONGS = [
 [G]Let every mountain [D]be made low
 [Em]Let every crooked [C]path be made straight
 [G]For the glory of the [D]Lord`,
-    notes: 'Based on Isaiah 40. Prophetic worship moment.',
+    notes: "Based on Isaiah 40. Prophetic worship moment.",
     bpm: 82,
-    tags: ['worship', 'prophetic', 'preparation'],
+    tags: ["worship","prophetic","preparation"],
   },
   {
-    title: 'Show Me Your Face',
-    artist: 'Jeremy Riddle',
-    originalKey: 'A',
-    format: 'chordpro',
+    title: "Show Me Your Face",
+    artist: "Jeremy Riddle",
+    originalKey: "A",
+    format: "chordpro",
     content: `[A]Open up the [E]heavens
 [F#m]We want to see [D]You
 [A]Open up the [E]floodgates
@@ -212,15 +208,15 @@ const SONGS = [
 [F#m]No one even [D]comes close
 [A]There's no one like [E]You, God
 [F#m]You are worthy of it [D]all`,
-    notes: 'Seeking God\'s presence. Extended worship moment.',
+    notes: "Seeking God's presence. Extended worship moment.",
     bpm: 70,
-    tags: ['worship', 'presence', 'intimacy'],
+    tags: ["worship","presence","intimacy"],
   },
   {
-    title: 'You Are Good',
-    artist: 'Jeremy Riddle',
-    originalKey: 'G',
-    format: 'chordpro',
+    title: "You Are Good",
+    artist: "Jeremy Riddle",
+    originalKey: "G",
+    format: "chordpro",
     content: `[G]I will give thanks to [Em]You, O Lord
 [C]Among the peoples, [D]I will sing praises
 [G]For Your steadfast [Em]love is great
@@ -236,15 +232,15 @@ const SONGS = [
 [C]Better than I de[D]serve
 [G]Lord, You're good to [Em]me
 [C]Forever and [D]ever`,
-    notes: 'Joyful declaration of goodness. Great for praise sets.',
+    notes: "Joyful declaration of goodness. Great for praise sets.",
     bpm: 120,
-    tags: ['praise', 'goodness', 'thanksgiving'],
+    tags: ["praise","goodness","thanksgiving"],
   },
   {
-    title: 'Kingdom Come',
-    artist: 'Jeremy Riddle',
-    originalKey: 'C',
-    format: 'chordpro',
+    title: "Kingdom Come",
+    artist: "Jeremy Riddle",
+    originalKey: "C",
+    format: "chordpro",
     content: `[C]Let Your kingdom [G]come
 [Am]Let Your will be [F]done
 [C]Here on earth as [G]it is in heaven
@@ -259,15 +255,15 @@ const SONGS = [
 [Am]We pray, [F]kingdom come
 [C]In this [G]city, in this [Am]nation
 [F]Let Your kingdom come`,
-    notes: 'Kingdom prayer. Simple, powerful, congregational.',
+    notes: "Kingdom prayer. Simple, powerful, congregational.",
     bpm: 76,
-    tags: ['worship', 'prayer', 'kingdom'],
+    tags: ["worship","prayer","kingdom"],
   },
   {
-    title: 'Worthy',
-    artist: 'Jeremy Riddle',
-    originalKey: 'D',
-    format: 'chordpro',
+    title: "Worthy",
+    artist: "Jeremy Riddle",
+    originalKey: "D",
+    format: "chordpro",
     content: `[D]Holy, holy, [A]Lord God Almighty
 [Bm]Who was and is and [G]is to come
 [D]With all creation I [A]sing
@@ -282,15 +278,15 @@ const SONGS = [
 
 [D]Crown Him with many [A]crowns
 [Bm]The Lamb upon [G]His throne`,
-    notes: 'Heavenly worship. Rev 4-5 inspired. Majestic.',
+    notes: "Heavenly worship. Rev 4-5 inspired. Majestic.",
     bpm: 72,
-    tags: ['worship', 'worthy', 'revelation'],
+    tags: ["worship","worthy","revelation"],
   },
   {
-    title: 'Send Me',
-    artist: 'Jeremy Riddle',
-    originalKey: 'E',
-    format: 'chordpro',
+    title: "Send Me",
+    artist: "Jeremy Riddle",
+    originalKey: "E",
+    format: "chordpro",
     content: `[E]Here I am, [B]Lord, send me
 [C#m]I will go where [A]You lead
 [E]Here I am, [B]set apart
@@ -305,15 +301,15 @@ const SONGS = [
 [C#m]I'll do what You [A]ask
 [E]Not my will but [B]Yours be done
 [C#m]Here I am, [A]send me`,
-    notes: 'Commissioning song. Based on Isaiah 6. Missions focus.',
+    notes: "Commissioning song. Based on Isaiah 6. Missions focus.",
     bpm: 78,
-    tags: ['worship', 'missions', 'surrender'],
+    tags: ["worship","missions","surrender"],
   },
   {
-    title: 'Breath of God',
-    artist: 'Jeremy Riddle',
-    originalKey: 'G',
-    format: 'chordpro',
+    title: "Breath of God",
+    artist: "Jeremy Riddle",
+    originalKey: "G",
+    format: "chordpro",
     content: `[G]Come, breath of [D]God
 [Em]Come and breathe up[C]on this place
 [G]Come, breath of [D]God
@@ -328,15 +324,15 @@ const SONGS = [
 [Em]We need You like the [C]darkness needs the flame
 [G]Breathe on us, [D]breathe on us
 [Em]Breath of [C]God`,
-    notes: 'Prayer for revival. Based on Ezekiel 37. Gentle build.',
+    notes: "Prayer for revival. Based on Ezekiel 37. Gentle build.",
     bpm: 66,
-    tags: ['worship', 'revival', 'Holy Spirit'],
+    tags: ["worship","revival","Holy Spirit"],
   },
   {
-    title: 'The Anthem',
-    artist: 'Jeremy Riddle',
-    originalKey: 'A',
-    format: 'chordpro',
+    title: "The Anthem",
+    artist: "Jeremy Riddle",
+    originalKey: "A",
+    format: "chordpro",
     content: `[A]I can hear the [E]sound of a mighty rushing wind
 [F#m]I can feel the [D]fire fall
 [A]Heaven's door is [E]opening wide
@@ -351,57 +347,52 @@ const SONGS = [
 [F#m]Rising up from [D]every heart
 [A]Louder and louder [E]hear us singing
 [F#m]You're the anthem of our [D]hearts`,
-    notes: 'High energy worship anthem. Big chorus, full band.',
+    notes: "High energy worship anthem. Big chorus, full band.",
     bpm: 136,
-    tags: ['praise', 'anthem', 'celebration'],
+    tags: ["praise","anthem","celebration"],
   },
 ];
 
+const skipExisting = process.argv.includes('--skip-existing');
+
 async function main() {
   const col = db.collection('worshipSongs');
-
-  // Step 1: Remove Jeremy Camp songs
-  console.log('Removing Jeremy Camp songs...');
-  const campSnapshot = await col.where('artist', '==', 'Jeremy Camp').get();
-  if (campSnapshot.empty) {
-    console.log('  No Jeremy Camp songs found.');
-  } else {
-    const deleteBatch = db.batch();
-    for (const doc of campSnapshot.docs) {
-      console.log(`  DEL:  ${doc.data().title} - Jeremy Camp`);
-      deleteBatch.delete(doc.ref);
+  let existingKeys = new Set();
+  if (skipExisting) {
+    const snapshot = await col.get();
+    for (const doc of snapshot.docs) {
+      const d = doc.data();
+      existingKeys.add(`${d.title}|||${d.artist}`);
     }
-    await deleteBatch.commit();
-    console.log(`Removed ${campSnapshot.size} Jeremy Camp songs.\n`);
+    console.log(`Found ${existingKeys.size} existing songs in Firestore.`);
   }
-
-  // Step 2: Add Jeremy Riddle songs (skip existing)
-  console.log('Adding Jeremy Riddle songs...');
-  const existingSnapshot = await col.where('artist', '==', 'Jeremy Riddle').get();
-  const existingTitles = new Set(existingSnapshot.docs.map((d) => d.data().title));
-
-  const addBatch = db.batch();
+  let batch = db.batch();
   let count = 0;
+  let batchCount = 0;
   for (const song of SONGS) {
-    if (existingTitles.has(song.title)) {
-      console.log(`  SKIP: ${song.title} (already exists)`);
+    const key = `${song.title}|||${song.artist}`;
+    if (skipExisting && existingKeys.has(key)) {
+      console.log(`  SKIP: ${song.title} - ${song.artist}`);
       continue;
     }
     const ref = col.doc();
-    addBatch.set(ref, {
+    batch.set(ref, {
       ...song,
       createdBy: 'seed-script',
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
     count++;
-    console.log(`  ADD:  ${song.title}`);
+    batchCount++;
+    console.log(`  ADD:  ${song.title} - ${song.artist}`);
+    if (batchCount >= 450) {
+      await batch.commit();
+      batch = db.batch();
+      batchCount = 0;
+    }
   }
-  if (count > 0) await addBatch.commit();
-  console.log(`\nAdded ${count} Jeremy Riddle songs.`);
+  if (batchCount > 0) await batch.commit();
+  console.log(`\nSeeded ${count} songs (total in script: ${SONGS.length}).`);
 }
 
-main().catch((err) => {
-  console.error('Failed:', err);
-  process.exit(1);
-});
+main().catch((err) => { console.error('Seed failed:', err); process.exit(1); });
