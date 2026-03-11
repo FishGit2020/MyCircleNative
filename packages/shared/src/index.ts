@@ -37,6 +37,7 @@ export {
   convertTemp,
   tempUnitSymbol,
   formatWindSpeed,
+  formatDistance,
   formatDate,
   formatTime,
   getDailyVerse,
@@ -53,6 +54,7 @@ export type {
   Logger,
   TemperatureUnit,
   SpeedUnit,
+  DistanceUnit,
   DailyVerse,
   DailyDevotional,
 } from './utils';
@@ -60,6 +62,9 @@ export type {
 // GraphQL
 export { createApolloClient, getApolloClient } from './graphql';
 export * from './graphql/queries';
+
+// Hooks
+export { useUnits } from './hooks/useUnits';
 
 // Constants
 export { GRAPHQL_ENDPOINT } from './constants';

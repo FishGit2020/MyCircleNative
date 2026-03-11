@@ -28,11 +28,22 @@ export function getWeatherDescription(main: string): { color: string; bgColor: s
 
 export type TemperatureUnit = 'C' | 'F';
 export type SpeedUnit = 'ms' | 'mph' | 'kmh';
+export type DistanceUnit = 'km' | 'mi';
 
-export function getStoredUnits(): { tempUnit: TemperatureUnit; speedUnit: SpeedUnit } {
+export function getStoredUnits(): { tempUnit: TemperatureUnit; speedUnit: SpeedUnit; distanceUnit: DistanceUnit } {
   const tempUnit = (safeGetItem(StorageKeys.TEMP_UNIT) as TemperatureUnit) || 'C';
   const speedUnit = (safeGetItem(StorageKeys.SPEED_UNIT) as SpeedUnit) || 'ms';
-  return { tempUnit, speedUnit };
+  const distanceUnit = (safeGetItem(StorageKeys.DISTANCE_UNIT) as DistanceUnit) || 'km';
+  return { tempUnit, speedUnit, distanceUnit };
+}
+
+export function formatDistance(meters: number, unit?: DistanceUnit): string {
+  const u = unit ?? getStoredUnits().distanceUnit;
+  if (u === 'mi') {
+    const miles = meters / 1609.344;
+    return miles < 0.1 ? `${Math.round(meters * 3.281)} ft` : `${miles.toFixed(1)} mi`;
+  }
+  return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`;
 }
 
 export function formatTemperature(temp: number, unit?: TemperatureUnit): string {

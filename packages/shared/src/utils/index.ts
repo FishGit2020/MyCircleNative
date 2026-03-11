@@ -15,10 +15,11 @@ export {
   convertTemp,
   tempUnitSymbol,
   formatWindSpeed,
+  formatDistance,
   formatDate,
   formatTime,
 } from './weatherHelpers';
-export type { TemperatureUnit, SpeedUnit } from './weatherHelpers';
+export type { TemperatureUnit, SpeedUnit, DistanceUnit } from './weatherHelpers';
 export { getDailyVerse, getDailyDevotional, getAllDailyVerses, parseVerseReference } from './dailyVerse';
 export type { DailyVerse, DailyDevotional } from './dailyVerse';
 export { fuzzySearchCities } from './fuzzySearch';

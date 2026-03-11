@@ -22,6 +22,23 @@ export const MFEvents = {
   PODCAST_PLAY_EPISODE: 'mf:podcast-play-episode',
   PODCAST_CLOSE_PLAYER: 'mf:podcast-close-player',
   PODCAST_QUEUE_EPISODE: 'mf:podcast-queue-episode',
+  PODCAST_PLAYBACK_STATE: 'mf:podcast-playback-state',
+  PODCAST_TOGGLE_PLAY: 'mf:podcast-toggle-play',
+  PODCAST_SEEK: 'mf:podcast-seek',
+  PODCAST_SKIP_FORWARD: 'mf:podcast-skip-forward',
+  PODCAST_SKIP_BACK: 'mf:podcast-skip-back',
+  PODCAST_CHANGE_SPEED: 'mf:podcast-change-speed',
+  PODCAST_SET_SLEEP_TIMER: 'mf:podcast-set-sleep-timer',
+  PODCAST_REMOVE_FROM_QUEUE: 'mf:podcast-remove-from-queue',
+  AUDIO_PLAY: 'mf:audio-play',
+  AUDIO_CLOSE: 'mf:audio-close',
+  AUDIO_PLAYBACK_STATE: 'mf:audio-playback-state',
+  AUDIO_TOGGLE_PLAY: 'mf:audio-toggle-play',
+  AUDIO_SEEK: 'mf:audio-seek',
+  AUDIO_CHANGE_SPEED: 'mf:audio-change-speed',
+  AUDIO_SET_SLEEP_TIMER: 'mf:audio-set-sleep-timer',
+  AUDIO_QUEUE: 'mf:audio-queue',
+  AUDIO_REMOVE_FROM_QUEUE: 'mf:audio-remove-from-queue',
 } as const;
 
 // Data-sync events (invalidation signals — no payload)
@@ -52,6 +69,13 @@ export const AppEvents = {
   FAMILY_GAMES_CHANGED: 'family-games-changed',
   DOC_SCANNER_CHANGED: 'doc-scanner-changed',
   HIKING_ROUTES_CHANGED: 'hiking-routes-changed',
+  SHARED_FILES_CHANGED: 'shared-files-changed',
+  BABY_MILESTONES_CHANGED: 'baby-milestones-changed',
+  BENCHMARK_CHANGED: 'benchmark-changed',
+  BOOKS_CHANGED: 'books-changed',
+  BOOK_BOOKMARKS_CHANGED: 'book-bookmarks-changed',
+  WIDGET_LAYOUT_CHANGED: 'widget-layout-changed',
+  TRASH_CHANGED: 'trash-changed',
 } as const;
 
 // Keep WindowEvents alias for easier porting from web code
