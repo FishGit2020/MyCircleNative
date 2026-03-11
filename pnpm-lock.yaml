@@ -222,6 +222,12 @@ importers:
 
   packages/ai-assistant: {}
 
+  packages/ai-interviewer:
+    dependencies:
+      '@mycircle/shared':
+        specifier: workspace:*
+        version: link:../shared
+
   packages/baby-tracker: {}
 
   packages/bible-reader: {}
