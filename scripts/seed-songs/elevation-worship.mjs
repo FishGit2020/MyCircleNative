@@ -678,6 +678,457 @@ God will turn it for my [E]good
     bpm: 128,
     tags: ["worship","hope","expectation"],
   },
+  {
+    title: "Worthy",
+    artist: "Elevation Worship",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Worthy is the [F]Lamb who was slain
+[Gm]Holy, holy [Eb]is He
+[Bb]Sing a new song [F]to Him who sits on
+[Gm]Heaven's mercy [Eb]seat
+
+[Bb]Worthy is the [F]Lamb
+[Gm]Worthy is the [Eb]Lamb
+[Bb]You are holy, [F]holy
+[Gm]Are You Lord God Al[Eb]mighty`,
+    notes: "Powerful coronation anthem. Majestic and reverent.",
+    bpm: 72,
+    tags: ["worship","holiness","adoration"],
+  },
+  {
+    title: "Open Up Our Eyes",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]We've been standing on the [D]sidelines
+[Em]Watching people pass us [C]by
+[G]We've been walking with our [D]eyes closed
+[Em]Not seeing what's a[C]live
+
+[G]Open up our [D]eyes, open up our [Em]eyes
+[C]Lord we want to [G]see You
+[G]Open up our [D]eyes, give us hearts to [Em]find
+[C]Every soul that's hurting`,
+    notes: "Missions-focused anthem. Energetic and purposeful.",
+    bpm: 130,
+    tags: ["worship","missions","compassion"],
+  },
+  {
+    title: "Fullness",
+    artist: "Elevation Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Christ in me, the [B]hope of glory
+[C#m]Taste and see the [A]living Word
+[E]Holy Spirit [B]breathe upon me
+[C#m]Fill me with the [A]fullness Lord
+
+[E]I want the fullness of [B]Your presence
+[C#m]I want it all, [A]I want it all
+[E]Every piece of [B]my existence
+[C#m]Filled with You and [A]nothing else`,
+    notes: "Prayerful and yearning. Build from quiet start to full sound.",
+    bpm: 66,
+    tags: ["worship","holy spirit","fullness"],
+  },
+  {
+    title: "At Midnight",
+    artist: "Elevation Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]When the darkness [G]closes in
+[Am]And the walls are [F]pressing tight
+[C]I will choose to [G]worship Him
+[Am]I will praise at [F]midnight
+
+[C]At midnight, [G]at midnight
+[Am]My praise will still be [F]on my lips
+[C]Chains are falling, [G]prison shaking
+[Am]When we praise at [F]midnight`,
+    notes: "Acts 16 theme - Paul & Silas. Build intensity through repetition.",
+    bpm: 76,
+    tags: ["worship","faith","breakthrough"],
+  },
+  {
+    title: "Faithful (Elevation Worship)",
+    artist: "Elevation Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]From beginning [A]to the end
+[Bm]You have always [G]been faithful
+[D]And You will be [A]again
+[Bm]You have always [G]been faithful
+
+[D]Faithful, [A]faithful
+[Bm]This is who You [G]are
+[D]Faithful, [A]faithful
+[Bm]From the start You [G]were`,
+    notes: "Chris Brown lead. Steady, reassuring rhythm. Testimony feel.",
+    bpm: 70,
+    tags: ["worship","faithfulness","testimony"],
+  },
+  {
+    title: "Might Get Loud",
+    artist: "Elevation Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]I was gonna keep it [E]down
+[F#m]I was gonna keep it [D]quiet
+[A]But Your love is just [E]too good
+[F#m]I'm sorry but it [D]might get loud
+
+[A]It might get [E]loud in here
+[F#m]It might get [D]loud
+[A]When I think about Your [E]goodness
+[F#m]I can't keep it to my[D]self`,
+    notes: "High-energy celebration. Chris Brown lead. Clap along feel.",
+    bpm: 144,
+    tags: ["praise","celebration","joy"],
+  },
+  {
+    title: "Make Room",
+    artist: "Elevation Worship",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]I find space to [F]face the One
+[Gm]Who made it all and [Eb]makes it new
+[Bb]Shake up my [F]priorities
+[Gm]Clear the way for [Eb]what is true
+
+[Bb]Here I am, [F]make room
+[Gm]Lord I'm running [Eb]to You
+[Bb]Here I am, [F]make room
+[Gm]I need more of [Eb]You`,
+    notes: "Jonathan McReynolds / Elevation collab. Intimate and sincere.",
+    bpm: 68,
+    tags: ["worship","prayer","surrender"],
+  },
+  {
+    title: "Million Little Miracles",
+    artist: "Elevation Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Looking back now [G]it all connects
+[Am]God has been good and [F]He ain't done yet
+[C]Standing here now [G]there's no more doubt
+[Am]There's a million little [F]reasons to shout
+
+[C]A million little [G]miracles
+[Am]A million little [F]miracles
+[C]He's done a million [G]little miracles
+[Am]A million little miracles [F]for me`,
+    notes: "Maverick City crossover. Joyful testimony. Let the band groove.",
+    bpm: 132,
+    tags: ["praise","testimony","gratitude"],
+  },
+  {
+    title: "This Is the Kingdom",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]This is the [D]kingdom
+[Em]This is the [C]kingdom of our God
+[G]Where the broken are [D]mended
+[Em]The lost ones are [C]found
+
+[G]This is the [D]kingdom, this is the [Em]kingdom
+[C]Where love reigns [G]forever
+[G]And mercy is [D]free
+[Em]This is the [C]kingdom`,
+    notes: "Pat Barrett / Elevation worship. Kingdom-focused, warm and inclusive.",
+    bpm: 74,
+    tags: ["worship","kingdom","love"],
+  },
+  {
+    title: "Be Lifted High",
+    artist: "Elevation Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Sing it out [B]let the redeemed
+[C#m]Of the Lord say [A]so
+[E]Sing it out and [B]lift His name up
+[C#m]Let the whole world [A]know
+
+[E]Be lifted [B]high, be lifted [C#m]high
+[A]Your name be lifted [E]high
+[E]Be lifted [B]high, be lifted [C#m]high
+[A]Jesus be lifted [E]high`,
+    notes: "Classic Elevation anthem. Full energy from the start.",
+    bpm: 136,
+    tags: ["praise","exaltation","anthem"],
+  },
+  {
+    title: "Name Above All Names",
+    artist: "Elevation Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Name above all [E]names
+[F#m]Worthy of all [D]praise
+[A]My heart will sing how [E]great is our God
+[F#m]Name above all [D]names
+
+[A]You deserve the [E]glory
+[F#m]And the honor [D]Lord
+[A]At the name of [E]Jesus
+[F#m]Every knee will [D]bow`,
+    notes: "Tiffany Hudson lead. Exalting the name of Jesus.",
+    bpm: 72,
+    tags: ["worship","name of Jesus","adoration"],
+  },
+  {
+    title: "More Than Able",
+    artist: "Elevation Worship",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Who am I to [F]deny what the Lord has said
+[Gm]Who am I to say [Eb]that He can't do it again
+[Bb]You're the God of [F]miracles
+[Gm]Nothing is im[Eb]possible
+
+[Bb]You are more than [F]able
+[Gm]You are more than [Eb]able
+[Bb]Abundantly above [F]all we could ask or think
+[Gm]You're more than [Eb]able`,
+    notes: "Elevation x Maverick City. Anthemic bridge builds to peak.",
+    bpm: 78,
+    tags: ["worship","faith","declaration"],
+  },
+  {
+    title: "Here As in Heaven",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]The atmosphere is [D]changing now
+[Em]For the Spirit of [C]the Lord is here
+[G]The evidence is [D]all around
+[Em]That the Spirit of [C]the Lord is here
+
+[G]Here as in [D]heaven
+[Em]Let it be [C]here as in heaven
+[G]Here as in [D]heaven
+[Em]Your kingdom [C]come
+[G]On earth as in [D]heaven`,
+    notes: "Kingdom-minded, atmospheric. Let the room fill with praise.",
+    bpm: 68,
+    tags: ["worship","presence","kingdom"],
+  },
+  {
+    title: "First Things First",
+    artist: "Elevation Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Before I bring my [E]need
+[F#m]I will bring my [D]heart
+[A]Before I lift my [E]cares
+[F#m]I will lift my [D]arms to You
+
+[A]First things [E]first
+[F#m]I seek Your [D]face
+[A]First things [E]first
+[F#m]I give You [D]praise`,
+    notes: "Priority of worship before petition. Intimate, acoustic feel.",
+    bpm: 66,
+    tags: ["worship","devotion","priority"],
+  },
+  {
+    title: "What I See",
+    artist: "Elevation Worship",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]I don't see what [G]everyone else sees
+[Am]Where they see a [F]dead end I see the Red Sea
+[C]I don't see what [G]everyone else sees
+[Am]Where they see [F]impossible I see You
+
+[C]What I see is a [G]God who won't give up
+[Am]What I see is a [F]love that never stops
+[C]What I see is [G]victory ahead
+[Am]My God is [F]not done yet`,
+    notes: "Chris Brown lead. Faith over sight. Upbeat and hopeful.",
+    bpm: 126,
+    tags: ["worship","faith","perspective"],
+  },
+  {
+    title: "Then He Rose",
+    artist: "Elevation Worship",
+    originalKey: "F",
+    format: "chordpro",
+    content: `[F]They laid Him in [C]the ground
+[Dm]They thought it was [Bb]over now
+[F]The stone was sealed, the [C]guards were set
+[Dm]Hope was gone, or [Bb]so they said
+
+[F]Then He rose, [C]then He rose
+[Dm]Up from the grave in [Bb]power
+[F]Then He rose, [C]then He rose
+[Dm]Death could not hold [Bb]Him down`,
+    notes: "Easter celebration. Build dramatically to the chorus.",
+    bpm: 80,
+    tags: ["worship","resurrection","Easter"],
+  },
+  {
+    title: "Known",
+    artist: "Elevation Worship",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]You have searched me [A]and You know me
+[Bm]You know when I [G]sit and when I rise
+[D]You see my thoughts [A]from afar
+[Bm]And every word [G]before it starts
+
+[D]I am known, [A]I am known
+[Bm]Fully known and [G]fully loved
+[D]I am known, [A]I am known
+[Bm]Nothing hidden [G]from Your love`,
+    notes: "Psalm 139 inspired. Jonsal Barrientes. Warm and comforting.",
+    bpm: 70,
+    tags: ["worship","identity","intimacy"],
+  },
+  {
+    title: "Available",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I just want to [D]be available
+[Em]I just want to [C]be where You are
+[G]Not my own a[D]genda
+[Em]But whatever [C]You have for me
+
+[G]Here I am, [D]available
+[Em]Use me Lord, [C]I'm available
+[G]Every part of [D]me surrendered
+[Em]I am [C]available`,
+    notes: "Surrender posture. Simple and singable. Great for response time.",
+    bpm: 72,
+    tags: ["worship","surrender","service"],
+  },
+  {
+    title: "Paradoxology",
+    artist: "Elevation Worship",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]The more I seek [F]the more I find
+[Gm]The more I find [Eb]the more I seek You
+[Bb]I lose my life [F]to find it in You
+[Gm]In weakness I [Eb]am strong
+
+[Bb]This is the [F]paradox of grace
+[Gm]Losing every[Eb]thing to gain
+[Bb]You give and [F]take away
+[Gm]And still I [Eb]choose to praise`,
+    notes: "Deep theological lyrics. Medium build with contemplative feel.",
+    bpm: 74,
+    tags: ["worship","theology","grace"],
+  },
+  {
+    title: "Got What I Got",
+    artist: "Elevation Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I could be anywhere [B]doing anything
+[C#m]But I got what I [A]got and that's everything
+[E]Every door You [B]opened or closed
+[C#m]Every yes and [A]no brought me here
+
+[E]I got what I [B]got because of You
+[C#m]I am what I [A]am because of grace
+[E]Got what I got and [B]I'm grateful
+[C#m]Wouldn't change a [A]thing`,
+    notes: "Gratitude anthem. Chris Brown lead. Feel-good energy.",
+    bpm: 120,
+    tags: ["praise","gratitude","testimony"],
+  },
+  {
+    title: "My Testimony",
+    artist: "Elevation Worship",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]The enemy tried to [E]take me out
+[F#m]Tried to write [D]my story
+[A]But this is my [E]testimony
+[F#m]Greater is the [D]One in me
+
+[A]I've got a testi[E]mony
+[F#m]I've got a testi[D]mony
+[A]Look what the Lord has [E]done
+[F#m]Look what the Lord [D]has done for me`,
+    notes: "Tiffany Hudson lead. Soulful testimony, let it build to celebration.",
+    bpm: 82,
+    tags: ["worship","testimony","victory"],
+  },
+  {
+    title: "Bow Down",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Every idol, [D]every lie
+[Em]Every weight that [C]holds me down
+[G]I lay them at Your [D]feet right now
+[Em]Lord I bow [C]down
+
+[G]I bow down, [D]I bow down
+[Em]At the feet of [C]Jesus
+[G]I bow down, [D]I bow down
+[Em]You alone are [C]worthy`,
+    notes: "Reverent, posture of humility. Strip back instrumentation.",
+    bpm: 62,
+    tags: ["worship","surrender","humility"],
+  },
+  {
+    title: "Breakthrough",
+    artist: "Elevation Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I hear the sound of [B]a breakthrough coming
+[C#m]I hear the sound of [A]a breakthrough now
+[E]Chains are breaking, [B]walls are shaking
+[C#m]Heaven's door is [A]opening wide
+
+[E]Breakthrough, break[B]through
+[C#m]Let the praise break [A]through
+[E]Breakthrough, break[B]through
+[C#m]You're the God of [A]breakthroughs`,
+    notes: "High-energy declaration. Big drums, full band. Great opener.",
+    bpm: 140,
+    tags: ["praise","breakthrough","declaration"],
+  },
+  {
+    title: "Talking to Jesus",
+    artist: "Elevation Worship",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I've been talking to [D]Jesus
+[Em]He said everything's gonna [C]be alright
+[G]I've been walking with [D]Jesus
+[Em]He dried the tears [C]from my eyes
+
+[G]There's nothing like [D]talking to Jesus
+[Em]There's nobody [C]like Him
+[G]In the morning, in the [D]evening
+[Em]He's the friend that [C]sticks closer than a brother`,
+    notes: "Maverick City crossover. Intimate, conversational. Acoustic-led.",
+    bpm: 68,
+    tags: ["worship","prayer","intimacy"],
+  },
+  {
+    title: "Bye Bye Babylon",
+    artist: "Elevation Worship",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Bye bye Baby[B]lon
+[C#m]I'm leaving you [A]now
+[E]I'm letting go of [B]everything
+[C#m]That's been weighing [A]me down
+
+[E]Bye bye Baby[B]lon
+[C#m]There's a better [A]land
+[E]I'm walking out of [B]captivity
+[C#m]Into the promised [A]land`,
+    notes: "Maverick City crossover. Freedom anthem. Clap-along energy.",
+    bpm: 134,
+    tags: ["praise","freedom","deliverance"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

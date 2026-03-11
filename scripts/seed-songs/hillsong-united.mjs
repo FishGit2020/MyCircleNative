@@ -331,6 +331,461 @@ For I am [D]Yours [A]and You are [Bm]mine
     bpm: 66,
     tags: ["worship","comfort","presence"],
   },
+  {
+    title: "Hosanna (UNITED)",
+    artist: "Hillsong UNITED",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I see the King of [B]Glory
+[C#m]Coming on the clouds with [A]fire
+[E]The whole earth shakes, the [B]whole earth shakes
+[C#m]I see His love and [A]mercy
+
+[E]Hosanna, [B]hosanna
+[C#m]Hosanna in the [A]highest
+[E]Hosanna, [B]hosanna
+[C#m]Hosanna in the [A]highest
+
+[E]I see a generation [B]rising up to take their place
+[C#m]With selfless faith, [A]selfless faith
+[E]Heal my heart and [B]make it clean
+[C#m]Open up my eyes to the [A]things unseen`,
+    notes: "UNITED's live arrangement with extended electric guitar outro.",
+    bpm: 134,
+    tags: ["praise","anthem","declaration"],
+  },
+  {
+    title: "From the Inside Out (UNITED)",
+    artist: "Hillsong UNITED",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]A thousand times I've [D]failed
+[Em]Still Your mercy re[C]mains
+[G]And should I stumble [D]again
+[Em]I'm caught in Your [C]grace
+
+[G]Everlasting, [D]Your light will shine when
+[Em]All else [C]fades
+[G]Never ending, [D]Your glory goes be[Em]yond all [C]fame
+
+[G]In my heart, in my [D]soul, Lord I give You con[Em]trol
+[C]Consume me from the [G]inside out Lord
+[D]Let justice and [Em]praise become my em[C]brace
+To love You from the [G]inside out`,
+    notes: "UNITED live staple. Extended bridge builds with electric guitar.",
+    bpm: 75,
+    tags: ["worship","grace","devotion"],
+  },
+  {
+    title: "Like an Avalanche",
+    artist: "Hillsong UNITED",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]With the fury of the [F]skies
+[Gm]So is the force of Your [Eb]love
+[Bb]With the beauty of the [F]sunrise
+[Gm]So is the wonder of Your [Eb]grace
+
+[Bb]Like an ava[F]lanche, like an avalanche
+[Gm]Coming after [Eb]me
+[Bb]Like an ava[F]lanche of Your glory
+[Gm]Consuming every[Eb]thing
+
+[Bb]Nothing can stop Your [F]love
+[Gm]Nothing can stop Your [Eb]love for me
+[Bb]Nothing can stop Your [F]love
+[Gm]You are relentless [Eb]in Your pursuit of me`,
+    notes: "Big atmospheric build, layers of synths and guitars.",
+    bpm: 72,
+    tags: ["worship","love","pursuit"],
+  },
+  {
+    title: "Desert Song (UNITED)",
+    artist: "Hillsong UNITED",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]This is my prayer in the [F]desert
+[Gm]When all that's within me feels [Eb]dry
+[Bb]This is my prayer in the [F]hunger in me
+[Gm]My God is the God who pro[Eb]vides
+
+[Bb]This is my prayer in the [F]fire
+[Gm]In weakness or trial or [Eb]pain
+[Bb]There is a faith proved of [F]more worth than gold
+[Gm]So refine me Lord through the [Eb]flame
+
+[Bb]I will bring [F]praise, I will bring [Gm]praise
+[Eb]No weapon formed against me shall [Bb]remain
+[F]I will rejoice, I will de[Gm]clare
+[Eb]God is my victory and He is [Bb]here`,
+    notes: "Season-of-testing anthem. Builds from intimate to triumphant.",
+    bpm: 66,
+    tags: ["worship","perseverance","faith","lament"],
+  },
+  {
+    title: "Scandal of Grace",
+    artist: "Hillsong UNITED",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Grace, what have You [B]done
+[C#m]Murdered for me on that [A]cross
+[E]Accused in absence of [B]wrong
+[C#m]My sin washed away in Your [A]blood
+
+[E]Too much to make [B]sense of it all
+[C#m]I know that Your love breaks my [A]fall
+[E]The scandal of [B]grace
+[C#m]You died in my [A]place so my soul will live
+
+[E]Oh to be like [B]You, give all I have just to [C#m]know You
+[A]Jesus, there's no one be[E]side You
+[B]Forever the hope in my [C#m]heart[A]`,
+    notes: "Joel Houston lyric. Reflective verse, explosive chorus.",
+    bpm: 68,
+    tags: ["worship","grace","cross","salvation"],
+  },
+  {
+    title: "Take Heart",
+    artist: "Hillsong UNITED",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]What can make the [F]blind to see
+[Gm]Open up the [Eb]door of dawn
+[Bb]What can raise the [F]dead to life
+[Gm]Speak the word and [Eb]it is done
+
+[Bb]Take heart, [F]let His love lead us through the [Gm]night
+[Eb]Hold on to hope and take [Bb]courage again
+[F]Take heart, [Gm]take heart
+[Eb]In the kindness of our [Bb]God
+
+[Bb]Beyond the shadow of a [F]doubt
+[Gm]His love will not run [Eb]out
+[Bb]From the ashes we can [F]rise
+[Gm]In this broken [Eb]beautiful life`,
+    notes: "Encouraging anthem for difficult seasons. Orchestral swells.",
+    bpm: 70,
+    tags: ["worship","encouragement","hope"],
+  },
+  {
+    title: "Prince of Peace",
+    artist: "Hillsong UNITED",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]My heart a storm, [G]clouds raging deep within
+[Am]The Prince of Peace [F]came bursting through the wind
+[C]The violent sky held [G]its breath
+[Am]And in Your light I [F]find rest
+
+[C]You are the [G]Prince of Peace
+[Am]And I will [F]live for You alone
+[C]You are the [G]Prince of Peace
+[Am]And I will [F]follow You back home
+
+[Am]It is well, [G]it is well
+[F]With my [C]soul
+[Am]It is well, [G]it is well
+[F]With my [C]soul`,
+    notes: "Beautiful peace anthem, ethereal production, Hillsong UNITED Live.",
+    bpm: 64,
+    tags: ["worship","peace","rest","trust"],
+  },
+  {
+    title: "Good Grace",
+    artist: "Hillsong UNITED",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]People, what a [D]beautiful name
+[Em]Children of the [C]Great I Am
+[G]How sweet the [D]sound of saving grace
+[Em]How sweet the [C]sound
+
+[G]God's great dance [D]floor, I was dead in my sin
+[Em]You called me [C]out, called me into life again
+[G]How great the [D]kindness of our God
+
+[G]Oh good grace, [D]oh I feel it
+[Em]Oh good grace, [C]I don't deserve it
+[G]Oh good grace, [D]You took my place
+[Em]Good God, good [C]grace`,
+    notes: "Upbeat and joyful. Great energy for opening worship. Festival feel.",
+    bpm: 142,
+    tags: ["worship","grace","joy","celebration"],
+  },
+  {
+    title: "As You Find Me",
+    artist: "Hillsong UNITED",
+    originalKey: "Eb",
+    format: "chordpro",
+    content: `[Eb]Lord, I come to [Bb]You as You find me
+[Cm]Not as I should [Ab]be but as I am
+[Eb]Cover me in [Bb]grace and love
+[Cm]Undeserving [Ab]as I am
+
+[Eb]All these broken [Bb]pieces, You pick them up
+[Cm]Don't let go, don't let [Ab]go of me
+[Eb]All these empty [Bb]spaces, Your love fills up
+[Cm]Don't let go, don't let [Ab]go
+
+[Eb]And I will praise [Bb]You as You find me
+[Cm]I will worship [Ab]You as You find me
+[Eb]Not of my own [Bb]merit
+[Cm]But Yours a[Ab]lone`,
+    notes: "Written with Ben Fielding. Vulnerable and raw.",
+    bpm: 68,
+    tags: ["worship","grace","vulnerability","acceptance"],
+  },
+  {
+    title: "Aftermath",
+    artist: "Hillsong UNITED",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Here in the after[E]math of mercy
+[F#m]Here in the throes of [D]enemy lines
+[A]Here in the thick of [E]Your redemption
+[F#m]Love is our battle [D]cry
+
+[A]You spread Your arms wide, [E]and took the world on
+[F#m]What love is [D]this
+[A]The aftermath of [E]what You've done for me
+[F#m]Is life and [D]liberty
+
+[A]We shout Your [E]name
+[F#m]We shout Your [D]name
+[A]All the heavens [E]roar the aftermath
+[F#m]Of Your great [D]love`,
+    notes: "Zion album track. Bold and cinematic. Electric guitar-driven.",
+    bpm: 136,
+    tags: ["worship","victory","love","declaration"],
+  },
+  {
+    title: "Heart Like Heaven",
+    artist: "Hillsong UNITED",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Oh God, give me a [A]heart like heaven
+[Bm]Give me a heart, [G]a heart like Yours
+[D]Oh God, give me a [A]hope undying
+[Bm]The kind that never [G]fades away
+
+[D]Here to eternity, [A]I'll sing of all You are
+[Bm]Here to eternity, [G]be glorified
+[D]Open up wide, [A]heart like heaven
+[Bm]Open up wide, [G]heart like Yours
+
+[D]Every hallelu[A]jah, every heart[Bm]beat
+[G]Breathing out Your [D]praise forever`,
+    notes: "Empires album. Dreamy atmosphere, layered synths. Mid-set worship.",
+    bpm: 130,
+    tags: ["worship","heart","devotion","eternity"],
+  },
+  {
+    title: "Know You Will",
+    artist: "Hillsong UNITED",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]When the ground beneath my [G]feet gives way
+[Am]And I hear the sound of [F]crashing waves
+[C]All I know is that You [G]never let go
+[Am]Though the skies may [F]fall
+
+[C]I know You will, [G]I know You will
+[Am]I know that You will [F]make a way
+[C]I know You will, [G]I know You will
+[Am]Carry me through the [F]storm
+
+[Am]Greater is He that is [G]in me
+[F]Greater is He than the [C]world
+[Am]Greater is He that is [G]in me
+[F]I know You [C]will`,
+    notes: "Faith declaration over fear. Builds with each chorus.",
+    bpm: 72,
+    tags: ["worship","faith","trust","hope"],
+  },
+  {
+    title: "Of Dirt and Grace",
+    artist: "Hillsong UNITED",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]We are the people of [F]dirt and grace
+[Gm]Called from the ashes to [Eb]walk in light
+[Bb]Named by the God of [F]second chances
+[Gm]Held in the arms of [Eb]love tonight
+
+[Bb]Of dirt and [F]grace
+[Gm]Of wind and [Eb]flame
+[Bb]Marked by Your [F]love
+[Gm]Saved by Your [Eb]name
+
+[Bb]From the dust You [F]raised us
+[Gm]From the ashes You have [Eb]called
+[Bb]All Your children [F]running
+[Gm]To the arms of a [Eb]faithful God`,
+    notes: "Title track from live album filmed in Israel. Earthy and raw.",
+    bpm: 68,
+    tags: ["worship","grace","redemption","identity"],
+  },
+  {
+    title: "People",
+    artist: "Hillsong UNITED",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]We are Your [B]church
+[C#m]We are the hope on [A]earth
+[E]Built on the promise of [B]the cross
+[C#m]Standing to[A]gether
+
+[E]This is a call to [B]the people of God
+[C#m]Look at what's in [A]front of us
+[E]Mountains and valleys, [B]highways and byways
+[C#m]Your love has no [A]borders
+
+[E]We are [B]people of the [C#m]great I Am
+[A]Church awake, church [E]alive
+[B]People of the great [C#m]I Am
+[A]We will not be silent`,
+    notes: "Title track. Missional anthem. Congregational energy.",
+    bpm: 140,
+    tags: ["worship","church","unity","missions"],
+  },
+  {
+    title: "Whole Heart (Hold Me Now)",
+    artist: "Hillsong UNITED",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Hold me now in the [D]hands that created
+[Em]The heavens [C]above
+[G]Hold me now in the [D]hands that were nailed
+[Em]To the cross for my [C]love
+
+[G]I can feel You [D]here, hold me now
+[Em]Hold me [C]now
+[G]With my whole [D]heart
+[Em]With my whole [C]heart
+
+[Em]I will [D]serve You, Lord, with all I am
+[C]With my whole [G]heart
+[Em]You have [D]my whole heart
+[C]You have [G]my whole heart`,
+    notes: "Tender commitment song. Acoustic simplicity with emotional build.",
+    bpm: 66,
+    tags: ["worship","commitment","devotion","surrender"],
+  },
+  {
+    title: "King of Majesty",
+    artist: "Hillsong UNITED",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Your throne forever [B]shall endure
+[C#m]Your crown a flame of [A]purity
+[E]Your splendour outshines [B]all the stars
+[C#m]Oh King of [A]Majesty
+
+[E]O God of [B]light and Lord of [C#m]love
+[A]Enthroned upon the [E]heavens above
+[B]With all I am I [C#m]worship You
+[A]King of Majesty
+
+[E]And I will stand, [B]and I will sing
+[C#m]Of Your great love, [A]my offering
+[E]Forever and a [B]day
+[C#m]You reign in [A]Majesty`,
+    notes: "Reuben Morgan classic from the UNITED catalogue. Majestic opener.",
+    bpm: 76,
+    tags: ["worship","kingship","praise","majesty"],
+  },
+  {
+    title: "Closer",
+    artist: "Hillsong UNITED",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]I am reaching for the [G]deep end
+[Am]I am closer to the [F]edge of who I am
+[C]Wide awake upon the [G]water
+[Am]On a sea of glass and [F]fire
+
+[C]Closer, I want to be [G]closer
+[Am]To everything You [F]are
+[C]Closer, I want to be [G]closer
+[Am]Take me further than [F]before
+
+[Am]Here I am at the [G]altar
+[F]Laying down every[C]thing
+[Am]Here I am at the [G]altar
+[F]Wanting more of [C]You`,
+    notes: "Dynamic worship moment, layers build through the bridge.",
+    bpm: 70,
+    tags: ["worship","intimacy","pursuit","surrender"],
+  },
+  {
+    title: "Search My Heart",
+    artist: "Hillsong UNITED",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Search my heart and [A]search my soul
+[Bm]There is nothing [G]else I want but more of You
+[D]Light the fire in [A]me again
+[Bm]Burn away what [G]doesn't look like You
+
+[D]Lord I give my [A]life to You
+[Bm]Here in this [G]moment
+[D]Lord I give my [A]life to You
+[Bm]All that I [G]am
+
+[D]You search the [A]depths of every heart
+[Bm]You know the way through [G]every dark
+[D]Lead me Lord in[A]to Your light
+[Bm]Lead me, Lord, to [G]life`,
+    notes: "Prayer of surrender. Slow build, congregational simplicity.",
+    bpm: 64,
+    tags: ["worship","surrender","prayer","purification"],
+  },
+  {
+    title: "Bones",
+    artist: "Hillsong UNITED",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Here I am at the [F]end of me
+[Gm]At the end of me, [Eb]at the start of You
+[Bb]Breathe Your life into [F]these dry bones
+[Gm]From the ashes a [Eb]fire is waking up
+
+[Bb]Can these bones [F]live, can these bones [Gm]live
+[Eb]Speak the word and I'll come a[Bb]live
+[F]Breathe on me, [Gm]breathe on me
+[Eb]Raise this valley of dry [Bb]bones
+
+[Bb]Feel the wind of [F]heaven blow
+[Gm]Spirit come and [Eb]fill this place
+[Bb]You can make these [F]dead bones walk
+[Gm]Open up the [Eb]grave`,
+    notes: "Ezekiel 37 inspired. Builds from whisper to roar. Festival anthem.",
+    bpm: 138,
+    tags: ["worship","resurrection","Holy Spirit","revival"],
+  },
+  {
+    title: "Welcome to the Fire",
+    artist: "Hillsong UNITED",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Step into the [D]blaze with me
+[Em]Feel the heat that [C]sets us free
+[G]All consuming, [D]all refining
+[Em]Burn away what's [C]left of me
+
+[G]Welcome to the fire, [D]welcome to the fire
+[Em]This is where the [C]real begins
+[G]Welcome to the fire, [D]welcome to the fire
+[Em]Lose your life and [C]find it here
+
+[Em]We are not a[D]fraid of the flames
+[C]Purify our [G]hearts, Lord
+[Em]In the furnace [D]of Your love
+[C]We come a[G]live`,
+    notes: "Bold and aggressive worship. Driving rhythm, full production.",
+    bpm: 144,
+    tags: ["worship","fire","purification","boldness"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

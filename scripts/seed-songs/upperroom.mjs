@@ -375,6 +375,279 @@ const SONGS = [
     bpm: 76,
     tags: ["worship","revelation","glory"],
   },
+  {
+    title: "Room for More",
+    artist: "UPPERROOM",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]There's always room for [D]more
+[Em]More of Your Spirit, [C]Lord
+[G]We make space in this [D]place
+[Em]For You to move and [C]pour
+
+[G]Room for more, [D]room for more
+[Em]We will never say [C]enough
+[G]Come and fill this [D]house
+[Em]There's room for [C]more`,
+    notes: "Invitational worship. Creates space for the Spirit to move.",
+    bpm: 70,
+    tags: ["worship","spirit","invitation"],
+  },
+  {
+    title: "Holy Spirit Come (UPPERROOM)",
+    artist: "UPPERROOM",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Holy Spirit [A]come
+[Bm]Fill this place with Your [G]presence
+[D]Holy Spirit [A]come
+[Bm]We need You [G]now
+
+[D]Like a rushing [A]wind
+[Bm]Like a fire with[G]in
+[D]Holy Spirit [A]come
+[Bm]Have Your way a[G]gain`,
+    notes: "Simple prayer song. Extended worship with spontaneous moments.",
+    bpm: 64,
+    tags: ["worship","holy spirit","prayer"],
+  },
+  {
+    title: "Abide",
+    artist: "UPPERROOM",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]I will abide in [G]You
+[Am]And You will abide in [F]me
+[C]Apart from You I can [G]do nothing
+[Am]So I remain in [F]You
+
+[C]Abide, [G]abide
+[Am]In the vine I will [F]stay
+[C]Your word in me, and [G]I in You
+[Am]I will abide [F]always`,
+    notes: "John 15 theme. Contemplative and peaceful.",
+    bpm: 60,
+    tags: ["worship","abiding","scripture"],
+  },
+  {
+    title: "What He Says About Me",
+    artist: "UPPERROOM",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]I am who He [E]says I am
+[F#m]I can do what He [D]says I can
+[A]I will go where He [E]says to go
+[F#m]This is what He says a[D]bout me
+
+[A]Chosen, called, and [E]set apart
+[F#m]Loved beyond what [D]I deserve
+[A]He says I'm [E]His
+[F#m]And that's enough for [D]me`,
+    notes: "Identity declaration. Confidence-building worship.",
+    bpm: 78,
+    tags: ["worship","identity","declaration"],
+  },
+  {
+    title: "Never Failing Love",
+    artist: "UPPERROOM",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Your love never [B]fails
+[C#m]It never gives [A]up
+[E]It never runs [B]out on me
+[C#m]Your love never [A]fails
+
+[E]On and on and [B]on and on it goes
+[C#m]It overwhelms and [A]satisfies my soul
+[E]And I never ever [B]have to be afraid
+[C#m]Your love never [A]fails`,
+    notes: "Assurance and comfort. Warm, congregational feel.",
+    bpm: 74,
+    tags: ["worship","love","assurance"],
+  },
+  {
+    title: "Encounter",
+    artist: "UPPERROOM",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]One encounter with [D]You
+[Em]Changes every[C]thing
+[G]One moment in Your [D]presence
+[Em]And I'll never be the [C]same
+
+[G]I came for an en[D]counter
+[Em]Not just a [C]song
+[G]Touch me, change me, [D]God
+[Em]I want an en[C]counter with You`,
+    notes: "Expectant and hungry. Sets atmosphere for ministry.",
+    bpm: 66,
+    tags: ["worship","encounter","presence"],
+  },
+  {
+    title: "Throne Room (UPPERROOM)",
+    artist: "UPPERROOM",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]We enter the [A]throne room
+[Bm]By the blood of the [G]Lamb
+[D]Boldly we come [A]before You
+[Bm]Into the holy [G]place
+
+[D]Worthy, worthy, [A]worthy
+[Bm]Is the Lamb upon the [G]throne
+[D]We bow before Your [A]majesty
+[Bm]The throne room is our [G]home`,
+    notes: "Hebrews 4:16. Reverent and majestic. Extended worship.",
+    bpm: 68,
+    tags: ["worship","throne","reverence"],
+  },
+  {
+    title: "Atmosphere",
+    artist: "UPPERROOM",
+    originalKey: "F",
+    format: "chordpro",
+    content: `[F]There's a shift in the [C]atmosphere
+[Dm]Heaven's coming [Bb]down right here
+[F]Can you feel it [C]changing
+[Dm]Something is [Bb]breaking through
+
+[F]In this atmo[C]sphere
+[Dm]Miracles are [Bb]happening
+[F]When Your people [C]worship You
+[Dm]The atmosphere [Bb]changes`,
+    notes: "Expectant, prophetic worship. Dynamic transitions.",
+    bpm: 72,
+    tags: ["worship","atmosphere","breakthrough"],
+  },
+  {
+    title: "Set Apart",
+    artist: "UPPERROOM",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Set apart for [E]You
+[F#m]Holy unto the [D]Lord
+[A]Consecrated and [E]called
+[F#m]For such a time as [D]this
+
+[A]I am Yours, [E]set apart
+[F#m]Every piece of my [D]heart
+[A]For Your purpose and [E]glory alone
+[F#m]I am set a[D]part`,
+    notes: "Consecration song. Quiet intensity, builds to declaration.",
+    bpm: 70,
+    tags: ["worship","consecration","holiness"],
+  },
+  {
+    title: "Come Alive",
+    artist: "UPPERROOM",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Dry bones come a[G]live
+[Am]In the name of [F]Jesus
+[C]Dead things come a[G]live
+[Am]At the sound of Your [F]voice
+
+[C]Come alive, [G]come alive
+[Am]Let faith arise [F]in this place
+[C]Breathe on us, [G]breathe on us
+[Am]And we will come a[F]live`,
+    notes: "Ezekiel 37 theme. Prophetic and faith-filled.",
+    bpm: 76,
+    tags: ["worship","revival","faith"],
+  },
+  {
+    title: "Holy Ghost",
+    artist: "UPPERROOM",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Holy Ghost, [B]come and fill this room
+[C#m]Holy Ghost, [A]we make room for You
+[E]Move in power, [B]move in fire
+[C#m]Holy Ghost, You're our [A]one desire
+
+[E]We want You, [B]Holy Ghost
+[C#m]More than anything we [A]know
+[E]Come and have Your [B]way
+[C#m]Holy Ghost, [A]come today`,
+    notes: "Pentecostal fire atmosphere. Urgent and passionate.",
+    bpm: 82,
+    tags: ["worship","holy spirit","fire"],
+  },
+  {
+    title: "Deep End",
+    artist: "UPPERROOM",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Take me to the [D]deep end
+[Em]Where my feet can't [C]touch the ground
+[G]I don't want the [D]shallow
+[Em]I want to be where [C]You are found
+
+[G]Into the deep, [D]into the deep
+[Em]I'm diving in with [C]all of me
+[G]Over my head in [D]Your love
+[Em]Take me to the [C]deep end`,
+    notes: "Luke 5:4 theme. Adventurous faith, total surrender.",
+    bpm: 74,
+    tags: ["worship","depth","surrender"],
+  },
+  {
+    title: "New Sound",
+    artist: "UPPERROOM",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]There's a new sound [A]rising
+[Bm]From the people of [G]God
+[D]A new song is [A]breaking through
+[Bm]A sound of praise and [G]awe
+
+[D]Can you hear the [A]new sound
+[Bm]Coming from the [G]ground
+[D]Heaven's frequency is [A]here
+[Bm]A brand new [G]sound`,
+    notes: "Prophetic and fresh. Builds from quiet to explosive.",
+    bpm: 80,
+    tags: ["worship","new sound","prophetic"],
+  },
+  {
+    title: "Awakening",
+    artist: "UPPERROOM",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]There's an awaken[F]ing
+[Gm]Stirring in the [Eb]land
+[Bb]Hearts are turning [F]back to You
+[Gm]Revival is at [Eb]hand
+
+[Bb]Wake up, wake [F]up
+[Gm]O sleeper a[Eb]rise
+[Bb]The light of Christ is [F]shining
+[Gm]An awakening has [Eb]come`,
+    notes: "Ephesians 5:14. Revival anthem. Builds with urgency.",
+    bpm: 78,
+    tags: ["worship","revival","awakening"],
+  },
+  {
+    title: "King of My Heart (UPPERROOM)",
+    artist: "UPPERROOM",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Let the King of my [G]heart
+[Am]Be the mountain where I [F]run
+[C]The fountain I drink [G]from
+[Am]Oh He is my [F]song
+
+[C]Let the King of my [G]heart
+[Am]Be the shadow where I [F]hide
+[C]The ransom for my [G]life
+[Am]Oh He is my [F]song
+
+[C]You are [G]good, good, [Am]oh
+[F]You are good, good, [C]oh`,
+    notes: "Devotional and personal. Let the chorus ring out.",
+    bpm: 72,
+    tags: ["worship","devotion","goodness"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

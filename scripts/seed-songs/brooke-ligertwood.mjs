@@ -361,6 +361,181 @@ const SONGS = [
     bpm: 72,
     tags: ["worship","identity","new creation"],
   },
+  {
+    title: "Defender of the Weak",
+    artist: "Brooke Ligertwood",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]You are the defender [D]of the weak
+[Em]Champion of the [C]broken-hearted
+[G]You lift the lowly [D]from the dust
+[Em]And seat them with the [C]princes
+
+[G]Defender of the [D]weak
+[Em]Father to the [C]fatherless
+[G]You fight for [D]me [C]Lord`,
+    notes: "Psalm 68:5 theme. Strength in tenderness.",
+    bpm: 68,
+    tags: ["worship","justice","defender"],
+  },
+  {
+    title: "Still I Will Praise",
+    artist: "Brooke Ligertwood",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]When the night is [E]long
+[F#m]And the answers don't [D]come
+[A]Still I will praise, [E]still I will praise
+[F#m]When the tears won't [D]stop
+
+[A]Still I will [E]praise You Lord
+[F#m]Still I will [D]praise
+[A]My heart will choose to [E]worship
+[F#m]In the valley and the [D]mountain [A]top`,
+    notes: "Habakkuk 3:17-18 inspired. Worship through suffering.",
+    bpm: 66,
+    tags: ["worship","perseverance","faith"],
+  },
+  {
+    title: "Rejoice (Brooke)",
+    artist: "Brooke Ligertwood",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Rejoice in the [A]Lord always
+[Bm]Again I say re[G]joice
+[D]Let your gentle spirit [A]be known to everyone
+[Bm]The Lord is [G]near
+
+[D]Rejoice, re[A]joice
+[Bm]Let all the earth re[G]joice
+[D]He has done great [A]things [G]`,
+    notes: "Philippians 4:4-5. Bright and joyful declaration.",
+    bpm: 120,
+    tags: ["worship","joy","declaration"],
+  },
+  {
+    title: "Open Arms (Brooke)",
+    artist: "Brooke Ligertwood",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]With open arms You [G]welcome me
+[Am]No shame, no fear, just [F]grace
+[C]Into the place where [G]I belong
+[Am]Held in Your em[F]brace
+
+[C]Open arms, [G]open heart
+[Am]You receive me [F]as I am
+[C]Nothing can separate me [G]from Your [F]love`,
+    notes: "Prodigal son imagery. Warm and welcoming.",
+    bpm: 64,
+    tags: ["worship","grace","acceptance"],
+  },
+  {
+    title: "What a Beautiful Name (Brooke Solo)",
+    artist: "Brooke Ligertwood",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]You were the Word at the [A]beginning
+[Bm]One with God the Lord Most [G]High
+[D]Your hidden glory in cre[A]ation
+[Bm]Now revealed in [G]You our Christ
+
+[D]What a beautiful [A]Name it is
+[Bm]What a beautiful [G]Name it is
+[D]The Name of [A]Jesus Christ my [Bm]King
+[G]What a beautiful [D]Name it is
+[A]Nothing compares to [Bm]this
+[G]What a beautiful [D]Name it is
+The Name of [A]Jesus [D]`,
+    notes: "Brooke solo arrangement of the Hillsong anthem. Stripped-back and intimate.",
+    bpm: 68,
+    tags: ["worship","name","Jesus"],
+  },
+  {
+    title: "Where My Heart Belongs",
+    artist: "Brooke Ligertwood",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]This is where my [B]heart belongs
+[C#m]Right here in Your [A]presence Lord
+[E]Nowhere else I'd [B]rather be
+[C#m]Than at Your [A]feet
+
+[E]Where my heart be[B]longs
+[C#m]Is where You [A]are
+[E]You are my [B]home [A]`,
+    notes: "Psalm 84:10 theme. Simple devotion.",
+    bpm: 62,
+    tags: ["worship","devotion","home"],
+  },
+  {
+    title: "Trust (Brooke)",
+    artist: "Brooke Ligertwood",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I will trust in [D]You alone
+[Em]When the path is un[C]certain
+[G]I will trust Your [D]sovereign hand
+[Em]Over every sea[C]son
+
+[G]Trust, I put my [D]trust in You
+[Em]Hope, my hope is [C]found in You
+[G]Lord of all I [D]trust in [C]You`,
+    notes: "Proverbs 3:5-6. Quiet confidence in God's plan.",
+    bpm: 66,
+    tags: ["worship","trust","faith"],
+  },
+  {
+    title: "Abide in Me",
+    artist: "Brooke Ligertwood",
+    originalKey: "F",
+    format: "chordpro",
+    content: `[F]Abide in me as [C]I abide in You
+[Dm]Let Your Word make [Bb]home in me
+[F]Apart from You I [C]can do nothing
+[Dm]You're the vine and [Bb]I'm the branch
+
+[F]Abide in [C]me
+[Dm]Let Your rivers of [Bb]living water flow
+[F]Abide in [C]me [Bb]Lord`,
+    notes: "John 15:4-5. Contemplative and prayerful.",
+    bpm: 58,
+    tags: ["worship","abiding","intimacy"],
+  },
+  {
+    title: "Morning Star",
+    artist: "Brooke Ligertwood",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Bright Morning [E]Star
+[F#m]Your light breaks through the [D]darkness
+[A]Hope of the [E]world
+[F#m]You shine for all to [D]see
+
+[A]Jesus, bright Morning [E]Star
+[F#m]Rising with healing [D]in Your wings
+[A]Dawn of redemption's [E]day [D]`,
+    notes: "Revelation 22:16. Dawn imagery worship. Hopeful.",
+    bpm: 70,
+    tags: ["worship","hope","light"],
+  },
+  {
+    title: "Lead Me On (Brooke)",
+    artist: "Brooke Ligertwood",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]Lead me on, [F]lead me on
+[Gm]Through the valley and the [Eb]shadow
+[Bb]Lead me on, [F]lead me on
+[Gm]I will follow where You [Eb]go
+
+[Bb]Your rod and staff they [F]comfort me
+[Gm]You prepare a [Eb]table
+[Bb]Lead me on [F]Lord [Eb]lead me on`,
+    notes: "Psalm 23:4 journey song. Trusting guidance.",
+    bpm: 64,
+    tags: ["worship","guidance","trust"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

@@ -427,6 +427,271 @@ const SONGS = [
     bpm: 134,
     tags: ["worship","invitation","joy"],
   },
+  {
+    title: "Consume Me",
+    artist: "Jesus Culture",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Like a fire, [E]like a rushing wind
+[F#m]Come breathe on [D]me again
+[A]Holy Spirit, [E]come and fill this place
+[F#m]Consume [D]me
+
+[A]Consume me, [E]consume me
+[F#m]Like a fire, [D]holy fire
+[A]Burn in me, [E]burn in me
+[F#m]Come consume [D]me, Lord`,
+    notes: "Passionate Holy Spirit song. Extended worship and ministry time.",
+    bpm: 76,
+    tags: ["worship","Holy Spirit","fire","surrender"],
+  },
+  {
+    title: "Beautiful",
+    artist: "Jesus Culture",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I see Your [D]face in every sunrise
+[Em]The colors of the [C]morning are inside Your eyes
+[G]The world a[D]wakes in the light of the [Em]day
+[C]I look up to the sky and say
+
+[G]You're beautiful, [D]You're beautiful
+[Em]God of the heavens, [C]beautiful
+[G]You're beautiful, [D]Lord, You are [C]beautiful`,
+    notes: "Kim Walker-Smith lead. Worshipful adoration, acoustic feel.",
+    bpm: 72,
+    tags: ["worship","beauty","adoration"],
+  },
+  {
+    title: "My Soul Longs for You",
+    artist: "Jesus Culture",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]My soul longs for [A]You
+[Bm]My soul longs for [G]You
+[D]Nothing else will [A]do
+[Bm]Nothing else will [G]do
+
+[D]I will lift my [A]eyes
+[Bm]To the maker of the [G]heavens
+[D]Where my help comes [A]from
+[Bm]My soul longs for [G]You`,
+    notes: "Deep longing worship. Great for intimate prayer settings.",
+    bpm: 66,
+    tags: ["worship","longing","prayer","hunger"],
+  },
+  {
+    title: "Holding Nothing Back",
+    artist: "Jesus Culture",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I'm not holding nothing [B]back
+[C#m]I surrender [A]all to You
+[E]I lay it down for [B]You alone
+[C#m]Every fear, every [A]doubt
+
+[E]Holding nothing [B]back
+[C#m]Holding nothing [A]back
+[E]I give You every[B]thing I have
+[C#m]I'm holding nothing [A]back`,
+    notes: "Full surrender anthem. Builds to passionate declaration.",
+    bpm: 78,
+    tags: ["worship","surrender","commitment"],
+  },
+  {
+    title: "One Thing Remains (JC)",
+    artist: "Jesus Culture",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Higher than the [D]mountains that I face
+[Em]Stronger than the [C]power of the grave
+[G]Constant in the [D]trial and the change
+[Em]One thing re[C]mains
+
+[G]Your love never [D]fails, it never gives [Em]up
+[C]It never runs out on [G]me
+[G]Your love never [D]fails, it never gives [Em]up
+[C]It never runs out on [G]me`,
+    notes: "Brian Johnson, Jeremy Riddle, Christa Black. Conference staple.",
+    bpm: 130,
+    tags: ["worship","love","faithfulness","anthem"],
+  },
+  {
+    title: "How He Loves (JC)",
+    artist: "Jesus Culture",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]He is jealous for [Am]me
+[F]Loves like a hurricane, [G]I am a tree
+[C]Bending beneath the [Am]weight of His wind
+[F]And [G]mercy
+
+[C]Oh how He loves us [Am]oh
+[F]Oh how He loves [G]us
+[C]How He loves [Am]us oh
+[F]So how He [G]loves us`,
+    notes: "John Mark McMillan cover. Kim Walker-Smith's arrangement is iconic.",
+    bpm: 72,
+    tags: ["worship","love","grace","classic"],
+  },
+  {
+    title: "Spirit Move",
+    artist: "Jesus Culture",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]We are calling [E]out to You
+[F#m]Spirit of God, [D]breathe in this room
+[A]Come like a wind, [E]come like a fire
+[F#m]Have Your way, have [D]Your way
+
+[A]Spirit move, [E]Spirit move
+[F#m]Fall on us [D]now
+[A]Spirit move, [E]Spirit move
+[F#m]We need Your [D]power now`,
+    notes: "Invocation of the Holy Spirit. Great for ministry time.",
+    bpm: 74,
+    tags: ["worship","Holy Spirit","prayer","revival"],
+  },
+  {
+    title: "Praise the Invisible",
+    artist: "Jesus Culture",
+    originalKey: "Bb",
+    format: "chordpro",
+    content: `[Bb]We will praise the [F]invisible
+[Gm]We will worship the [Eb]untouchable
+[Bb]We will trust in what [F]we cannot see
+[Gm]For His kingdom is [Eb]unshakeable
+
+[Bb]We praise You, [F]we praise You
+[Gm]The unseen [Eb]God who reigns
+[Bb]We praise You, [F]we praise the in[Eb]visible`,
+    notes: "Faith declaration. Hebrews 11 theme. Bold and anthemic.",
+    bpm: 80,
+    tags: ["worship","faith","declaration"],
+  },
+  {
+    title: "Arms Open Wide",
+    artist: "Jesus Culture",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]I stretch my hands [A]out to the sky
+[Bm]I cry Your name, [G]Abba Father
+[D]You are the one that [A]I rely on
+[Bm]Arms open [G]wide
+
+[D]With arms open [A]wide, I receive Your love
+[Bm]With arms open [G]wide, I give You everything
+[D]Arms open [A]wide, Lord I'm [G]Yours`,
+    notes: "Posture of receiving God's love. Quiet to building dynamic.",
+    bpm: 70,
+    tags: ["worship","surrender","love","openness"],
+  },
+  {
+    title: "Worship You Forever",
+    artist: "Jesus Culture",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]I will worship [D]You forever
+[Em]I will worship [C]You forever more
+[G]Not just for what [D]You've done
+[Em]But for who [C]You are
+
+[G]You are worthy of [D]all my praise
+[Em]All my days I will [C]worship You
+[G]I will worship [D]You for[C]ever`,
+    notes: "Kim Walker-Smith. Simple, repeatable declaration of devotion.",
+    bpm: 74,
+    tags: ["worship","devotion","eternal"],
+  },
+  {
+    title: "Running",
+    artist: "Jesus Culture",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]I'm running to [B]Your arms
+[C#m]I'm running to [A]Your arms
+[E]The riches of Your [B]love
+[C#m]Will always be e[A]nough
+
+[E]Nothing compares to [B]Your embrace
+[C#m]Light of the world for[A]ever reign
+[E]I'm running, [B]I'm running
+[C#m]Into Your [A]arms`,
+    notes: "Joyful pursuit of God. Upbeat and full of expectation.",
+    bpm: 132,
+    tags: ["worship","pursuit","joy"],
+  },
+  {
+    title: "Dance",
+    artist: "Jesus Culture",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]I come to [E]dance before the King
+[F#m]I come to [D]offer everything
+[A]Nothing is too [E]much to give
+[F#m]Everything belongs to [D]Him
+
+[A]I will dance, [E]I will sing
+[F#m]To be loved by [D]You is everything
+[A]I will dance, [E]I will dance
+[F#m]In the presence of [D]the King`,
+    notes: "Joyful celebration. David-like abandon in worship.",
+    bpm: 126,
+    tags: ["worship","joy","celebration","dance"],
+  },
+  {
+    title: "When You Walk in the Room",
+    artist: "Jesus Culture",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]When You walk in the [D]room
+[Em]Everything [C]changes
+[G]Darkness starts to [D]tremble
+[Em]At the sound of [C]Your great name
+
+[G]When You walk in the [D]room
+[Em]Sickness starts to [C]flee
+[G]Every hopeless [D]situation
+[Em]Ceases to [C]exist`,
+    notes: "Bryan and Katie Torwalt. Powerful testimony of God's presence.",
+    bpm: 78,
+    tags: ["worship","presence","power","healing"],
+  },
+  {
+    title: "Oh How I Love You",
+    artist: "Jesus Culture",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Oh how I love [A]You
+[Bm]Oh how I love [G]You Lord
+[D]With all of my [A]heart
+[Bm]With all of my [G]soul
+
+[D]You have my [A]heart, You have my [Bm]song
+[G]I will love You for[D]ever
+[D]Oh how I [A]love You, oh how I [G]love You Lord`,
+    notes: "Kim Walker-Smith. Deep and simple love song to God.",
+    bpm: 68,
+    tags: ["worship","love","devotion","adoration"],
+  },
+  {
+    title: "Victorious",
+    artist: "Jesus Culture",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]You have con[B]quered death and the grave
+[C#m]You have opened [A]up the way
+[E]We are victori[B]ous through Your name
+[C#m]Nothing can stand a[A]gainst
+
+[E]Victorious, [B]victorious
+[C#m]You make us [A]victorious
+[E]We overcome by [B]the blood of the Lamb
+[C#m]And the word of our tes[A]timony`,
+    notes: "Revelation 12:11. Bold declaration of victory through Christ.",
+    bpm: 134,
+    tags: ["worship","victory","declaration","spiritual warfare"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');

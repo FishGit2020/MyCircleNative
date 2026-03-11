@@ -665,6 +665,462 @@ It is a firm foun[G]dation`,
     bpm: 76,
     tags: ["worship","love","grace"],
   },
+  {
+    title: "Shepherd",
+    artist: "Bethel Music",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]The Lord is my [C]shepherd
+[Em]I shall not [D]want
+[G]He makes me lie [C]down in green pastures
+[Em]He leads me be[D]side still waters
+
+[G]You restore my [C]soul
+[Em]You guide me in [D]paths of righteousness
+[G]Even in the [C]valley
+[Em]I will fear no [D]evil
+[G]For You are [C]with me`,
+    notes: "Josh Baldwin. Psalm 23 adaptation. Gentle, pastoral feel.",
+    bpm: 72,
+    tags: ["worship","psalm","peace"],
+  },
+  {
+    title: "Come Up Here",
+    artist: "Bethel Music",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Come up here, [A]come up here
+[Bm]Let Me show you [G]what I see
+[D]From above the [A]noise and fear
+[Bm]There's a higher [G]place to be
+
+[D]Eyes have not [A]seen
+[Bm]Ears have not [G]heard
+[D]What You have pre[A]pared for me
+[Bm]Come up [G]here`,
+    notes: "Bethel worship moment. Build from whisper to full voice.",
+    bpm: 68,
+    tags: ["worship","invitation","heaven"],
+  },
+  {
+    title: "Over It All",
+    artist: "Bethel Music",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Over it all, [B]You are over it all
+[C#m]The cross before [A]me, the world behind me
+[E]No turning back, [B]no turning back
+[C#m]Your love is o[A]ver it all
+
+[E]Your blood still [B]speaks
+[C#m]It will never lose its [A]power
+[E]Over it [B]all, over it [A]all`,
+    notes: "Jenn Johnson. Atmospheric worship, layers build gradually.",
+    bpm: 70,
+    tags: ["worship","sovereignty","cross"],
+  },
+  {
+    title: "Throne Room",
+    artist: "Bethel Music",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Holy, holy [E]is the Lord
+[F#m]Heaven and earth are [D]full of Your glory
+[A]We enter in [E]to the throne room
+[F#m]With praise upon [D]our lips
+
+[A]Throne room, [E]we're standing in the throne room
+[F#m]Mercy and grace [D]before Your face
+[A]We've come to seek [E]You here`,
+    notes: "Steffany Gretzinger. Reverent and majestic. Let dynamics swell.",
+    bpm: 66,
+    tags: ["worship","holiness","presence"],
+  },
+  {
+    title: "After All (Holy)",
+    artist: "Bethel Music",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]After all You've [D]done
+[Em]I will praise You [C]more
+[G]After all I've [D]seen
+[Em]I believe You [C]still
+
+[G]Holy, [D]holy
+[Em]After all, You are [C]holy
+[G]Worthy of it [D]all
+[Em]After all, You are [C]holy`,
+    notes: "David Funk. Tender yet powerful. Repeated chorus builds intensity.",
+    bpm: 74,
+    tags: ["worship","holiness","gratitude"],
+  },
+  {
+    title: "Pour Over Me",
+    artist: "Bethel Music",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Spirit of the [G]living God
+[Am]Come and pour [F]over me
+[C]Fill this empty [G]vessel, Lord
+[Am]With Your love so [F]free
+
+[C]Pour over me, [G]pour over me
+[Am]Every good and [F]perfect gift
+[C]Lord, pour over [G]me`,
+    notes: "Kalley Heiligenthal. Soaking worship feel. Unhurried.",
+    bpm: 62,
+    tags: ["worship","holy spirit","soaking"],
+  },
+  {
+    title: "Praise Before My Breakthrough",
+    artist: "Bethel Music",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]I know the battle [E]isn't over
+[F#m]I know the war [D]isn't won
+[A]But I will praise You [E]in the waiting
+[F#m]I will praise be[D]fore it comes
+
+[A]I will praise be[E]fore my breakthrough
+[F#m]I will praise be[D]fore the dawn
+[A]Even in the [E]waiting, Lord
+[F#m]My praise goes [D]on and on`,
+    notes: "Bryan & Katie Torwalt. Faith-filled declaration before the answer.",
+    bpm: 78,
+    tags: ["worship","faith","breakthrough"],
+  },
+  {
+    title: "Born Again",
+    artist: "Bethel Music",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]You spoke the words and [A]all was born again
+[Bm]New creation [G]now I'm born again
+[D]Dead to this world, [A]alive in You
+[Bm]My old life is [G]gone
+
+[D]I've been born a[A]gain
+[Bm]I've been born a[G]gain
+[D]Everything has [A]changed
+[Bm]Since the day You [G]called my name`,
+    notes: "High-energy testimony song. Celebrate the new birth.",
+    bpm: 132,
+    tags: ["worship","testimony","new life"],
+  },
+  {
+    title: "Deep Cries Out",
+    artist: "Bethel Music",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Deep cries out to [B]deep
+[C#m]At the sound of [A]waterfalls
+[E]All Your waves and [B]breakers
+[C#m]Sweep over [A]me
+
+[E]My soul thirsts for [B]the living God
+[C#m]When shall I come and [A]appear before You
+[E]Deep cries out to [B]deep
+[C#m]My soul longs for [A]You`,
+    notes: "Psalm 42 theme. Flowing, water-like musical feel.",
+    bpm: 66,
+    tags: ["worship","longing","psalm"],
+  },
+  {
+    title: "New Wine",
+    artist: "Bethel Music",
+    originalKey: "B",
+    format: "chordpro",
+    content: `[B]In the crushing, [G#m]in the pressing
+[E]You are making [F#]new wine
+[B]In the soil I [G#m]now surrender
+[E]You are breaking [F#]new ground
+
+[B]So I yield to [G#m]You and to Your careful hand
+[E]When I trust You [F#]I don't need to understand
+[B]Make me Your [G#m]vessel
+[E]Make me an [F#]offering
+[B]Make me what[G#m]ever You want me to [E]be`,
+    notes: "Hillsong Worship (performed by Bethel). Surrender anthem.",
+    bpm: 68,
+    tags: ["worship","surrender","transformation"],
+  },
+  {
+    title: "Garden",
+    artist: "Bethel Music",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]And I come to the [C]garden alone
+[Em]While the dew is [D]still on the roses
+[G]And the voice I [C]hear falling on my ear
+[Em]The Son of God [D]discloses
+
+[G]And He walks with [C]me and He talks with [Em]me
+[D]And He tells me I am His [G]own
+[G]And the joy we [C]share as we tarry [Em]there
+[D]None other has ever [G]known`,
+    notes: "Steffany Gretzinger reimagining of hymn. Intimate and unhurried.",
+    bpm: 58,
+    tags: ["worship","intimacy","hymn","classic"],
+  },
+  {
+    title: "Starlight",
+    artist: "Bethel Music",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]You call me out up[B]on the waters
+[C#m]The great un[A]known where feet may fail
+[E]When the stars light [B]up the heavens
+[C#m]I hear You [A]calling out my name
+
+[E]Starlight, star[B]light
+[C#m]Your glory fills [A]the night
+[E]And I will follow [B]You
+[C#m]Beyond the star[A]light`,
+    notes: "Amanda Cook. Ethereal, atmospheric. Great for night worship sets.",
+    bpm: 70,
+    tags: ["worship","wonder","creation"],
+  },
+  {
+    title: "We Won't Be Quiet",
+    artist: "Bethel Music",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]We won't be [E]quiet
+[F#m]We won't be [D]still
+[A]Our God is [E]mighty
+[F#m]And worthy [D]still
+
+[A]Every tongue will [E]shout it
+[F#m]All creation [D]sings
+[A]We won't be quiet [E]about our [D]King`,
+    notes: "Sean Feucht. Prophetic declaration. High energy and bold.",
+    bpm: 142,
+    tags: ["worship","declaration","praise"],
+  },
+  {
+    title: "Fierce",
+    artist: "Bethel Music",
+    originalKey: "B",
+    format: "chordpro",
+    content: `[B]Nothing can stop [E]Your fierce love
+[G#m]Crashing over [F#]us
+[B]Higher than the [E]highest wave
+[G#m]Deeper than the [F#]deepest sea
+
+[B]Your love is [E]fierce
+[G#m]Your love is [F#]wild
+[B]Your love is [E]fire
+[G#m]Burning for [F#]us`,
+    notes: "Jesus Culture / Bethel collab. Driving, passionate worship.",
+    bpm: 134,
+    tags: ["worship","love","passion"],
+  },
+  {
+    title: "Living Hope",
+    artist: "Bethel Music",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]How great the chasm that [Am]lay between us
+[F]How high the mountain I [G]could not climb
+[C]In desperation I [Am]turned to heaven
+[F]And spoke Your name [G]into the night
+
+[C]Then through the darkness Your [Am]loving kindness
+[F]Tore through the shadows [G]of my soul
+[C]The work is finished, the [Am]end is written
+[F]Jesus Christ my [G]living hope
+
+[C]Hallelujah, [Am]praise the One who set me free
+[F]Hallelujah, [G]death has lost its grip on me
+[C]You have broken every [Am]chain
+[F]There's salvation in Your [G]name
+[C]Jesus Christ my living [Am]hope`,
+    notes: "Phil Wickham song, Bethel arrangement. Powerful Easter anthem.",
+    bpm: 74,
+    tags: ["worship","hope","resurrection"],
+  },
+  {
+    title: "Already Here",
+    artist: "Bethel Music",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Before I call [A]You answer
+[Bm]Before I speak [G]You know my name
+[D]Where I go You've [A]already been
+[Bm]You're already [G]here
+
+[D]Already here, al[A]ready here
+[Bm]In the middle of my [G]fear
+[D]You are already [A]here`,
+    notes: "Paul & Hannah McClure. Reassuring, intimate worship.",
+    bpm: 68,
+    tags: ["worship","presence","peace"],
+  },
+  {
+    title: "Victory Is Yours",
+    artist: "Bethel Music",
+    originalKey: "E",
+    format: "chordpro",
+    content: `[E]Every battle [B]every war
+[C#m]I know You've [A]already won
+[E]So I will sing a [B]victory song
+[C#m]The victory is [A]Yours
+
+[E]Nothing stands a[B]gainst Your name
+[C#m]Death and hell have [A]lost their claim
+[E]Victory is [B]Yours
+[C#m]Victory is [A]Yours`,
+    notes: "Bethany Wohrle. Triumphant and bold. Drive from the downbeat.",
+    bpm: 140,
+    tags: ["worship","victory","declaration"],
+  },
+  {
+    title: "Faithful",
+    artist: "Bethel Music",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Faithful, [C]You are faithful
+[Em]In the morning, [D]in the evening
+[G]You are faithful [C]God
+[Em]Through the valley, [D]to the mountain
+[G]You are faithful [C]still
+
+[G]I will hold on [C]to Your promise
+[Em]For Your faithful[D]ness endures
+[G]From beginning [C]to the end
+[Em]You are [D]faithful`,
+    notes: "Brian & Jenn Johnson. Testimony of God's faithfulness over the years.",
+    bpm: 72,
+    tags: ["worship","faithfulness","trust"],
+  },
+  {
+    title: "You Came (Lazarus)",
+    artist: "Bethel Music",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]When hope was buried [E]in the ground
+[F#m]When death was all [D]that we could see
+[A]You came and rolled [E]the stone away
+[F#m]You came and set [D]the captives free
+
+[A]You came, [E]You came
+[F#m]Into the darkest [D]place
+[A]You came, [E]You came
+[F#m]With resurrection [D]grace`,
+    notes: "Emmy Rose. Resurrection theme. Dramatic build throughout.",
+    bpm: 76,
+    tags: ["worship","resurrection","hope"],
+  },
+  {
+    title: "Mention of Your Name",
+    artist: "Bethel Music",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]At the mention of [A]Your name
+[Bm]Every knee will [G]bow
+[D]At the mention of [A]Your name
+[Bm]The mountains fall [G]down
+
+[D]There is power, [A]power
+[Bm]In the name of [G]Jesus
+[D]There is power, [A]power
+[Bm]At the mention [G]of Your name`,
+    notes: "Steffany Gretzinger. Name of Jesus focus. Build with authority.",
+    bpm: 74,
+    tags: ["worship","name of Jesus","power"],
+  },
+  {
+    title: "You Don't Miss a Thing",
+    artist: "Bethel Music",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]You don't miss a [G]thing
+[Am]You catch every [F]tear
+[C]When I'm overwhelmed [G]by the weight I carry
+[Am]You don't miss a [F]thing
+
+[C]Not a single [G]sparrow falls
+[Am]Without Your [F]knowing
+[C]You don't miss a [G]thing
+[Am]You count the [F]stars and call them each by [C]name`,
+    notes: "Amanda Cook. Comforting, pastoral. Great for prayer ministry.",
+    bpm: 64,
+    tags: ["worship","comfort","care"],
+  },
+  {
+    title: "Bethel Medley: Ever Be / This Is Amazing Grace",
+    artist: "Bethel Music",
+    originalKey: "G",
+    format: "chordpro",
+    content: `[G]Your love is [Em]holding me
+[C]It never lets me [D]go
+[G]And I will ever [Em]be
+[C]Undone by [D]You
+
+[G]Who breaks the [Em]power of sin and darkness
+[C]Whose love is [D]mighty and so much stronger
+[G]The King of [Em]Glory, the King above all kings
+[C]This is amazing [D]grace
+[G]This is amazing [Em]grace
+[C]Who brings our [D]chaos back into [G]order`,
+    notes: "Bethel medley arrangement. Flow between songs without pause.",
+    bpm: 72,
+    tags: ["worship","medley","grace"],
+  },
+  {
+    title: "We Dance",
+    artist: "Bethel Music",
+    originalKey: "A",
+    format: "chordpro",
+    content: `[A]Spin me around [E]in circles
+[F#m]Lead me into [D]love again
+[A]There is joy in [E]Your presence
+[F#m]And at Your right [D]hand
+
+[A]We dance, [E]we dance
+[F#m]In the river of [D]Your grace
+[A]We dance, [E]we dance
+[F#m]For You set the [D]captive free`,
+    notes: "Steffany Gretzinger. Joyful, free-flowing worship moment.",
+    bpm: 120,
+    tags: ["worship","joy","freedom"],
+  },
+  {
+    title: "Rest On Us",
+    artist: "Bethel Music",
+    originalKey: "D",
+    format: "chordpro",
+    content: `[D]Spirit of the [A]Living God
+[Bm]Come fall afresh [G]on me
+[D]Come wake me from [A]the dead
+[Bm]Come lead me [G]to life again
+
+[D]Holy Spirit [A]rest on us
+[Bm]We wait for [G]You
+[D]Holy Spirit [A]rest on us
+[Bm]We long for [G]You`,
+    notes: "Kalley & Josh Baldwin. Prayer for Holy Spirit. Soaking worship.",
+    bpm: 60,
+    tags: ["worship","holy spirit","prayer"],
+  },
+  {
+    title: "Prepare the Way",
+    artist: "Bethel Music",
+    originalKey: "C",
+    format: "chordpro",
+    content: `[C]Prepare the way [G]of the Lord
+[Am]Make straight a [F]path in the desert
+[C]Every valley [G]lifted up
+[Am]Every mountain [F]brought down low
+
+[C]Prepare the [G]way
+[Am]He is [F]coming
+[C]Prepare the [G]way
+[Am]The King is [F]here`,
+    notes: "Sean Feucht / Bethel. Isaiah 40 theme. Prophetic worship feel.",
+    bpm: 80,
+    tags: ["worship","prophetic","preparation"],
+  },
 ];
 
 const skipExisting = process.argv.includes('--skip-existing');
