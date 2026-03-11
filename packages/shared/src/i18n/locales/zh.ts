@@ -2631,6 +2631,8 @@ const zh: Record<TranslationKey, string> = {
   'aiInterviewer.model': '模型',
   'aiInterviewer.selectEndpoint': '选择端点',
   'aiInterviewer.selectModel': '选择模型',
+  'aiInterviewer.retry': '重试',
+  'aiInterviewer.selectModelFirst': '请先选择端点和模型',
   'nav.interview': '面试',
 };
 

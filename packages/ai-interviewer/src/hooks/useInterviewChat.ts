@@ -14,6 +14,7 @@ interface PersistedState {
   question: string;
   document: string;
   sessionId: string;
+  sessionName?: string;
 }
 
 const STORAGE_KEY = 'interview-chat-history';
@@ -108,6 +109,8 @@ export function useInterviewChat() {
   const questionRef = useRef<string>(persisted?.question ?? '');
   const documentRef = useRef<string>(persisted?.document ?? '');
   const sessionIdRef = useRef<string>(persisted?.sessionId ?? generateSessionId());
+  const sessionNameRef = useRef<string>(persisted?.sessionName ?? '');
+  const lastFailedRef = useRef<{ content: string; endpointId?: string; model?: string } | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [sessions] = useState<InterviewSession[]>([]);
@@ -120,6 +123,7 @@ export function useInterviewChat() {
         question: questionRef.current,
         document: documentRef.current,
         sessionId: sessionIdRef.current,
+        sessionName: sessionNameRef.current,
       });
     }
   }, [state.messages]);
@@ -152,6 +156,7 @@ export function useInterviewChat() {
         question: questionRef.current,
         document: documentRef.current,
         sessionId: sessionIdRef.current,
+        sessionName: sessionNameRef.current,
       });
     }
   }, [state.messages]);
@@ -209,20 +214,42 @@ export function useInterviewChat() {
         timestamp: Date.now(),
       };
 
+      lastFailedRef.current = null;
       setState(prev => ({
         ...prev,
         messages: [...prev.messages, assistantMessage],
         loading: false,
       }));
     } catch (err: unknown) {
+      lastFailedRef.current = { content, endpointId, model };
       const message = err instanceof Error ? err.message : 'Failed to get response';
       setState(prev => ({ ...prev, loading: false, error: message }));
     }
   }, [state.messages, aiChatMutation]);
 
+  // Generate a short session name from the question using AI
+  const generateSessionName = useCallback(async (question: string, endpointId?: string, model?: string) => {
+    try {
+      const { data } = await aiChatMutation({
+        variables: {
+          message: `Summarize this coding problem in 5 words or fewer as a short title. Reply with ONLY the title, no quotes or punctuation:\n\n${question}`,
+          history: [],
+          model,
+          endpointId,
+          systemPrompt: 'You are a helpful assistant. Respond with only the requested output.',
+        },
+      });
+      const name = data?.aiChat?.response?.trim();
+      if (name && name.length <= 60) {
+        sessionNameRef.current = name;
+      }
+    } catch { /* non-critical */ }
+  }, [aiChatMutation]);
+
   const startInterview = useCallback((question: string, endpointId?: string, model?: string) => {
     questionRef.current = question;
     sessionIdRef.current = generateSessionId();
+    sessionNameRef.current = '';
     setState({ messages: [], loading: false, error: null });
     setTimeout(() => {
       sendRawMessage(
@@ -231,7 +258,8 @@ export function useInterviewChat() {
         model,
       );
     }, 0);
-  }, [sendRawMessage]);
+    generateSessionName(question, endpointId, model);
+  }, [sendRawMessage, generateSessionName]);
 
   const sendMessage = useCallback((text: string, endpointId?: string, model?: string) => {
     sendRawMessage(text, endpointId, model);
@@ -261,10 +289,25 @@ export function useInterviewChat() {
     );
   }, [sendRawMessage]);
 
+  const retry = useCallback(() => {
+    if (!lastFailedRef.current) return;
+    const { content, endpointId, model } = lastFailedRef.current;
+    setState(prev => ({
+      ...prev,
+      messages: prev.messages.slice(0, -1),
+      error: null,
+    }));
+    setTimeout(() => {
+      sendRawMessage(content, endpointId, model);
+    }, 0);
+  }, [sendRawMessage]);
+
   const clearChat = useCallback(() => {
     questionRef.current = '';
     documentRef.current = '';
     sessionIdRef.current = generateSessionId();
+    sessionNameRef.current = '';
+    lastFailedRef.current = null;
     setState({ messages: [], loading: false, error: null });
     clearPersistedState();
     setSaveStatus('idle');
@@ -278,6 +321,7 @@ export function useInterviewChat() {
     error: state.error,
     question: questionRef.current,
     document: documentRef.current,
+    sessionId: sessionIdRef.current,
     hasPersistedSession,
     saveStatus,
     sessions,
@@ -288,6 +332,7 @@ export function useInterviewChat() {
     repeatQuestion,
     requestHint,
     endInterview,
+    retry,
     clearChat,
   };
 }

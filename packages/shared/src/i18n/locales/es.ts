@@ -2631,6 +2631,8 @@ const es: Record<TranslationKey, string> = {
   'aiInterviewer.model': 'Modelo',
   'aiInterviewer.selectEndpoint': 'Seleccionar punto de acceso',
   'aiInterviewer.selectModel': 'Seleccionar modelo',
+  'aiInterviewer.retry': 'Reintentar',
+  'aiInterviewer.selectModelFirst': 'Selecciona un punto de acceso y modelo primero',
   'nav.interview': 'Entrevista',
 };
 
