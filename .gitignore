@@ -55,3 +55,6 @@ play-store-key.json
 # EAS
 .easignore
 coverage/
+
+# Generated Skia web assets
+public/canvaskit.wasm
