@@ -128,6 +128,12 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'trail-sign-outline',
   },
   {
+    route: '/transit-tracker',
+    titleKey: 'transit.title',
+    descriptionKey: 'transit.subtitle',
+    icon: 'bus-outline',
+  },
+  {
     route: '/trash',
     titleKey: 'recycleBin.title',
     descriptionKey: 'recycleBin.subtitle',

@@ -69,6 +69,8 @@ export const AppEvents = {
   FAMILY_GAMES_CHANGED: 'family-games-changed',
   DOC_SCANNER_CHANGED: 'doc-scanner-changed',
   HIKING_ROUTES_CHANGED: 'hiking-routes-changed',
+  TRANSIT_CHANGED: 'transit-changed',
+  TRANSIT_FAVORITES_CHANGED: 'transit-favorites-changed',
   SHARED_FILES_CHANGED: 'shared-files-changed',
   BABY_MILESTONES_CHANGED: 'baby-milestones-changed',
   BENCHMARK_CHANGED: 'benchmark-changed',
@@ -136,6 +138,8 @@ export const StorageKeys = {
   FAMILY_GAMES_CACHE: 'family-games-cache',
   DOC_SCANNER_CACHE: 'doc-scanner-cache',
   HIKING_ROUTES_CACHE: 'hiking-routes-cache',
+  TRANSIT_RECENT_STOPS: 'transit-recent-stops',
+  TRANSIT_FAVORITES: 'transit-favorites',
   CHILDREN_LIST: 'children-list',
   CHECKED_MILESTONES: 'checked-milestones',
 } as const;
