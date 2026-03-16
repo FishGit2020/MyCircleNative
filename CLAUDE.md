@@ -105,4 +105,7 @@ Also: remove i18n keys from all 3 locales, remove feature package from `packages
 ## Docs
 
 - [README](./README.md) — Project overview, setup, features
+- [New Developer Setup](./docs/new-developer-setup.md) — Complete fresh-clone setup guide (start here)
 - [iOS Development Setup](./docs/ios-development-setup.md) — Build, App Check, device setup, troubleshooting
+- [Architecture](./docs/architecture.md) — Tech stack, data flow, monorepo structure, key patterns
+- [Known Issues & Improvements](./docs/known-issues-and-improvements.md) — Audit of issues to fix (stale docs, type errors, test failures)
