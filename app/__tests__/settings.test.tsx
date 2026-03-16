@@ -20,6 +20,7 @@ jest.mock('@mycircle/shared', () => ({
   StorageKeys: {
     TEMP_UNIT: 'tempUnit',
     SPEED_UNIT: 'speedUnit',
+    DISTANCE_UNIT: 'distanceUnit',
     THEME: 'theme',
     WEATHER_ALERTS: 'weather-alerts-enabled',
     ANNOUNCEMENT_ALERTS: 'announcement-alerts-enabled',
@@ -50,8 +51,7 @@ jest.mock('nativewind', () => ({
 
 // Keep references so tests can swap auth state
 const mockSignOut = jest.fn();
-const mockUpdateTempUnit = jest.fn();
-const mockUpdateSpeedUnit = jest.fn();
+const mockUpdateUnitSystem = jest.fn();
 
 let mockUser: { email: string; displayName: string } | null = {
   email: 'test@test.com',
@@ -64,8 +64,7 @@ jest.mock('../../src/contexts/AuthContext', () => ({
     profile: null,
     loading: false,
     signOut: mockSignOut,
-    updateTempUnit: mockUpdateTempUnit,
-    updateSpeedUnit: mockUpdateSpeedUnit,
+    updateUnitSystem: mockUpdateUnitSystem,
   }),
 }));
 
@@ -118,15 +117,15 @@ describe('SettingsScreen', () => {
     expect(screen.getByText('theme.dark')).toBeTruthy();
   });
 
-  it('renders temperature unit toggle with Celsius and Fahrenheit options', () => {
+  it('renders unit system toggle with Metric and US options', () => {
     render(<SettingsScreen />);
 
-    // The section header
-    expect(screen.getByText('Temperature')).toBeTruthy();
+    // The section header uses t('settings.units')
+    expect(screen.getByText('settings.units')).toBeTruthy();
 
-    // Temperature unit options (Unicode degree symbol)
-    expect(screen.getByText('\u00B0C')).toBeTruthy();
-    expect(screen.getByText('\u00B0F')).toBeTruthy();
+    // Unit system options
+    expect(screen.getByText('settings.unitSystemMetric')).toBeTruthy();
+    expect(screen.getByText('settings.unitSystemUS')).toBeTruthy();
   });
 
   it('renders sign out button when user is authenticated', () => {
@@ -154,13 +153,11 @@ describe('SettingsScreen', () => {
     expect(screen.getByText('test@test.com')).toBeTruthy();
   });
 
-  it('renders speed unit options', () => {
+  it('renders unit system hint text', () => {
     render(<SettingsScreen />);
 
-    expect(screen.getByText('units.speed')).toBeTruthy();
-    expect(screen.getByText('units.speedMs')).toBeTruthy();
-    expect(screen.getByText('units.speedMph')).toBeTruthy();
-    expect(screen.getByText('units.speedKmh')).toBeTruthy();
+    // Default is metric, so hint shows °C · km/h · km
+    expect(screen.getByText('\u00B0C \u00B7 km/h \u00B7 km')).toBeTruthy();
   });
 
   it('renders notification preference toggles', () => {
