@@ -315,6 +315,8 @@ importers:
 
   packages/daily-log: {}
 
+  packages/deal-finder: {}
+
   packages/digital-library: {}
 
   packages/doc-scanner: {}
@@ -337,6 +339,8 @@ importers:
 
   packages/radio-station: {}
 
+  packages/resume-tailor: {}
+
   packages/shared: {}
 
   packages/stocks: {}
@@ -350,9 +354,13 @@ importers:
         specifier: workspace:*
         version: link:../shared
 
+  packages/travel-map: {}
+
   packages/trip-planner: {}
 
   packages/weather: {}
+
+  packages/web-crawler: {}
 
   packages/worship-songs: {}
 
