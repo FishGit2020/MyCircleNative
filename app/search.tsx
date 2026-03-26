@@ -170,6 +170,30 @@ const SEARCH_ITEMS: SearchItem[] = [
     icon: 'bus-outline',
   },
   {
+    route: '/deal-finder',
+    titleKey: 'nav.dealFinder',
+    descriptionKey: 'deals.subtitle',
+    icon: 'pricetag-outline',
+  },
+  {
+    route: '/resume-tailor',
+    titleKey: 'nav.resumeTailor',
+    descriptionKey: 'resumeTailor.subtitle',
+    icon: 'document-attach-outline',
+  },
+  {
+    route: '/travel-map',
+    titleKey: 'nav.travelMap',
+    descriptionKey: 'travelMap.subtitle',
+    icon: 'map-outline',
+  },
+  {
+    route: '/web-crawler',
+    titleKey: 'nav.webCrawler',
+    descriptionKey: 'webCrawler.subtitle',
+    icon: 'globe-outline',
+  },
+  {
     route: '/trash',
     titleKey: 'recycleBin.title',
     descriptionKey: 'recycleBin.subtitle',
