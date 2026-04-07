@@ -177,6 +177,12 @@ export const StorageKeys = {
   READER_THEME: 'reader-theme',
   FAMILY_GAMES_PROFILES: 'family-games-profiles',
   FAMILY_GAMES_TOURNAMENT: 'family-games-tournament',
+  RADIO_RECENT: 'radio-recent',
+  RADIO_VOTED: 'radio-voted',
+  FLASHCARD_DECK_CARDS: 'flashcard-deck-cards',
+  BENCHMARK_SELECTED_PROMPTS: 'benchmark-selected-prompts',
+  HSA_EXPENSES_CACHE: 'hsa-expenses-cache',
+  SETUP_ENDPOINTS: 'setup-endpoints',
   CHILDREN_LIST: 'children-list',
   CHECKED_MILESTONES: 'checked-milestones',
 } as const;

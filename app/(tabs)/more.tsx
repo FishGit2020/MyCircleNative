@@ -158,6 +158,18 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'globe-outline',
   },
   {
+    route: '/hsa-expenses',
+    titleKey: 'hsaExpenses.title',
+    descriptionKey: 'hsaExpenses.subtitle',
+    icon: 'medkit-outline',
+  },
+  {
+    route: '/setup-screen',
+    titleKey: 'setup.title',
+    descriptionKey: 'setup.subtitle',
+    icon: 'construct-outline',
+  },
+  {
     route: '/trash',
     titleKey: 'recycleBin.title',
     descriptionKey: 'recycleBin.subtitle',
