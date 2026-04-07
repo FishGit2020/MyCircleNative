@@ -327,6 +327,15 @@ importers:
 
   packages/hiking-map: {}
 
+  packages/hsa-expenses:
+    dependencies:
+      '@apollo/client':
+        specifier: '*'
+        version: 3.14.0(@types/react@19.2.14)(graphql-ws@6.0.7(graphql@16.13.1)(ws@8.19.0))(graphql@16.13.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@mycircle/shared':
+        specifier: workspace:*
+        version: link:../shared
+
   packages/immigration-tracker: {}
 
   packages/model-benchmark: {}
@@ -340,6 +349,15 @@ importers:
   packages/radio-station: {}
 
   packages/resume-tailor: {}
+
+  packages/setup:
+    dependencies:
+      '@apollo/client':
+        specifier: '*'
+        version: 3.14.0(@types/react@19.2.14)(graphql-ws@6.0.7(graphql@16.13.1)(ws@8.19.0))(graphql@16.13.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@mycircle/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/shared: {}
 
