@@ -1,0 +1,35 @@
+appId: com.youpenghuang.mycircle
+name: MyCircle Smoke
+tags:
+  - smoke
+---
+- launchApp:
+    clearState: true
+- assertVisible:
+    id: "tab-home"
+    optional: true
+- tapOn:
+    text: "Weather"
+    optional: true
+- assertVisible:
+    text: "Weather"
+- tapOn:
+    text: "Stocks"
+    optional: true
+- assertVisible:
+    text: "Stocks"
+- tapOn:
+    text: "Podcasts"
+    optional: true
+- assertVisible:
+    text: "Podcasts"
+- tapOn:
+    text: "Bible"
+    optional: true
+- assertVisible:
+    text: "Bible"
+- tapOn:
+    text: "More"
+    optional: true
+- assertVisible:
+    text: "More"

@@ -3069,6 +3069,13 @@ const es: Record<TranslationKey, string> = {
   'transit.unfavorite': 'Eliminar de favoritos',
   'transit.favorites': 'Paradas Favoritas',
   'transit.noFavorites': 'Sin paradas favoritas a\u00fan',
+  // Anniversary
+  'nav.anniversary': 'Aniversario',
+  'anniversary.title': 'Aniversarios',
+  'anniversary.subtitle': 'Registra fechas especiales y recuerdos de viajes',
+  'anniversary.add': 'Agregar aniversario',
+  'anniversary.empty': 'Sin aniversarios a\u00fan. Agrega el primero.',
+  'anniversary.daysUntil': 'D\u00edas hasta el pr\u00f3ximo',
 };
 
 export default es;

@@ -28,7 +28,14 @@
       "@mycircle/family-games": ["./packages/family-games/src"],
       "@mycircle/doc-scanner": ["./packages/doc-scanner/src"],
       "@mycircle/hiking-map": ["./packages/hiking-map/src"],
-      "@mycircle/ai-interviewer": ["./packages/ai-interviewer/src"]
+      "@mycircle/ai-interviewer": ["./packages/ai-interviewer/src"],
+      "@mycircle/anniversary": ["./packages/anniversary/src"],
+      "@mycircle/deal-finder": ["./packages/deal-finder/src"],
+      "@mycircle/hsa-expenses": ["./packages/hsa-expenses/src"],
+      "@mycircle/resume-tailor": ["./packages/resume-tailor/src"],
+      "@mycircle/transit-tracker": ["./packages/transit-tracker/src"],
+      "@mycircle/travel-map": ["./packages/travel-map/src"],
+      "@mycircle/web-crawler": ["./packages/web-crawler/src"]
     }
   },
   "include": [
