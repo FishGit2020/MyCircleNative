@@ -3067,6 +3067,13 @@ const en = {
   'transit.unfavorite': 'Remove from favorites',
   'transit.favorites': 'Favorite Stops',
   'transit.noFavorites': 'No favorite stops yet',
+  // Anniversary
+  'nav.anniversary': 'Anniversary',
+  'anniversary.title': 'Anniversaries',
+  'anniversary.subtitle': 'Track special dates and trip memories',
+  'anniversary.add': 'Add anniversary',
+  'anniversary.empty': 'No anniversaries yet. Add your first one.',
+  'anniversary.daysUntil': 'Days until next',
 } as const;
 
 export default en;

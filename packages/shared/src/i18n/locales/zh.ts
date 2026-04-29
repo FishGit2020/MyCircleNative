@@ -3069,6 +3069,13 @@ const zh: Record<TranslationKey, string> = {
   'transit.unfavorite': '\u53d6\u6d88\u6536\u85cf',
   'transit.favorites': '\u6536\u85cf\u7ad9\u70b9',
   'transit.noFavorites': '\u6682\u65e0\u6536\u85cf\u7ad9\u70b9',
+  // Anniversary
+  'nav.anniversary': '\u7eaa\u5ff5\u65e5',
+  'anniversary.title': '\u7eaa\u5ff5\u65e5',
+  'anniversary.subtitle': '\u8bb0\u5f55\u7279\u522b\u7684\u65e5\u671f\u548c\u65c5\u884c\u56de\u5fc6',
+  'anniversary.add': '\u6dfb\u52a0\u7eaa\u5ff5\u65e5',
+  'anniversary.empty': '\u8fd8\u6ca1\u6709\u7eaa\u5ff5\u65e5\u3002\u6dfb\u52a0\u7b2c\u4e00\u4e2a\u3002',
+  'anniversary.daysUntil': '\u8ddd\u4e0b\u4e00\u4e2a\u8fd8\u6709',
 };
 
 export default zh;
