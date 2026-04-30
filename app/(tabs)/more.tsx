@@ -164,6 +164,12 @@ const MENU_ITEMS: MoreMenuItem[] = [
     icon: 'medkit-outline',
   },
   {
+    route: '/anniversary',
+    titleKey: 'anniversary.title',
+    descriptionKey: 'anniversary.subtitle',
+    icon: 'calendar-outline',
+  },
+  {
     route: '/setup-screen',
     titleKey: 'setup.title',
     descriptionKey: 'setup.subtitle',
