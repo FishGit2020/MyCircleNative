@@ -59,7 +59,7 @@ jobs:
 
       - name: Comment on PR
         if: steps.build.outputs.build_url
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const buildUrl = '${{ steps.build.outputs.build_url }}';
